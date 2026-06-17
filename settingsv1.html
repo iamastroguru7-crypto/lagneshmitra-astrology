@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LM Pre-Recon Console</title>
+
+<style>
+
+body{
+background:#0b0f17;
+color:white;
+font-family:Arial,sans-serif;
+padding:20px;
+margin:0;
+}
+
+h1{
+color:#f59e0b;
+margin-bottom:20px;
+}
+
+.card{
+background:#111827;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+}
+
+button{
+background:#f59e0b;
+color:black;
+border:none;
+padding:12px 20px;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+opacity:0.9;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:#111827;
+}
+
+th,td{
+padding:12px;
+border:1px solid #374151;
+text-align:left;
+}
+
+th{
+background:#1f2937;
+color:#f59e0b;
+}
+
+.status{
+color:#22c55e;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>📡 LM Pre-Recon Console</h1>
+
+<div class="card">
+
+<p>
+<strong>Database Status:</strong>
+<span id="dbStatus">Connecting...</span>
+</p>
+
+<br>
+
+<p>
+<strong>Total Records:</strong>
+<span id="totalRecords">0</span>
+</p>
+
+<br>
+
+<button onclick="loadVisitors()">
+Refresh Visitors
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Visitor ID</th>
+<th>Device</th>
+<th>Language</th>
+<th>Source</th>
+<th>Timezone</th>
+</tr>
+
+</thead>
+
+<tbody id="visitorTable">
+
+</tbody>
+
+</table>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w",
+authDomain: "lagneshmitra-astrology-e72fb.firebaseapp.com",
+projectId: "lagneshmitra-astrology-e72fb",
+storageBucket: "lagneshmitra-astrology-e72fb.firebasestorage.app",
+messagingSenderId: "223772639779",
+appId: "1:223772639779:web:49341578713e2c0c9ae796",
+measurementId: "G-KN4F9HFQPD"
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+document.getElementById("dbStatus").innerHTML =
+'<span class="status">Connected</span>';
+
+window.loadVisitors = async function(){
+
+const tbody =
+document.getElementById("visitorTable");
+
+tbody.innerHTML = "";
+
+const snapshot =
+await getDocs(collection(db,"visitors"));
+
+document.getElementById("totalRecords").innerText =
+snapshot.size;
+
+snapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+tbody.innerHTML += `
+<tr>
+<td>${data.visitor_id || ""}</td>
+<td>${data.device_type || ""}</td>
+<td>${data.language || ""}</td>
+<td>${data.source || ""}</td>
+<td>${data.timezone || ""}</td>
+</tr>
+`;
+
+});
+
+}
+
+loadVisitors();
+
+</script>
+
+</body>
+</html>
