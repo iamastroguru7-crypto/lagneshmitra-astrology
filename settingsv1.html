@@ -111,10 +111,128 @@ Refresh Visitors
 <th>State</th>
 <th>City</th>
 <th>Source</th>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LM Pre-Recon Console</title>
+
+<style>
+
+body{
+background:#0b0f17;
+color:white;
+font-family:Arial,sans-serif;
+padding:20px;
+margin:0;
+}
+
+h1{
+color:#f59e0b;
+margin-bottom:20px;
+}
+
+.card{
+background:#111827;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+}
+
+button{
+background:#f59e0b;
+color:black;
+border:none;
+padding:12px 20px;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+opacity:0.9;
+}
+
+.table-wrapper{
+overflow-x:auto;
+}
+
+table{
+width:100%;
+min-width:1200px;
+border-collapse:collapse;
+background:#111827;
+}
+
+th,td{
+padding:12px;
+border:1px solid #374151;
+text-align:left;
+font-size:14px;
+white-space:nowrap;
+}
+
+th{
+background:#1f2937;
+color:#f59e0b;
+}
+
+.status{
+color:#22c55e;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>📡 LM Pre-Recon Console</h1>
+
+<div class="card">
+
+<p>
+<strong>Database Status:</strong>
+<span id="dbStatus">Connecting...</span>
+</p>
+
+<br>
+
+<p>
+<strong>Total Records:</strong>
+<span id="totalRecords">0</span>
+</p>
+
+<br>
+
+<button onclick="loadVisitors()">
+Refresh Visitors
+</button>
+
+</div>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Visitor ID</th>
+<th>Device</th>
+<th>Language</th>
+<th>Country</th>
+<th>State</th>
+<th>City</th>
+<th>Source</th>
 <th>Timezone</th>
 <th>Visit Time</th>
 </tr>
-
 
 </thead>
 
@@ -123,6 +241,8 @@ Refresh Visitors
 </tbody>
 
 </table>
+
+</div>
 
 <script type="module">
 
@@ -191,16 +311,23 @@ visitTime = "";
 
 tbody.innerHTML += `
 <tr>
+
 <td>${data.visitor_id || ""}</td>
+
 <td>${data.device_type || ""}</td>
+
 <td>${data.language || ""}</td>
 
 <td>${data.country || "Unknown"}</td>
+
 <td>${data.state || ""}</td>
+
 <td>${data.city || ""}</td>
 
 <td>${data.source || ""}</td>
+
 <td>${data.timezone || ""}</td>
+
 <td>${visitTime}</td>
 
 </tr>
