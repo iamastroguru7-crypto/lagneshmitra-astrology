@@ -473,6 +473,77 @@ Marriage • Relationships • Sustainability Analysis
 </p>
 
 </div>
+<script type="module">
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {
+getFirestore,
+collection,
+addDoc,
+serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w",
+authDomain: "lagneshmitra-astrology-e72fb.firebaseapp.com",
+projectId: "lagneshmitra-astrology-e72fb",
+storageBucket: "lagneshmitra-astrology-e72fb.firebasestorage.app",
+messagingSenderId: "223772639779",
+appId: "1:223772639779:web:49341578713e2c0c9ae796",
+measurementId: "G-KN4F9HFQPD"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function trackVisitor(){
+
+try{
+
+await addDoc(collection(db,"visitors"),{
+
+visitor_id:
+"VIS-" + Math.random().toString(36).substring(2,10),
+
+browser:navigator.userAgent,
+
+language:navigator.language,
+
+device_type:
+window.innerWidth < 768 ? "Mobile" : "Desktop",
+
+first_visit:serverTimestamp(),
+
+last_visit:serverTimestamp(),
+
+total_sessions:1,
+
+is_returning:false,
+
+country:"",
+city:"",
+state:"",
+source:document.referrer || "direct",
+
+status:"active",
+
+timezone:
+Intl.DateTimeFormat().resolvedOptions().timeZone
+
+});
+
+console.log("Visitor Saved");
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+trackVisitor();
+
+</script>
 </body>
 </html>
