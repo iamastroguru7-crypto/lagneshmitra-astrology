@@ -48,12 +48,14 @@ table{
 width:100%;
 border-collapse:collapse;
 background:#111827;
+overflow-x:auto;
 }
 
 th,td{
 padding:12px;
 border:1px solid #374151;
 text-align:left;
+font-size:14px;
 }
 
 th{
@@ -104,8 +106,10 @@ Refresh Visitors
 <th>Visitor ID</th>
 <th>Device</th>
 <th>Language</th>
+<th>Country</th>
 <th>Source</th>
 <th>Timezone</th>
+<th>Visit Time</th>
 </tr>
 
 </thead>
@@ -163,13 +167,33 @@ snapshot.forEach((doc)=>{
 
 const data = doc.data();
 
+let visitTime = "";
+
+if(data.first_visit){
+
+try{
+
+visitTime = new Date(
+data.first_visit.seconds * 1000
+).toLocaleString();
+
+}catch(error){
+
+visitTime = "";
+
+}
+
+}
+
 tbody.innerHTML += `
 <tr>
 <td>${data.visitor_id || ""}</td>
 <td>${data.device_type || ""}</td>
 <td>${data.language || ""}</td>
+<td>${data.country || "Unknown"}</td>
 <td>${data.source || ""}</td>
 <td>${data.timezone || ""}</td>
+<td>${visitTime}</td>
 </tr>
 `;
 
