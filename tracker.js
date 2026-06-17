@@ -45,6 +45,40 @@ visitorId
 
 }
 
+let country = "Unknown";
+let state = "";
+let city = "";
+
+try{
+
+const response =
+await fetch("https://ipapi.co/json/");
+
+const geo =
+await response.json();
+
+country =
+geo.country_name || "Unknown";
+
+if(country === "India"){
+
+state =
+geo.region || "";
+
+city =
+geo.city || "";
+
+}
+
+}catch(error){
+
+console.log(
+"Geo lookup failed",
+error
+);
+
+}
+
 const visitorRef =
 doc(db,"visitors",visitorId);
 
@@ -60,16 +94,22 @@ await setDoc(visitorRef,{
 
 visitor_id: visitorId,
 
-browser:navigator.userAgent,
+browser:
+navigator.userAgent,
 
-language:navigator.language,
+language:
+navigator.language,
 
 device_type:
 window.innerWidth < 768
 ? "Mobile"
 : "Desktop",
 
-country:"Unknown",
+country: country,
+
+state: state,
+
+city: city,
 
 source:
 document.referrer || "direct",
@@ -85,9 +125,10 @@ serverTimestamp(),
 last_visit:
 serverTimestamp(),
 
-last_visit_ms: now,
+last_visit_ms:
+now,
 
-total_sessions:1
+total_sessions: 1
 
 });
 
@@ -111,13 +152,20 @@ if(gap > THIRTY_MIN){
 
 await updateDoc(visitorRef,{
 
+country: country,
+
+state: state,
+
+city: city,
+
 total_sessions:
 increment(1),
 
 last_visit:
 serverTimestamp(),
 
-last_visit_ms: now
+last_visit_ms:
+now
 
 });
 
@@ -129,10 +177,17 @@ console.log(
 
 await updateDoc(visitorRef,{
 
+country: country,
+
+state: state,
+
+city: city,
+
 last_visit:
 serverTimestamp(),
 
-last_visit_ms: now
+last_visit_ms:
+now
 
 });
 
