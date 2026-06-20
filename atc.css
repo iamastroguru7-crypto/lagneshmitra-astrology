@@ -1,0 +1,235 @@
+/* ==========================
+   ATC CENTRAL COMMAND OPS
+   ========================== */
+
+:root{
+    --bg:#08111f;
+    --panel:#10213a;
+    --panel2:#12233d;
+    --accent:#ffb400;
+    --text:#ffffff;
+    --muted:#b8c4d6;
+    --success:#22c55e;
+    --danger:#ef4444;
+    --radius:12px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:Segoe UI,Arial,sans-serif;
+    min-height:100vh;
+}
+
+/* HEADER */
+
+.atc-header{
+    background:#0d1b2a;
+    border-bottom:2px solid var(--accent);
+    padding:15px 20px;
+}
+
+.atc-title{
+    font-size:28px;
+    font-weight:700;
+    color:var(--accent);
+}
+
+/* NAVIGATION */
+
+.atc-nav{
+    margin-top:15px;
+}
+
+.atc-nav ul{
+    list-style:none;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.atc-nav a,
+.atc-nav button{
+    background:var(--panel2);
+    color:var(--accent);
+    text-decoration:none;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+/* DROPDOWN */
+
+.dropdown{
+    position:relative;
+}
+
+.dropdown-content{
+    display:none;
+    position:absolute;
+    top:45px;
+    left:0;
+    min-width:260px;
+    background:var(--panel2);
+    border-radius:10px;
+    overflow:hidden;
+    z-index:999;
+}
+
+.dropdown-content a{
+    display:block;
+    padding:12px;
+}
+
+.dropdown:hover .dropdown-content{
+    display:block;
+}
+
+/* LAYOUT */
+
+.atc-container{
+    padding:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+/* CARDS */
+
+.card{
+    background:var(--panel);
+    border-radius:var(--radius);
+    padding:20px;
+    border:1px solid rgba(255,180,0,.15);
+}
+
+.card-title{
+    color:var(--accent);
+    margin-bottom:15px;
+}
+
+/* STATS */
+
+.stat-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+}
+
+.stat{
+    background:var(--panel2);
+    padding:15px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.stat-value{
+    font-size:28px;
+    color:var(--accent);
+    font-weight:bold;
+}
+
+/* BUTTONS */
+
+.btn{
+    background:var(--accent);
+    color:black;
+    border:none;
+    border-radius:8px;
+    padding:10px 16px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn-success{
+    background:var(--success);
+    color:white;
+}
+
+.btn-danger{
+    background:var(--danger);
+    color:white;
+}
+
+/* TABLES */
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:var(--panel2);
+    color:var(--accent);
+}
+
+th,
+td{
+    padding:12px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+tr:hover{
+    background:rgba(255,255,255,.03);
+}
+
+/* FORMS */
+
+input,
+textarea,
+select{
+    width:100%;
+    background:var(--panel2);
+    color:white;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:8px;
+    padding:10px;
+}
+
+textarea{
+    min-height:200px;
+}
+
+/* STATUS */
+
+.status-online{
+    color:var(--success);
+    font-weight:bold;
+}
+
+.status-offline{
+    color:var(--danger);
+    font-weight:bold;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .atc-nav ul{
+        flex-direction:column;
+    }
+
+    .dropdown-content{
+        position:relative;
+        top:5px;
+    }
+
+    .atc-title{
+        font-size:22px;
+    }
+}
