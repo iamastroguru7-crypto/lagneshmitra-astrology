@@ -2,35 +2,118 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ATC Central Command Operations</title>
+<title>ATC Central Command Operations</title>
 
-    <link rel="stylesheet" href="atc.css">
+<link rel="stylesheet" href="atc.css">
+
 </head>
 
 <body>
 
-    <header class="atc-header">
+<header class="atc-header">
 
-        <h1>🦅 ATC Central Command Operations</h1>
+<h1>🦅 ATC Central Command Operations</h1>
 
-        <nav class="atc-nav">
+<nav class="atc-nav">
 
-            <a href="#">📈 Trends Center</a>
+<a href="#">📈 Trends Center</a>
 
-            <a href="#">📄 Content Engine</a>
+<a href="#">📄 Content Engine</a>
 
-            <a href="#">📡 Observatory</a>
+<a href="#">📡 Observatory</a>
 
-            <a href="#">📊 Analytics HQ</a>
+<a href="#">📊 Analytics HQ</a>
 
-            <a href="#">💰 Lead Center</a>
+<a href="#">💰 Lead Center</a>
 
-        </nav>
+</nav>
 
-    </header>
+</header>
+
+<main class="atc-main">
+
+<!-- CONTENT ENGINE -->
+
+<section class="content-engine">
+
+<h2>📄 Content Engine</h2>
+
+<p>Create and manage Google trend-based content.</p>
+
+<div class="google-post-engine">
+
+<h3>📈 Google Post Insertion</h3>
+
+<form id="googlePostForm">
+
+<label>Keyword</label>
+<input type="text" id="keyword"
+placeholder="Cancer Season">
+
+<label>Headline</label>
+<input type="text" id="headline"
+placeholder="Why Cancer Season Reactivates Family Patterns">
+
+<label>Category</label>
+
+<select id="category">
+
+<option value="Transit">Transit</option>
+
+<option value="Yoga">Yoga</option>
+
+<option value="Marriage">Marriage</option>
+
+<option value="Career">Career</option>
+
+<option value="Spirituality">Spirituality</option>
+
+<option value="General">General</option>
+
+</select>
+
+<label>Trend Score</label>
+
+<input type="number"
+id="trendScore"
+min="0"
+max="100"
+placeholder="85">
+
+<label>Hero Image URL</label>
+
+<input type="text"
+id="heroImage"
+placeholder="https://image-url.com">
+
+<label>Article ID</label>
+
+<input type="text"
+id="articleId"
+placeholder="LM0001">
+
+<label>Highlights</label>
+
+<textarea id="highlights"
+rows="6"
+placeholder="Enter article highlights here..."></textarea>
+
+<button type="submit">
+
+🚀 Publish Google Post
+
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+</main>
 
 </body>
 
