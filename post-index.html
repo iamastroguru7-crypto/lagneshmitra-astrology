@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LagneshMitra | Posts</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+background:#f4f6fb;
+}
+
+header{
+background:#ffffff;
+padding:18px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 3px 10px rgba(0,0,0,.08);
+position:sticky;
+top:0;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+color:#3f51b5;
+}
+
+.search input{
+width:320px;
+padding:12px;
+border-radius:8px;
+border:1px solid #ddd;
+}
+
+.container{
+width:1200px;
+margin:40px auto;
+}
+
+.hero{
+
+background:white;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+margin-bottom:40px;
+
+}
+
+.hero img{
+
+width:100%;
+height:350px;
+object-fit:cover;
+
+}
+
+.hero-content{
+
+padding:35px;
+
+}
+
+.hero-content h1{
+
+font-size:42px;
+margin-bottom:15px;
+
+}
+
+.hero-content p{
+
+font-size:18px;
+color:#555;
+
+}
+
+.posts{
+
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:25px;
+
+}
+
+.card{
+
+background:white;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+transition:.3s;
+
+}
+
+.card:hover{
+
+transform:translateY(-8px);
+
+}
+
+.card img{
+
+width:100%;
+height:220px;
+object-fit:cover;
+
+}
+
+.content{
+
+padding:20px;
+
+}
+
+.content h2{
+
+font-size:22px;
+margin-bottom:10px;
+
+}
+
+.date{
+
+color:#777;
+font-size:14px;
+
+}
+
+.stats{
+
+display:flex;
+justify-content:space-between;
+margin:20px 0;
+font-size:14px;
+color:#666;
+
+}
+
+button{
+
+width:100%;
+padding:12px;
+background:#3f51b5;
+border:none;
+color:white;
+font-size:16px;
+border-radius:8px;
+cursor:pointer;
+
+}
+
+button:hover{
+
+background:#283593;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+LagneshMitra
+</div>
+
+<div class="search">
+<input type="text" placeholder="Search Articles...">
+</div>
+
+</header>
+
+
+<div class="container">
+
+<div class="hero">
+
+<img src="hero.jpg">
+
+<div class="hero-content">
+
+<h1>Knowledge Hub</h1>
+
+<p>
+Discover in-depth astrology research, planetary analysis,
+and LM Cadence articles.
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="posts">
+
+
+<div class="card">
+
+<img src="post1.jpg">
+
+<div class="content">
+
+<h2>
+Why a Horoscope Cannot Be Judged Through Just One House or One Planet
+</h2>
+
+<div class="date">
+26 June 2026 • 6 min read
+</div>
+
+<div class="stats">
+
+<span>👁 1245</span>
+<span>❤️ 328</span>
+<span>💬 24</span>
+
+</div>
+
+<button onclick="location.href='post.html?id=1'">
+
+Read Article
+
+</button>
+
+</div>
+
+</div>
+
+
+
+
+<div class="card">
+
+<img src="post2.jpg">
+
+<div class="content">
+
+<h2>
+
+When Shani Blesses Malavya Yoga
+
+</h2>
+
+<div class="date">
+
+24 June 2026 • 5 min read
+
+</div>
+
+<div class="stats">
+
+<span>👁 980</span>
+<span>❤️ 205</span>
+<span>💬 18</span>
+
+</div>
+
+<button onclick="location.href='post.html?id=2'">
+
+Read Article
+
+</button>
+
+</div>
+
+</div>
+
+
+
+
+<div class="card">
+
+<img src="post3.jpg">
+
+<div class="content">
+
+<h2>
+
+Understanding Mahalakshmi Yoga
+
+</h2>
+
+<div class="date">
+
+20 June 2026 • 7 min read
+
+</div>
+
+<div class="stats">
+
+<span>👁 1650</span>
+<span>❤️ 431</span>
+<span>💬 39</span>
+
+</div>
+
+<button onclick="location.href='post.html?id=3'">
+
+Read Article
+
+</button>
+
+</div>
+
+</div>
+
+
+
+</div>
+
+</div>
+
+</body>
+</html>
