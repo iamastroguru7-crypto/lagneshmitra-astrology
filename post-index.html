@@ -1,364 +1,489 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>LagneshMitra | Posts</title>
-
-<style>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>LagneshMitra | Knowledge Hub</title><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"><style>
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    margin:0;
-    padding:0;
 
-    background:
-    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-    url("background2.png");
+font-family:'Poppins',sans-serif;
 
-    background-size:cover;
-    background-position:center center;
-    background-repeat:no-repeat;
-    background-attachment:fixed;
+background:
+linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+url("background2.png");
 
-    min-height:100vh;
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+background-attachment:fixed;
+
+min-height:100vh;
+
+color:white;
+
+overflow-x:hidden;
+
 }
 
+/* ===========================
+HEADER
+=========================== */
+
 header{
-background:#ffffff;
-padding:18px 40px;
+
+position:fixed;
+top:20px;
+left:50%;
+
+transform:translateX(-50%);
+
+width:92%;
+max-width:1400px;
+
 display:flex;
 justify-content:space-between;
 align-items:center;
-box-shadow:0 3px 10px rgba(0,0,0,.08);
-position:sticky;
-top:0;
+
+padding:18px 30px;
+
+background:rgba(255,255,255,.05);
+
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.10);
+
+border-radius:18px;
+
+z-index:1000;
+
 }
 
 .logo{
-font-size:28px;
-font-weight:bold;
-color:#3f51b5;
+
+font-size:32px;
+font-family:'Cinzel',serif;
+font-weight:700;
+
+color:#FFD700;
+
+text-shadow:
+
+0 0 8px rgba(255,215,0,.8),
+0 0 18px rgba(255,215,0,.5);
+
+}
+
+.search{
+
+display:flex;
+align-items:center;
+
 }
 
 .search input{
+
 width:320px;
-padding:12px;
-border-radius:8px;
-border:1px solid #ddd;
+
+padding:14px 18px;
+
+background:rgba(255,255,255,.08);
+
+border:1px solid rgba(255,255,255,.15);
+
+border-radius:50px;
+
+outline:none;
+
+color:white;
+
+font-size:15px;
+
 }
 
-.container{
-width:1200px;
-margin:40px auto;
+.search input::placeholder{
+
+color:#dddddd;
+
 }
+
+/* ===========================
+CONTAINER
+=========================== */
+
+.container{
+
+width:90%;
+max-width:1200px;
+
+margin:auto;
+
+padding-top:140px;
+
+}
+
+/* ===========================
+KNOWLEDGE HUB
+=========================== */
 
 .hero{
 
-background:white;
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 5px 20px rgba(0,0,0,.08);
-margin-bottom:40px;
+background:rgba(255,255,255,.05);
+
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.10);
+
+border-radius:24px;
+
+padding:60px 50px;
+
+text-align:center;
+
+box-shadow:
+0 0 30px rgba(255,215,0,.08);
+
+margin-bottom:50px;
 
 }
 
-.hero img{
+.hero h1{
 
-width:100%;
-height:350px;
-object-fit:cover;
+font-family:'Cinzel',serif;
 
-}
+font-size:58px;
 
-.hero-content{
+color:#FFD700;
 
-padding:35px;
+letter-spacing:2px;
 
-}
+text-shadow:
 
-.hero-content h1{
+0 0 10px rgba(255,215,0,.9),
+0 0 30px rgba(255,215,0,.6),
+0 0 60px rgba(255,215,0,.3);
 
-font-size:42px;
 margin-bottom:15px;
 
 }
 
-.hero-content p{
+.hero p{
 
 font-size:18px;
-color:#555;
+
+color:#f2f2f2;
+
+max-width:750px;
+
+margin:auto;
+
+line-height:1.8;
 
 }
+
+</style></head><body><header><div class="logo">LagneshMitra
+
+</div><div class="search"><input
+type="text"
+placeholder="Search Astrology Articles...">
+
+</div></header><div class="container"><div class="hero"><h1>Knowledge Hub
+
+</h1><p>Research Driven Vedic Astrology • LM Cadence Articles • Yogas • Houses • Planets • Dashas • Nakshatras
+
+</p></div>
+
+<!-- ===========================
+POST INDEX
+=========================== --><div class="posts"><a href="post.html?pid=LMP000001" class="post-link"><div class="post-info"><h2>✦ Why a Horoscope Cannot Be Judged Through Just One House or One Planet
+
+</h2><p>26 June 2026 • 6 min read
+
+</p></div><span class="arrow">→</span>
+
+</a><a href="post.html?pid=LMP000002" class="post-link"><div class="post-info"><h2>✦ When Shani Blesses Malavya Yoga
+
+</h2><p>24 June 2026 • 5 min read
+
+</p></div><span class="arrow">→</span>
+
+</a><a href="post.html?pid=LMP000003" class="post-link"><div class="post-info"><h2>✦ Understanding Mahalakshmi Yoga
+
+</h2><p>20 June 2026 • 7 min read
+
+</p></div><span class="arrow">→</span>
+
+</a></div><style>
+
+/* ===========================
+POST LIST
+=========================== */
 
 .posts{
 
-    width:900px;
-    margin:60px auto;
+background:rgba(255,255,255,.04);
 
-    background:rgba(0,0,0,0.15);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
 
-    backdrop-filter:blur(25px);
-    -webkit-backdrop-filter:blur(25px);
+border:1px solid rgba(255,255,255,.08);
 
-    border:1px solid rgba(255,255,255,0.08);
+border-radius:22px;
 
-    border-radius:20px;
+overflow:hidden;
 
-    box-shadow:0 8px 32px rgba(0,0,0,0.15);
-
-}
-
-.post-link{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:22px 30px;
-
-    text-decoration:none;
-
-    color:white;
-
-    font-size:22px;
-    font-weight:600;
-
-    border-bottom:1px solid rgba(255,255,255,.10);
-
-    transition:.3s;
+box-shadow:
+0 0 35px rgba(255,215,0,.06);
 
 }
 
 .post-link{
 
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+display:flex;
 
-    padding:22px 30px;
+justify-content:space-between;
 
-    color:#ffffff;
+align-items:center;
 
-    text-decoration:none;
+padding:28px 35px;
 
-    background:transparent;
+text-decoration:none;
 
-    border-bottom:1px solid rgba(255,255,255,0.08);
+color:white;
 
-    transition:all .3s ease;
+border-bottom:1px solid rgba(255,255,255,.08);
+
+transition:.35s;
+
+}
+
+.post-link:last-child{
+
+border-bottom:none;
 
 }
 
 .post-link:hover{
 
-    background:rgba(255,255,255,0.08);
+background:rgba(255,215,0,.08);
 
-    color:#FFD700;
-
-}
-
-.card:hover{
-
-transform:translateY(-8px);
+padding-left:45px;
 
 }
 
-.card img{
+.post-info h2{
 
-width:100%;
-height:220px;
-object-fit:cover;
+font-size:28px;
+
+font-weight:600;
+
+color:white;
+
+transition:.35s;
 
 }
 
-.content{
+.post-link:hover .post-info h2{
+
+color:#FFD700;
+
+text-shadow:
+
+0 0 8px rgba(255,215,0,.8);
+
+}
+
+.post-info p{
+
+margin-top:8px;
+
+font-size:14px;
+
+color:#dddddd;
+
+}
+
+.arrow{
+
+font-size:36px;
+
+color:#FFD700;
+
+transition:.35s;
+
+}
+
+.post-link:hover .arrow{
+
+transform:translateX(12px);
+
+}
+
+/* ===========================
+RESPONSIVE
+=========================== */
+
+@media(max-width:768px){
+
+.hero{
+
+padding:40px 25px;
+
+}
+
+.hero h1{
+
+font-size:40px;
+
+}
+
+.search input{
+
+width:180px;
+
+}
+
+.post-info h2{
+
+font-size:20px;
+
+}
+
+.arrow{
+
+font-size:26px;
+
+}
+
+.post-link{
 
 padding:20px;
 
 }
 
-.content h2{
-
-font-size:22px;
-margin-bottom:10px;
-
-}
-
-.date{
-
-color:#777;
-font-size:14px;
-
-}
-
-.stats{
-
-display:flex;
-justify-content:space-between;
-margin:20px 0;
-font-size:14px;
-color:#666;
-
-}
-
-button{
-
-width:100%;
-padding:12px;
-background:#3f51b5;
-border:none;
-color:white;
-font-size:16px;
-border-radius:8px;
-cursor:pointer;
-
-}
-
-button:hover{
-
-background:#283593;
-
 }
 
 </style>
 
-</head>
+<!-- ===========================
+FOOTER
+=========================== --><footer>© 2026 LagneshMitra Astrology • Knowledge Hub
 
-<body>
+</footer></div><style>
 
-<header>
+/* ===========================
+FOOTER
+=========================== */
 
-<div class="logo">
-LagneshMitra
-</div>
+footer{
 
-<div class="search">
-<input type="text" placeholder="Search Articles...">
-</div>
+margin:60px auto 30px;
 
-</header>
+text-align:center;
 
+font-size:14px;
 
-<div class="container">
+color:rgba(255,255,255,.75);
 
-<div class="hero">
+letter-spacing:1px;
 
-<img src="hero.jpg">
+text-shadow:0 0 10px rgba(255,215,0,.25);
 
-<div class="hero-content">
+}
 
-<h1>Knowledge Hub</h1>
+/* ===========================
+SMOOTH FADE
+=========================== */
 
-<p>
-Discover in-depth astrology research, planetary analysis,
-and LM Cadence articles.
-</p>
+.hero,
+.posts{
 
-</div>
+animation:fadeUp .8s ease;
 
-</div>
+}
 
+@keyframes fadeUp{
 
+from{
 
+opacity:0;
+transform:translateY(30px);
 
+}
 
+to{
 
-</div>
+opacity:1;
+transform:translateY(0);
 
-</div>
+}
 
+}
 
+/* ===========================
+CUSTOM SCROLLBAR
+=========================== */
 
+::-webkit-scrollbar{
 
-<div class="card">
+width:10px;
 
-<img src="post2.jpg">
+}
 
-<div class="content">
+::-webkit-scrollbar-track{
 
-<h2>
+background:rgba(255,255,255,.05);
 
-When Shani Blesses Malavya Yoga
+}
 
-</h2>
+::-webkit-scrollbar-thumb{
 
-<div class="date">
+background:#FFD700;
 
-24 June 2026 • 5 min read
+border-radius:20px;
 
-</div>
+}
 
-<div class="stats">
+::-webkit-scrollbar-thumb:hover{
 
-<span>👁 980</span>
-<span>❤️ 205</span>
-<span>💬 18</span>
+background:#ffea8a;
 
-</div>
+}
 
-<button onclick="location.href='post.html?id=2'">
+</style><script>
 
-Read Article
+/* ===========================
+SEARCH FILTER
+=========================== */
 
-</button>
+const searchBox=document.querySelector(".search input");
 
-</div>
+const posts=document.querySelectorAll(".post-link");
 
-</div>
+searchBox.addEventListener("keyup",()=>{
 
+const value=searchBox.value.toLowerCase();
 
+posts.forEach(post=>{
 
+const title=post.innerText.toLowerCase();
 
-<div class="card">
+if(title.includes(value)){
 
-<img src="post3.jpg">
+post.style.display="flex";
 
-<div class="content">
+}else{
 
-<h2>
+post.style.display="none";
 
-Understanding Mahalakshmi Yoga
+}
 
-</h2>
+});
 
-<div class="date">
+});
 
-20 June 2026 • 7 min read
-
-</div>
-
-<div class="stats">
-
-<span>👁 1650</span>
-<span>❤️ 431</span>
-<span>💬 39</span>
-
-</div>
-
-<button onclick="location.href='post.html?id=3'">
-
-Read Article
-
-</button>
-
-</div>
-
-</div>
-
-
-
-</div>
-
-</div>
-
-</body>
-</html>
+</script></body></html>
