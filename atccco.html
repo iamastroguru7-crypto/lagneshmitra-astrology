@@ -2,118 +2,675 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>ATC Central Command Operations</title>
 
-<link rel="stylesheet" href="atc.css">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:'Poppins',sans-serif;
+
+background:
+linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+url("background2.png");
+
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+background-attachment:fixed;
+
+color:white;
+
+min-height:100vh;
+
+overflow-x:hidden;
+
+}
+
+header{
+
+position:sticky;
+top:0;
+
+padding:20px 40px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+background:rgba(255,255,255,.03);
+
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+
+border-bottom:1px solid rgba(255,255,255,.10);
+
+z-index:999;
+
+}
+
+.logo{
+
+font-family:'Cinzel',serif;
+
+font-size:34px;
+
+color:#FFD700;
+
+text-shadow:
+
+0 0 8px rgba(255,215,0,.7),
+0 0 25px rgba(255,215,0,.35);
+
+}
+
+nav{
+
+display:flex;
+gap:25px;
+
+}
+
+nav a{
+
+color:white;
+
+text-decoration:none;
+
+font-size:15px;
+
+transition:.3s;
+
+}
+
+nav a:hover{
+
+color:#FFD700;
+
+}
+
+.container{
+
+width:92%;
+max-width:1200px;
+
+margin:50px auto;
+
+}
+
+.page-title{
+
+text-align:center;
+
+margin-bottom:40px;
+
+}
+
+.page-title h1{
+
+font-family:'Cinzel',serif;
+
+font-size:52px;
+
+color:#FFD700;
+
+text-shadow:
+
+0 0 12px rgba(255,215,0,.8);
+
+}
+
+.page-title p{
+
+margin-top:12px;
+
+color:#ddd;
+
+font-size:17px;
+
+}
+
+.glass{
+
+background:rgba(255,255,255,.04);
+
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+
+border:1px solid rgba(255,255,255,.10);
+
+border-radius:20px;
+
+padding:35px;
+
+box-shadow:
+
+0 8px 30px rgba(0,0,0,.18);
+
+}
+
+
+</style>
 
 </head>
 
 <body>
 
-<header class="atc-header">
+<header>
 
-<h1>🦅 ATC Central Command Operations</h1>
+<div class="logo">
 
-<nav class="atc-nav">
+ATC Central Command
 
-<a href="#">📈 Trends Center</a>
+</div>
 
-<a href="#">📄 Content Engine</a>
+<nav>
 
-<a href="#">📡 Observatory</a>
+<a href="#">Dashboard</a>
 
-<a href="#">📊 Analytics HQ</a>
+<a href="#">Posts</a>
 
-<a href="#">💰 Lead Center</a>
+<a href="#">Reports</a>
+
+<a href="#">Analytics</a>
+
+<a href="#">Users</a>
 
 </nav>
 
 </header>
 
-<main class="atc-main">
+<div class="container">
 
-<!-- CONTENT ENGINE -->
+<div class="page-title">
 
-<section class="content-engine">
+<h1>
 
-<h2>📄 Content Engine</h2>
+Content Publishing Engine
 
-<p>Create and manage Google trend-based content.</p>
+</h1>
 
-<div class="google-post-engine">
+<p>
 
-<h3>📈 Google Post Insertion</h3>
+Publish once • Firestore • Knowledge Hub • Google Ready
 
-<form id="googlePostForm">
+</p>
 
-<label>Keyword</label>
-<input type="text" id="keyword"
-placeholder="Cancer Season">
+</div>
 
-<label>Headline</label>
-<input type="text" id="headline"
-placeholder="Why Cancer Season Reactivates Family Patterns">
+<div class="glass">
+
+<!-- PART 2 FORM YAHAN SE START HOGA -->
+
+<h2 style="margin-bottom:25px;color:#FFD700;font-family:'Cinzel',serif;">
+📝 New Knowledge Hub Post
+</h2>
+
+<form id="postForm">
+
+<label>Post Title</label>
+<input type="text" id="title" placeholder="Why a Horoscope Cannot Be Judged Through Just One House">
+
+<label>SEO Slug</label>
+<input type="text" id="slug" placeholder="why-a-horoscope-cannot-be-judged-through-just-one-house">
 
 <label>Category</label>
 
 <select id="category">
 
-<option value="Transit">Transit</option>
-
-<option value="Yoga">Yoga</option>
-
-<option value="Marriage">Marriage</option>
-
-<option value="Career">Career</option>
-
-<option value="Spirituality">Spirituality</option>
-
-<option value="General">General</option>
+<option>General Astrology</option>
+<option>Planets</option>
+<option>Houses</option>
+<option>Yogas</option>
+<option>Career</option>
+<option>Marriage</option>
+<option>Health</option>
+<option>Spirituality</option>
 
 </select>
 
-<label>Trend Score</label>
+<label>Post ID</label>
+<input type="text" id="postId" placeholder="LMP000001">
 
-<input type="number"
-id="trendScore"
-min="0"
-max="100"
-placeholder="85">
+<label>Featured Image URL</label>
+<input type="text" id="featuredImage" placeholder="https://">
 
-<label>Hero Image URL</label>
+<label>Short Description</label>
 
-<input type="text"
-id="heroImage"
-placeholder="https://image-url.com">
+<textarea
+id="shortDescription"
+rows="4"
+placeholder="Brief introduction..."></textarea>
 
-<label>Article ID</label>
+<label>Full Article</label>
 
-<input type="text"
-id="articleId"
-placeholder="LM0001">
+<textarea
+id="content"
+rows="16"
+placeholder="Write complete article here..."></textarea>
 
-<label>Highlights</label>
+<label>Keywords</label>
 
-<textarea id="highlights"
-rows="6"
-placeholder="Enter article highlights here..."></textarea>
+<input
+type="text"
+id="keywords"
+placeholder="vedic astrology, horoscope, planets">
 
-<button type="submit">
+<label>Meta Description</label>
 
-🚀 Publish Google Post
+<textarea
+id="metaDescription"
+rows="3"
+placeholder="SEO Meta Description"></textarea>
+
+<div class="options">
+
+<label>
+
+<input type="checkbox" id="featured">
+
+Featured Post
+
+</label>
+
+<label>
+
+<input type="checkbox" id="allowComments" checked>
+
+Allow Comments
+
+</label>
+
+<label>
+
+<input type="checkbox" id="googleIndex" checked>
+
+Index on Google
+
+</label>
+
+</div>
+
+<div class="buttons">
+
+<button
+type="button"
+id="previewBtn">
+
+👁 Preview
 
 </button>
+
+<button
+type="submit"
+id="publishBtn">
+
+🚀 Publish
+
+</button>
+
+</div>
 
 </form>
 
 </div>
 
-</section>
+</div>
 
-</main>
+/* ===========================
+FORM
+=========================== */
+
+form{
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+}
+
+label{
+
+font-size:15px;
+
+font-weight:500;
+
+color:#FFD700;
+
+}
+
+input,
+select,
+textarea{
+
+width:100%;
+
+padding:14px 16px;
+
+background:rgba(255,255,255,.06);
+
+border:1px solid rgba(255,255,255,.12);
+
+border-radius:12px;
+
+outline:none;
+
+font-size:15px;
+
+font-family:'Poppins',sans-serif;
+
+color:#ffffff;
+
+backdrop-filter:blur(10px);
+
+transition:.3s;
+
+}
+
+input::placeholder,
+textarea::placeholder{
+
+color:#cccccc;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+border-color:#FFD700;
+
+box-shadow:
+0 0 10px rgba(255,215,0,.35);
+
+}
+
+textarea{
+
+resize:vertical;
+
+min-height:140px;
+
+}
+
+/* ===========================
+CHECKBOX OPTIONS
+=========================== */
+
+.options{
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:30px;
+
+margin-top:10px;
+
+}
+
+.options label{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+font-size:15px;
+
+color:white;
+
+}
+
+.options input{
+
+width:18px;
+
+height:18px;
+
+}
+
+/* ===========================
+BUTTONS
+=========================== */
+
+.buttons{
+
+display:flex;
+
+gap:20px;
+
+margin-top:25px;
+
+}
+
+.buttons button{
+
+flex:1;
+
+padding:16px;
+
+border:none;
+
+border-radius:14px;
+
+font-size:17px;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:.35s;
+
+font-family:'Poppins',sans-serif;
+
+}
+
+#previewBtn{
+
+background:rgba(255,255,255,.08);
+
+color:white;
+
+border:1px solid rgba(255,255,255,.15);
+
+}
+
+#previewBtn:hover{
+
+background:rgba(255,255,255,.15);
+
+transform:translateY(-3px);
+
+}
+
+#publishBtn{
+
+background:linear-gradient(135deg,#FFD700,#FFB300);
+
+color:#111;
+
+}
+
+#publishBtn:hover{
+
+transform:translateY(-4px);
+
+box-shadow:
+0 0 20px rgba(255,215,0,.55);
+
+}
+
+/* ===========================
+RESPONSIVE
+=========================== */
+
+@media(max-width:768px){
+
+header{
+
+flex-direction:column;
+
+gap:15px;
+
+padding:20px;
+
+}
+
+nav{
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+}
+
+.page-title h1{
+
+font-size:36px;
+
+}
+
+.buttons{
+
+flex-direction:column;
+
+}
+
+.options{
+
+flex-direction:column;
+
+gap:15px;
+
+}
+
+}
+
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+
+collection,
+doc,
+setDoc,
+serverTimestamp
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+
+const form=document.getElementById("postForm");
+
+form.addEventListener("submit",async(e)=>{
+
+e.preventDefault();
+
+const postId=document.getElementById("postId").value.trim();
+
+if(postId===""){
+
+alert("Enter Post ID");
+
+return;
+
+}
+
+try{
+
+await setDoc(
+
+doc(db,"Posts",postId),
+
+{
+
+postId:postId,
+
+title:document.getElementById("title").value,
+
+slug:document.getElementById("slug").value,
+
+category:document.getElementById("category").value,
+
+featuredImage:document.getElementById("featuredImage").value,
+
+shortDescription:document.getElementById("shortDescription").value,
+
+content:document.getElementById("content").value,
+
+keywords:document.getElementById("keywords").value,
+
+metaDescription:document.getElementById("metaDescription").value,
+
+featured:document.getElementById("featured").checked,
+
+allowComments:document.getElementById("allowComments").checked,
+
+googleIndex:document.getElementById("googleIndex").checked,
+
+status:"Published",
+
+views:0,
+
+likes:0,
+
+shares:0,
+
+downloads:0,
+
+commentsCount:0,
+
+redditViews:0,
+
+redditUpvotes:0,
+
+redditShares:0,
+
+reportCount:0,
+
+createdAt:serverTimestamp(),
+
+updatedAt:serverTimestamp()
+
+}
+
+);
+
+alert("🚀 Post Published Successfully!");
+
+form.reset();
+
+}
+
+catch(error){
+
+console.error(error);
+
+alert("Publish Failed!");
+
+}
+
+});
+
+</script>
 
 </body>
 
