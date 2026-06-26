@@ -101,19 +101,54 @@ color:#555;
 
 .posts{
 
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:25px;
+    width:900px;
+    margin:60px auto;
+
+    background:rgba(0,0,0,.35);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:20px;
+
+    overflow:hidden;
 
 }
 
-.card{
+.post-link{
 
-background:white;
-border-radius:18px;
-overflow:hidden;
-box-shadow:0 5px 20px rgba(0,0,0,.08);
-transition:.3s;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:22px 30px;
+
+    text-decoration:none;
+
+    color:white;
+
+    font-size:22px;
+    font-weight:600;
+
+    border-bottom:1px solid rgba(255,255,255,.10);
+
+    transition:.3s;
+
+}
+
+.post-link:last-child{
+
+    border-bottom:none;
+
+}
+
+.post-link:hover{
+
+    background:rgba(255,255,255,.08);
+
+    color:#FFD700;
+
+    padding-left:40px;
 
 }
 
