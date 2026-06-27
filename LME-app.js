@@ -1,15 +1,12 @@
-import { LMERules } from "./LME-Rules.js";
 import { GEMINI_API_KEY } from "./LME-config.js";
 
-const prompt=document.getElementById("prompt");
-
-const button=document.getElementById("sendBtn");
-
-const response=document.getElementById("response");
+const prompt = document.getElementById("prompt");
+const button = document.getElementById("sendBtn");
+const response = document.getElementById("response");
 
 button.onclick = async () => {
 
-    if(prompt.value.trim()==""){
+    if (prompt.value.trim() === "") {
 
         alert("Enter Prompt");
 
@@ -17,40 +14,63 @@ button.onclick = async () => {
 
     }
 
-    response.innerHTML="Generating...";
+    response.innerHTML = "Generating...";
 
-    try{
+    try {
 
         const res = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+GEMINI_API_KEY,
-        {
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + GEMINI_API_KEY,
+            {
 
-            method:"POST",
+                method: "POST",
 
-            headers:{
-                "Content-Type":"application/json"
-            },
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-            body:JSON.stringify({
+                body: JSON.stringify({
 
-                contents:[{
+                    contents: [
 
-                    parts:[{
+                        {
 
-                        text:prompt.value
+                            parts: [
 
-                    }]
+                                {
 
-                }]
+                                    text: prompt.value
 
-            })
+                                }
 
-        });
+                            ]
+
+                        }
+
+                    ]
+
+                })
+
+            }
+
+        );
 
         const data = await res.json();
 
-        response.innerHTML =
-        data.candidates[0].content.parts[0].text;
+        console.log(data);
+
+        if(data.candidates){
+
+            response.innerHTML =
+            data.candidates[0].content.parts[0].text;
+
+        }
+
+        else{
+
+            response.innerHTML =
+            JSON.stringify(data,null,2);
+
+        }
 
     }
 
@@ -58,7 +78,8 @@ button.onclick = async () => {
 
         console.error(error);
 
-        response.innerHTML="❌ Error connecting to Gemini";
+        response.innerHTML =
+        "❌ " + error.message;
 
     }
 
