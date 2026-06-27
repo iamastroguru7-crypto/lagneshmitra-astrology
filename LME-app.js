@@ -1,3 +1,4 @@
+alert("JS Loaded");
 import { GEMINI_API_KEY } from "./LME-config.js";
 
 const prompt = document.getElementById("prompt");
