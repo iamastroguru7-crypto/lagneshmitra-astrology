@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ATC Central Command Operations</title>
+<title>ATCCCO v1 | LagneshMitra Astrology</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -18,38 +18,286 @@ padding:0;
 box-sizing:border-box;
 }
 
-border:1px solid rgba(255,255,255,.15);
+html{
+scroll-behavior:smooth;
+}
+
+body{
+
+font-family:'Poppins',sans-serif;
+
+background:
+linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+url("background2.png");
+
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+background-attachment:fixed;
+
+color:#ffffff;
+
+min-height:100vh;
+
+overflow-x:hidden;
 
 }
 
-#previewBtn:hover{
+/*==============================
+HEADER
+==============================*/
 
-background:rgba(255,255,255,.15);
+header{
 
-transform:translateY(-3px);
+position:sticky;
+
+top:0;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:22px 45px;
+
+background:rgba(0,0,0,.25);
+
+backdrop-filter:blur(18px);
+
+-webkit-backdrop-filter:blur(18px);
+
+border-bottom:1px solid rgba(255,255,255,.08);
+
+z-index:999;
 
 }
 
-#publishBtn{
+.logo{
 
-background:linear-gradient(135deg,#FFD700,#FFB300);
+font-family:'Cinzel',serif;
 
-color:#111;
+font-size:34px;
+
+font-weight:700;
+
+color:#FFD700;
+
+text-shadow:
+
+0 0 8px rgba(255,215,0,.8),
+
+0 0 22px rgba(255,215,0,.40);
 
 }
 
-#publishBtn:hover{
+nav{
 
-transform:translateY(-4px);
+display:flex;
+
+gap:28px;
+
+}
+
+nav a{
+
+color:#ffffff;
+
+text-decoration:none;
+
+font-size:15px;
+
+transition:.3s;
+
+}
+
+nav a:hover{
+
+color:#FFD700;
+
+}
+
+/*==============================
+MAIN CONTAINER
+==============================*/
+
+.container{
+
+width:92%;
+
+max-width:1400px;
+
+margin:45px auto;
+
+}
+
+.page-title{
+
+text-align:center;
+
+margin-bottom:40px;
+
+}
+
+.page-title h1{
+
+font-family:'Cinzel',serif;
+
+font-size:54px;
+
+color:#FFD700;
+
+text-shadow:
+
+0 0 10px rgba(255,215,0,.70);
+
+}
+
+.page-title p{
+
+margin-top:15px;
+
+font-size:18px;
+
+color:#dddddd;
+
+letter-spacing:.5px;
+
+}
+
+/*==============================
+GLASS CONTAINER
+==============================*/
+
+.glass{
+
+background:rgba(255,255,255,.05);
+
+backdrop-filter:blur(18px);
+
+-webkit-backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.10);
+
+border-radius:24px;
+
+padding:35px;
 
 box-shadow:
-0 0 20px rgba(255,215,0,.55);
+
+0 10px 40px rgba(0,0,0,.28);
+
+margin-bottom:35px;
 
 }
 
-/* ============/* ===========================
+/*==============================
+DASHBOARD CARDS
+==============================*/
+
+.dashboard{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:25px;
+
+margin-bottom:40px;
+
+}
+
+.card{
+
+background:rgba(255,255,255,.05);
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:20px;
+
+padding:30px;
+
+backdrop-filter:blur(16px);
+
+transition:.35s;
+
+cursor:pointer;
+
+}
+
+.card:hover{
+
+transform:translateY(-6px);
+
+box-shadow:
+
+0 0 25px rgba(255,215,0,.25);
+
+}
+
+.card h2{
+
+font-size:40px;
+
+color:#FFD700;
+
+margin-bottom:10px;
+
+}
+
+.card p{
+
+font-size:15px;
+
+color:#dddddd;
+
+}
+
+/*==============================
+CONTENT ENGINE
+==============================*/
+
+.engine-title{
+
+font-family:'Cinzel',serif;
+
+font-size:34px;
+
+color:#FFD700;
+
+margin-bottom:12px;
+
+}
+
+.engine-subtitle{
+
+font-size:16px;
+
+color:#cccccc;
+
+margin-bottom:35px;
+
+line-height:1.8;
+
+}
+
+/*==============================
+FORM GRID
+==============================*/
+
+.form-grid{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:35px;
+
+}
+
+/*==============================
 FORM
-=========================== */
+==============================*/
 
 form{
 
@@ -57,7 +305,7 @@ display:flex;
 
 flex-direction:column;
 
-gap:18px;
+gap:20px;
 
 }
 
@@ -65,9 +313,13 @@ label{
 
 font-size:15px;
 
-font-weight:500;
+font-weight:600;
 
 color:#FFD700;
+
+margin-bottom:6px;
+
+display:block;
 
 }
 
@@ -77,13 +329,13 @@ textarea{
 
 width:100%;
 
-padding:14px 16px;
+padding:15px 18px;
 
 background:rgba(255,255,255,.06);
 
 border:1px solid rgba(255,255,255,.12);
 
-border-radius:12px;
+border-radius:14px;
 
 outline:none;
 
@@ -93,9 +345,9 @@ font-family:'Poppins',sans-serif;
 
 color:#ffffff;
 
-backdrop-filter:blur(10px);
+backdrop-filter:blur(12px);
 
-transition:.3s;
+transition:.30s;
 
 }
 
@@ -113,7 +365,8 @@ textarea:focus{
 border-color:#FFD700;
 
 box-shadow:
-0 0 10px rgba(255,215,0,.35);
+
+0 0 15px rgba(255,215,0,.35);
 
 }
 
@@ -121,21 +374,21 @@ textarea{
 
 resize:vertical;
 
-min-height:140px;
+min-height:180px;
 
 }
 
-/* ===========================
-CHECKBOX OPTIONS
-=========================== */
+/*==============================
+OPTIONS
+==============================*/
 
 .options{
 
 display:flex;
 
-flex-wrap:wrap;
-
 gap:30px;
+
+flex-wrap:wrap;
 
 margin-top:10px;
 
@@ -149,9 +402,11 @@ align-items:center;
 
 gap:10px;
 
+color:#ffffff;
+
 font-size:15px;
 
-color:white;
+font-weight:400;
 
 }
 
@@ -163,9 +418,9 @@ height:18px;
 
 }
 
-/* ===========================
+/*==============================
 BUTTONS
-=========================== */
+==============================*/
 
 .buttons{
 
@@ -187,15 +442,15 @@ border:none;
 
 border-radius:14px;
 
+cursor:pointer;
+
 font-size:17px;
 
 font-weight:600;
 
-cursor:pointer;
+font-family:'Poppins',sans-serif;
 
 transition:.35s;
-
-font-family:'Poppins',sans-serif;
 
 }
 
@@ -203,20 +458,61 @@ font-family:'Poppins',sans-serif;
 
 background:rgba(255,255,255,.08);
 
-color:white;
-  /*===============
-RESPONSIVE
-=========================== */
+color:#ffffff;
 
-@media(max-width:768px){
+border:1px solid rgba(255,255,255,.12);
+
+}
+
+#previewBtn:hover{
+
+background:rgba(255,255,255,.15);
+
+transform:translateY(-3px);
+
+}
+
+#publishBtn{
+
+background:linear-gradient(135deg,#FFD700,#FFB300);
+
+color:#111111;
+
+}
+
+#publishBtn:hover{
+
+transform:translateY(-4px);
+
+box-shadow:
+
+0 0 22px rgba(255,215,0,.55);
+
+}
+
+/*==============================
+RESPONSIVE
+==============================*/
+
+@media(max-width:900px){
+
+.dashboard{
+
+grid-template-columns:1fr 1fr;
+
+}
+
+.form-grid{
+
+grid-template-columns:1fr;
+
+}
 
 header{
 
 flex-direction:column;
 
-gap:15px;
-
-padding:20px;
+gap:18px;
 
 }
 
@@ -230,7 +526,7 @@ justify-content:center;
 
 .page-title h1{
 
-font-size:36px;
+font-size:38px;
 
 }
 
@@ -240,158 +536,7 @@ flex-direction:column;
 
 }
 
-.options{
-
-flex-direction:column;
-
-gap:15px;
-
 }
-
-}
-body{
-
-font-family:'Poppins',sans-serif;
-
-background:
-linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
-url("background2.png");
-
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
-background-attachment:fixed;
-
-color:white;
-
-min-height:100vh;
-
-overflow-x:hidden;
-
-}
-
-header{
-
-position:sticky;
-top:0;
-
-padding:20px 40px;
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-background:rgba(255,255,255,.03);
-
-backdrop-filter:blur(12px);
--webkit-backdrop-filter:blur(12px);
-
-border-bottom:1px solid rgba(255,255,255,.10);
-
-z-index:999;
-
-}
-
-.logo{
-
-font-family:'Cinzel',serif;
-
-font-size:34px;
-
-color:#FFD700;
-
-text-shadow:
-
-0 0 8px rgba(255,215,0,.7),
-0 0 25px rgba(255,215,0,.35);
-
-}
-
-nav{
-
-display:flex;
-gap:25px;
-
-}
-
-nav a{
-
-color:white;
-
-text-decoration:none;
-
-font-size:15px;
-
-transition:.3s;
-
-}
-
-nav a:hover{
-
-color:#FFD700;
-
-}
-
-.container{
-
-width:92%;
-max-width:1200px;
-
-margin:50px auto;
-
-}
-
-.page-title{
-
-text-align:center;
-
-margin-bottom:40px;
-
-}
-
-.page-title h1{
-
-font-family:'Cinzel',serif;
-
-font-size:52px;
-
-color:#FFD700;
-
-text-shadow:
-
-0 0 12px rgba(255,215,0,.8);
-
-}
-
-.page-title p{
-
-margin-top:12px;
-
-color:#ddd;
-
-font-size:17px;
-
-}
-
-.glass{
-
-background:rgba(255,255,255,.04);
-
-backdrop-filter:blur(12px);
--webkit-backdrop-filter:blur(12px);
-
-border:1px solid rgba(255,255,255,.10);
-
-border-radius:20px;
-
-padding:35px;
-
-box-shadow:
-
-0 8px 30px rgba(0,0,0,.18);
-
-}
-
 
 </style>
 
@@ -411,9 +556,9 @@ ATC Central Command
 
 <a href="#">Dashboard</a>
 
-<a href="#">Posts</a>
+<a href="#">Knowledge Hub</a>
 
-<a href="#">Reports</a>
+<a href="#">Posts</a>
 
 <a href="#">Analytics</a>
 
@@ -435,82 +580,171 @@ Content Publishing Engine
 
 <p>
 
-Publish once • Firestore • Knowledge Hub • Google Ready
+Publish Once • Firestore • Knowledge Hub • Google Ready
 
 </p>
 
 </div>
 
+<div class="dashboard">
+
+<div class="card">
+
+<h2 id="totalPosts">
+
+0
+
+</h2>
+
+<p>Total Posts</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="todayPosts">
+
+0
+
+</h2>
+
+<p>Today's Posts</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="totalViews">
+
+0
+
+</h2>
+
+<p>Total Views</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="totalComments">
+
+0
+
+</h2>
+
+<p>Total Comments</p>
+
+</div>
+
+</div>
+
 <div class="glass">
 
-<!-- PART 2 FORM YAHAN SE START HOGA -->
+<h2 class="engine-title">
 
-<h2 style="margin-bottom:25px;color:#FFD700;font-family:'Cinzel',serif;">
-📝 New Knowledge Hub Post
+Knowledge Hub Publishing Engine
+
 </h2>
+
+<p class="engine-subtitle">
+
+Create, publish and manage every LagneshMitra Astrology article directly into Firestore.
+
+</p>
 
 <form id="postForm">
 
+<div class="form-grid">
+
+<div>
+
 <label>Post Title</label>
-<input type="text" id="title" placeholder="Why a Horoscope Cannot Be Judged Through Just One House">
+
+<input
+type="text"
+id="title"
+placeholder="Enter Article Title">
 
 <label>SEO Slug</label>
-<input type="text" id="slug" placeholder="why-a-horoscope-cannot-be-judged-through-just-one-house">
+
+<input
+type="text"
+id="slug"
+placeholder="Auto Generated Slug">
+
+<label>Post ID</label>
+
+<input
+type="text"
+id="postId"
+placeholder="LMP000001">
 
 <label>Category</label>
 
 <select id="category">
 
 <option>General Astrology</option>
+
 <option>Planets</option>
-<option>Houses</option>
+
 <option>Yogas</option>
-<option>Career</option>
+
 <option>Marriage</option>
+
+<option>Career</option>
+
 <option>Health</option>
+
 <option>Spirituality</option>
 
 </select>
 
-<label>Post ID</label>
-<input type="text" id="postId" placeholder="LMP000001">
-
 <label>Featured Image URL</label>
-<input type="text" id="featuredImage" placeholder="https://">
 
-<label>Short Description</label>
-
-<textarea
-id="shortDescription"
-rows="4"
-placeholder="Brief introduction..."></textarea>
-
-<label>Full Article</label>
-
-<textarea
-id="content"
-rows="16"
-placeholder="Write complete article here..."></textarea>
+<input
+type="text"
+id="featuredImage"
+placeholder="https://">
 
 <label>Keywords</label>
 
 <input
 type="text"
 id="keywords"
-placeholder="vedic astrology, horoscope, planets">
+placeholder="saturn, navamsa, astrology">
 
 <label>Meta Description</label>
 
 <textarea
 id="metaDescription"
-rows="3"
-placeholder="SEO Meta Description"></textarea>
+rows="4"
+placeholder="Google Meta Description"></textarea>
+
+</div>
+
+<div>
+
+<label>Short Description</label>
+
+<textarea
+id="shortDescription"
+rows="5"
+placeholder="Write a short summary of the article..."></textarea>
+
+<label>Full Article</label>
+
+<textarea
+id="content"
+rows="18"
+placeholder="Write your complete article here..."></textarea>
 
 <div class="options">
 
 <label>
 
-<input type="checkbox" id="featured">
+<input
+type="checkbox"
+id="featured">
 
 Featured Post
 
@@ -518,7 +752,10 @@ Featured Post
 
 <label>
 
-<input type="checkbox" id="allowComments" checked>
+<input
+type="checkbox"
+id="allowComments"
+checked>
 
 Allow Comments
 
@@ -526,9 +763,12 @@ Allow Comments
 
 <label>
 
-<input type="checkbox" id="googleIndex" checked>
+<input
+type="checkbox"
+id="googleIndex"
+checked>
 
-Index on Google
+Google Index
 
 </label>
 
@@ -554,13 +794,15 @@ id="publishBtn">
 
 </div>
 
+</div>
+
+</div>
+
 </form>
 
 </div>
 
 </div>
-
-
 
 <script type="module">
 
@@ -568,7 +810,6 @@ import { db } from "./firebase.js";
 
 import {
 
-collection,
 doc,
 setDoc,
 serverTimestamp
@@ -576,7 +817,6 @@ serverTimestamp
 }
 
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
 
 const form=document.getElementById("postForm");
 
@@ -588,7 +828,7 @@ const postId=document.getElementById("postId").value.trim();
 
 if(postId===""){
 
-alert("Enter Post ID");
+alert("Please Enter Post ID");
 
 return;
 
@@ -598,7 +838,7 @@ try{
 
 await setDoc(
 
-doc(db,"Posts",postId),
+doc(db,"posts",postId),
 
 {
 
@@ -634,8 +874,6 @@ likes:0,
 
 shares:0,
 
-downloads:0,
-
 commentsCount:0,
 
 redditViews:0,
@@ -654,7 +892,7 @@ updatedAt:serverTimestamp()
 
 );
 
-alert("🚀 Post Published Successfully!");
+alert("🚀 Article Published Successfully!");
 
 form.reset();
 
@@ -667,6 +905,135 @@ console.error(error);
 alert("Publish Failed!");
 
 }
+
+});
+
+</script>
+
+const title=document.getElementById("title");
+const slug=document.getElementById("slug");
+
+title.addEventListener("keyup",()=>{
+
+slug.value=title.value
+
+.toLowerCase()
+
+.replace(/[^a-z0-9\s]/g,"")
+
+.trim()
+
+.replace(/\s+/g,"-");
+
+});
+
+document.getElementById("previewBtn").addEventListener("click",()=>{
+
+const previewWindow=window.open("","Preview","width=1000,height=800");
+
+previewWindow.document.write(`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Preview</title>
+
+<style>
+
+body{
+
+font-family:Arial,Helvetica,sans-serif;
+
+background:#f5f5f5;
+
+padding:40px;
+
+line-height:1.8;
+
+}
+
+.container{
+
+max-width:900px;
+
+margin:auto;
+
+background:white;
+
+padding:40px;
+
+border-radius:18px;
+
+box-shadow:0 5px 20px rgba(0,0,0,.10);
+
+}
+
+img{
+
+width:100%;
+
+border-radius:14px;
+
+margin-bottom:25px;
+
+}
+
+h1{
+
+margin-bottom:15px;
+
+}
+
+.meta{
+
+color:#666;
+
+margin-bottom:25px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="${featuredImage.value}" onerror="this.style.display='none'">
+
+<h1>${title.value}</h1>
+
+<div class="meta">
+
+Category : ${category.value}
+
+</div>
+
+<p>
+
+${shortDescription.value}
+
+</p>
+
+<hr><br>
+
+<div>
+
+${content.value.replace(/\n/g,"<br>")}
+
+</div>
+
+</div>
+
+</body>
+
+</html>
+
+`);
 
 });
 
