@@ -6,16 +6,59 @@ const button=document.getElementById("sendBtn");
 
 const response=document.getElementById("response");
 
-button.onclick=()=>{
+button.onclick = async () => {
 
-response.innerHTML=
+    if(prompt.value.trim()==""){
 
-"LM Engine Loaded Successfully.\n\n"+
+        alert("Enter Prompt");
 
-"Version : "+LMERules.version+
+        return;
 
-"\n\nPrompt Received:\n\n"+
+    }
 
-prompt.value;
+    response.innerHTML="Generating...";
+
+    try{
+
+        const res = await fetch(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+GEMINI_API_KEY,
+        {
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                contents:[{
+
+                    parts:[{
+
+                        text:prompt.value
+
+                    }]
+
+                }]
+
+            })
+
+        });
+
+        const data = await res.json();
+
+        response.innerHTML =
+        data.candidates[0].content.parts[0].text;
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        response.innerHTML="❌ Error connecting to Gemini";
+
+    }
 
 };
