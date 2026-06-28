@@ -1,81 +1,61 @@
 /*
 ======================================
-LagneshMitra Engine
+LagneshMitra Engine (LME)
 Version : 0.0.1
 ======================================
 */
 
-function RunLME(text){
+function RunLME(text) {
 
-    // =========================
+    // ==================================
     // RWP Rule 001
-    // =========================
+    // and planet
+    // ->
+    // and the planets
+    // ==================================
 
     text = text.replaceAll(
         "and planet",
         "and the planets"
     );
 
-    // =========================
+    // ==================================
     // RWP Rule 002
-    // =========================
+    // planetary combination
+    // ->
+    // the planetary combinations
+    // ==================================
 
     text = text.replaceAll(
         "planetary combination",
         "the planetary combinations"
     );
 
-    // =========================
+    // ==================================
     // RWP Rule 003
-    // =========================
+    // indicates good wealth
+    // ->
+    // indicates the good wealth
+    // ==================================
 
     text = text.replaceAll(
         "indicates good wealth",
         "indicates the good wealth"
     );
 
-    /*
-====================================================
-RWP004
-Rule Name : Add Definite Article Before Planetary Combinations
-Version   : 1.0
-Status    : Active
+    // ==================================
+    // RWP Rule 004
+    // planetary combinations
+    // ->
+    // the planetary combinations
+    // ==================================
 
-Purpose:
-Whenever the phrase "planetary combinations"
-appears without the definite article "the",
-automatically prepend "the".
-
-Example:
-
-Input:
-Planetary combinations indicate success.
-
-Output:
-The planetary combinations indicate success.
-
-Input:
-Mars creates planetary combinations.
-
-Output:
-Mars creates the planetary combinations.
-
-====================================================
-*/
-
-function RWP004(text){
-
-    return text.replace(
-        /\b(?<!the\s)planetary combinations\b/gi,
+    text = text.replace(
+        /planetary combinations/gi,
         "the planetary combinations"
     );
 
-}
-
-export default RWP004;
-
     return text;
-
 }
 
 export default RunLME;
