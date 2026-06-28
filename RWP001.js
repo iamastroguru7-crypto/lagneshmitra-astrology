@@ -81,6 +81,102 @@ for (const [find, replace] of Object.entries(pluralRules)) {
 
 // return text; iske baad
 
+    // ==================================
+// RWP Rule 012
+// LM Definite Article Repository
+// Version : 1.0
+// Status  : Testing
+// ==================================
+
+const articleRules = {
+
+    "life": "the life",
+    "companionship": "the companionship",
+    "purpose": "the purpose",
+    "relationship legacy": "the relationship legacy",
+    "trust": "the trust",
+    "commitment": "the commitment",
+    "support": "the support",
+    "shared experiences": "the shared experiences",
+    "relationship development": "the meaningful relationship developments",
+    "personal growth": "the personal growth",
+    "long-term fulfilment": "the long-term fulfilments",
+    "understanding": "the understandings",
+    "communication": "the communications",
+    "mutual respect": "the mutual respects",
+    "experience": "the experiences",
+    "patience": "the patience",
+    "adaptation": "the adaptations",
+    "goodwill": "the goodwill",
+    "strength": "the strength",
+    "stability": "the stability",
+    "progress": "the progress",
+    "growth": "the growth",
+    "challenges": "the challenges",
+    "limitations": "the limitations",
+    "developmental themes": "the developmental themes",
+    "maturity": "the maturity",
+    "self-improvement": "the self-improvement",
+    "intellectual curiosity": "the intellectual curiosity",
+    "adaptability": "the adaptability",
+    "divided attention": "the divided attention",
+    "priorities": "the priorities",
+    "significant learning": "the significant learning",
+    "expectations": "the expectations",
+    "emotional intensity": "the emotional intensity",
+    "transformation": "the transformation",
+    "resilience": "the resilience",
+    "emotional balance": "the emotional balance",
+    "long-term perspective": "the long-term perspective"
+
+};
+
+for (const [find, replace] of Object.entries(articleRules)) {
+
+    text = text.replace(
+        new RegExp("\\b" + find + "\\b", "gi"),
+        replace
+    );
+
+}
+    // ==================================
+// RWP Rule 013
+// LM Pluralism Repository
+// Version : 1.0
+// Status  : Testing
+// ==================================
+
+const pluralRules = {
+
+    "relationship": "relationships",
+    "challenge": "challenges",
+    "developmental theme": "developmental themes",
+    "partnership": "partnerships",
+    "expectation": "expectations",
+    "communication": "communications",
+    "understanding": "understandings",
+    "phase": "phases",
+    "outcome": "outcomes",
+    "lesson": "lessons",
+    "experience": "experiences",
+    "result": "results",
+    "strength": "strengths",
+    "limitation": "limitations",
+    "adaptation": "adaptations",
+    "commitment": "commitments",
+    "fulfilment": "fulfilments"
+
+};
+
+for (const [find, replace] of Object.entries(pluralRules)) {
+
+    text = text.replace(
+        new RegExp("\\b" + find + "\\b", "gi"),
+        replace
+    );
+
+}
+
     return text;
 }
 
