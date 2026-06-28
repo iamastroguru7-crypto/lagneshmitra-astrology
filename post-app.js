@@ -1,3 +1,16 @@
+import { db } from "./firebase.js";
+
+import {
+
+collection,
+getDocs,
+query,
+orderBy
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
 /* ===========================================
    LagneshMitra Knowledge Hub
    post-app.js
@@ -9,30 +22,29 @@
    Future : Firestore
 =========================================== */
 
-const posts = [
+async function loadPosts(){
 
-{
-    id: "LMP000001",
+const snapshot=await getDocs(
 
-    title: "Why a Horoscope Cannot Be Judged Through Just One House or One Planet",
+query(
 
-    date: "26 June 2026",
+collection(db,"posts"),
 
-    views: "1,245",
+orderBy("createdAt","desc")
 
-    likes: "182",
+)
 
-    read: "6 min",
+);
 
-    category: "Research",
+snapshot.forEach((doc)=>{
 
-    image: "images/LMP000001.jpg",
+const post=doc.data();
 
-    description:
-    "Learn why a horoscope should always be judged holistically instead of relying upon only one house or one planet.",
+/* Yahin card create hoga */
 
-    url: "post.html?pid=LMP000001"
-},
+});
+
+}
 
 {
     id: "LMP000002",
@@ -250,4 +262,4 @@ loadPosts(filtered);
    INITIAL LOAD
 =========================================== */
 
-loadPosts(posts);
+loadPosts();
