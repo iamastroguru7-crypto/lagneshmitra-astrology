@@ -83,8 +83,15 @@ button{
 
 <textarea id="input">
 
-and planet indicates good wealth through planetary combination.
-</textarea>
+
+The Relationship Legacy Potential
+Relationships influence life not only through companionship but also through the emotional foundations they create. When evaluating long-term relationship potential, it is often useful to consider the concept of relationship legacy-the lasting impact created through trust, commitment, support and shared experiences.
+Your horoscope contains multiple indicators supporting meaningful relationship development. The Moon as Seventh Lord, the strong Navamsa structure, the exalted Venus and the powerful Saturn influence collectively create a framework where relationships may contribute significantly towards personal growth and long-term fulfilment.
+One of the most important observations is that the chart repeatedly favours maturity over superficiality. While attraction remains important, lasting relationship success frequently depends upon understanding, communication and mutual respect.
+The strong Saturn influence often supports endurance. Relationships may not always develop rapidly, but they frequently become stronger through experience, shared responsibilities and increasing trust.
+The exalted Venus adds emotional depth, compassion and the ability to preserve goodwill. These qualities frequently become essential during periods where relationships require patience, adaptation and understanding.
+Overall, the horoscope suggests the potential to create a relationship legacy based upon commitment, emotional growth and long-term partnership development. Such relationships often become important sources of strength and stability throughout life.
+
 
 <br>
 
@@ -102,18 +109,17 @@ Waiting...
 
 <script type="module">
 
-import RunLME from "./RWP001.js";
+import RWP001 from "./rwp001.js";
 
-window.RunLME=function(){
+window.RunLME = function () {
 
-    const input=document.getElementById("input").value;
+    const input = document.getElementById("input").value;
 
-    const output=RunLME(input);
+    const output = RWP001(input);
 
-    document.getElementById("output").innerHTML=output;
+    document.getElementById("output").innerText = output;
 
 }
-
 </script>
 
 </body>
