@@ -1,15 +1,4 @@
-import { db } from "./firebase.js";
 
-import {
-
-collection,
-getDocs,
-query,
-orderBy
-
-}
-
-from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 /* ===========================================
    LagneshMitra Knowledge Hub
@@ -22,29 +11,82 @@ from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
    Future : Firestore
 =========================================== */
 
-async function loadPosts(){
+/* ===========================================
+   POSTS DATABASE (Temporary)
+=========================================== */
 
-const snapshot=await getDocs(
+const posts = [
 
-query(
+{
+    id: "LMP000001",
 
-collection(db,"posts"),
+    title: "Why a Horoscope Cannot Be Judged Through Just One House or One Planet",
 
-orderBy("createdAt","desc")
+    date: "26 June 2026",
 
-)
+    views: "1245",
 
-);
+    likes: "182",
 
-snapshot.forEach((doc)=>{
+    read: "6 min",
 
-const post=doc.data();
+    category: "General Astrology",
 
-/* Yahin card create hoga */
+    image: "images/LMP000001.jpg",
 
-});
+    description:
+    "Learn why a horoscope should always be judged holistically instead of relying upon only one house or one planet.",
 
+    url: "post.html?pid=LMP000001"
+},
+
+{
+    id: "LMP000002",
+
+    title: "When Shani Blesses Malavya Yoga",
+
+    date: "24 June 2026",
+
+    views: "986",
+
+    likes: "143",
+
+    read: "5 min",
+
+    category: "Yoga",
+
+    image: "images/LMP000002.png",
+
+    description:
+    "Understand how Saturn can actually strengthen Malavya Yoga under certain planetary conditions.",
+
+    url: "post.html?pid=LMP000002"
+},
+
+{
+    id: "LMP000003",
+
+    title: "Understanding Mahalakshmi Yoga",
+
+    date: "20 June 2026",
+
+    views: "2110",
+
+    likes: "298",
+
+    read: "7 min",
+
+    category: "Wealth",
+
+    image: "images/LMP000003.jpg",
+
+    description:
+    "Explore one of the strongest wealth combinations in Vedic Astrology with practical understanding.",
+
+    url: "post.html?pid=LMP000003"
 }
+
+];
 
 {
     id: "LMP000002",
