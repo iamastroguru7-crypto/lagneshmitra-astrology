@@ -118,12 +118,14 @@ Waiting...
 <script type="module">
 
 import RWP001 from "./RWP001.js";
+import RWP002 from "./RWP002.js";
 
 window.RunLME = function () {
 
     const input = document.getElementById("input").value;
 
-    const output = RWP001(input);
+    let output = RWP001(input);
+    output = RWP002(output);
 
     document.getElementById("output").innerText = output;
 
