@@ -121,7 +121,8 @@ import RWP001 from "./RWP001.js";
 import RWP002 from "./RWP002.js";
 import RWP003 from "./RWP003.js";
 import Phrasing from "./Phrasing.js";
-
+import Phrasing from "./Grammar.js";
+    
 window.RunLME = function () {
 
     const input = document.getElementById("input").value;
@@ -130,6 +131,7 @@ window.RunLME = function () {
     output = RWP002(output);
     output = RWP003(output);
     output = Phrasing(output);
+    output = Grammar(output);
 
     document.getElementById("output").innerText = output;
 
