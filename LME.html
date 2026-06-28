@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LagneshMitra Engine (LME)</title>
+
+<style>
+
+body{
+    margin:0;
+    background:#111;
+    color:white;
+    font-family:Arial;
+    padding:30px;
+}
+
+h1{
+    color:#FFD700;
+}
+
+textarea{
+
+    width:100%;
+    height:180px;
+
+    background:#1d1d1d;
+
+    color:white;
+
+    border:1px solid #444;
+
+    padding:15px;
+
+    font-size:15px;
+
+}
+
+button{
+
+    margin-top:20px;
+
+    padding:12px 30px;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    background:#FFD700;
+
+    border:none;
+
+    font-weight:bold;
+
+}
+
+#output{
+
+    margin-top:25px;
+
+    background:#1d1d1d;
+
+    padding:20px;
+
+    min-height:150px;
+
+    border:1px solid #444;
+
+    white-space:pre-wrap;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>⚙ LagneshMitra Engine (LME)</h1>
+
+<p>Input Sentence</p>
+
+<textarea id="input">
+
+and planet indicates good wealth through planetary combination.
+
+</textarea>
+
+<br>
+
+<button onclick="RunLME()">
+
+Run LME
+
+</button>
+
+<div id="output">
+
+Waiting...
+
+</div>
+
+<script type="module">
+
+import RunLME from "./LM.js";
+
+window.RunLME=function(){
+
+    const input=document.getElementById("input").value;
+
+    const output=RunLME(input);
+
+    document.getElementById("output").innerHTML=output;
+
+}
+
+</script>
+
+</body>
+
+</html>
