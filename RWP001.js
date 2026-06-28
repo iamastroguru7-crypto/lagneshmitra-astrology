@@ -25,6 +25,15 @@ function RunLME(text){
         "the planetary combinations"
     );
 
+    // =========================
+    // RWP Rule 003
+    // =========================
+
+    text = text.replaceAll(
+        "indicates good wealth",
+        "indicates the good wealth"
+    );
+
     return text;
 
 }
