@@ -1,61 +1,28 @@
 /*
-======================================
-LagneshMitra Engine (LME)
-Version : 0.0.1
-======================================
+=========================================
+RWP001.js
+Rule ID   : RWP001
+Version   : 1.0
+Status    : Active
+=========================================
 */
 
-function RunLME(text) {
+function RWP001(text){
 
-    // ==================================
-    // RWP Rule 001
-    // and planet
-    // ->
-    // and the planets
-    // ==================================
+    // Rule 1
+    text = text.replace(/and planet/gi, "and the planets");
 
-    text = text.replaceAll(
-        "and planet",
-        "and the planets"
-    );
+    // Rule 2
+    text = text.replace(/planetary combination/gi, "the planetary combinations");
 
-    // ==================================
-    // RWP Rule 002
-    // planetary combination
-    // ->
-    // the planetary combinations
-    // ==================================
+    // Rule 3
+    text = text.replace(/indicates good wealth/gi, "indicates the good wealth");
 
-    text = text.replaceAll(
-        "planetary combination",
-        "the planetary combinations"
-    );
-
-    // ==================================
-    // RWP Rule 003
-    // indicates good wealth
-    // ->
-    // indicates the good wealth
-    // ==================================
-
-    text = text.replaceAll(
-        "indicates good wealth",
-        "indicates the good wealth"
-    );
-
-    // ==================================
-    // RWP Rule 004
-    // planetary combinations
-    // ->
-    // the planetary combinations
-    // ==================================
-
-    text = text.replace(
-        /planetary combinations/gi,
-        "the planetary combinations"
-    );
+    // Rule 4
+    text = text.replace(/the\s+the/gi, "the");
 
     return text;
+
 }
 
-export default RunLME;
+export default RWP001;
