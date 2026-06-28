@@ -120,6 +120,7 @@ Waiting...
 import RWP001 from "./RWP001.js";
 import RWP002 from "./RWP002.js";
 import RWP003 from "./RWP003.js";
+import Phrasing from "./Phraising.js";
 
 window.RunLME = function () {
 
@@ -128,6 +129,7 @@ window.RunLME = function () {
     let output = RWP001(input);
     output = RWP002(output);
     output = RWP003(output);
+    output = Phrasing(output);
 
     document.getElementById("output").innerText = output;
 
