@@ -324,13 +324,37 @@ async function savePost(){
 
     try{
 
-        await addDoc(postsCollection,{
+        const postData = {
 
-            title:"Test Article",
+            title: title.value.trim(),
 
-            createdAt:serverTimestamp()
+            category: category.value,
 
-        });
+            keywords: keywords.value.trim(),
+
+            shortDescription: shortDescription.value.trim(),
+
+            metaDescription: metaDescription.value.trim(),
+
+            slug: slug.value.trim(),
+
+            featuredImage: featuredImage.value.trim(),
+
+            content: content.value.trim(),
+
+            status: "Draft",
+
+            featured: false,
+
+            googleIndex: true,
+
+            createdAt: serverTimestamp(),
+
+            updatedAt: serverTimestamp()
+
+        };
+
+        await addDoc(postsCollection, postData);
 
         alert("🎉 Firestore Write Success");
 
