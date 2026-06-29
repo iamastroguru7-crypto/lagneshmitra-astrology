@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ATCCCO CMS | LagneshMitra Internal</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#0d1117;
+    color:#ffffff;
+    padding:30px;
+}
+
+.container{
+    width:95%;
+    max-width:1500px;
+    margin:auto;
+}
+
+h1{
+    font-size:34px;
+    color:#f5c542;
+    margin-bottom:8px;
+}
+
+p{
+    color:#c9d1d9;
+    margin-bottom:20px;
+}
+
+hr{
+    border:none;
+    height:1px;
+    background:#30363d;
+    margin:25px 0;
+}
+
+.card{
+    background:#161b22;
+    border:1px solid #30363d;
+    border-radius:12px;
+    padding:25px;
+    margin-bottom:25px;
+}
+
+.card h2{
+    color:#f5c542;
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:8px;
+    font-weight:bold;
+    color:#d2d2d2;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:12px;
+    background:#0d1117;
+    color:white;
+    border:1px solid #444;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:#f5c542;
+}
+
+textarea{
+    resize:vertical;
+}
+
+button{
+    background:#f5c542;
+    color:#000;
+    border:none;
+    padding:12px 24px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:bold;
+    margin-top:15px;
+    margin-right:10px;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#ffd95b;
+}
+
+.actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+table th{
+    background:#21262d;
+    border:1px solid #30363d;
+    padding:12px;
+    text-align:left;
+}
+
+table td{
+    border:1px solid #30363d;
+    padding:12px;
+}
+
+@media(max-width:768px){
+
+.container{
+    width:100%;
+}
+
+.actions{
+    flex-direction:column;
+}
+
+button{
+    width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>ATCCCO CMS</h1>
+
+<p>AI Powered Content Management System</p>
+
+<hr>
+
+<div class="card">
+
+<h2>Create New Article</h2>
+
+<label>Title</label>
+<input type="text" id="title" placeholder="Enter Article Title">
+
+<label>Category</label>
+
+<select id="category">
+
+<option value="">Select Category</option>
+
+<option>General Astrology</option>
+<option>Marriage</option>
+<option>Career</option>
+<option>Love Compatibility</option>
+<option>Health</option>
+<option>Finance</option>
+<option>Business</option>
+<option>Education</option>
+<option>Moon</option>
+<option>Sun</option>
+<option>Mars</option>
+<option>Mercury</option>
+<option>Jupiter</option>
+<option>Venus</option>
+<option>Saturn</option>
+<option>Rahu</option>
+<option>Ketu</option>
+<option>Transits</option>
+<option>Dasha</option>
+<option>Nakshatra</option>
+<option>Remedies</option>
+
+</select>
+
+<label>Keywords</label>
+<input type="text" id="keywords" placeholder="venus, marriage, astrology">
+
+<label>Short Description</label>
+<textarea id="shortDescription" rows="3"></textarea>
+
+<label>Meta Description</label>
+<textarea id="metaDescription" rows="3"></textarea>
+
+<label>Slug</label>
+<input type="text" id="slug" placeholder="love-marriage-astrology">
+
+<label>Featured Image URL</label>
+<input type="text" id="featuredImage" placeholder="https://">
+
+<label>Article Content</label>
+<textarea id="content" rows="18"></textarea>
+
+<div class="actions">
+
+<button id="saveBtn">
+💾 Save
+</button>
+
+<button id="updateBtn">
+✏ Update
+</button>
+
+<button id="deleteBtn">
+🗑 Delete
+</button>
+
+<button id="clearBtn">
+🧹 Clear
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Recent Posts</h2>
+
+<div id="postsContainer">
+
+No Posts Available
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+
+getFirestore,
+
+collection,
+
+addDoc,
+
+getDocs,
+
+updateDoc,
+
+deleteDoc,
+
+doc,
+
+serverTimestamp
+
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+// ==========================================
+// PART 5
+// Firebase Configuration
+// ==========================================
+
+const firebaseConfig = {
+
+    apiKey: "YOUR_API_KEY",
+
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+
+    projectId: "YOUR_PROJECT_ID",
+
+    storageBucket: "YOUR_PROJECT.appspot.com",
+
+    messagingSenderId: "YOUR_SENDER_ID",
+
+    appId: "YOUR_APP_ID"
+
+};
+
+
+// ==========================================
+// Initialize Firebase
+// ==========================================
+
+const app = initializeApp(firebaseConfig);
+
+
+// ==========================================
+// Initialize Firestore
+// ==========================================
+
+const db = getFirestore(app);
+
+console.log("ATCCCO Connected Successfully");
+
+// ==========================================
+// PART 6
+// DOM References & Event Listeners
+// ==========================================
+
+// Firestore Collection
+
+const postsCollection = collection(db, "posts");
+
+// Input Fields
+
+const title = document.getElementById("title");
+const category = document.getElementById("category");
+const keywords = document.getElementById("keywords");
+const shortDescription = document.getElementById("shortDescription");
+const metaDescription = document.getElementById("metaDescription");
+const slug = document.getElementById("slug");
+const featuredImage = document.getElementById("featuredImage");
+const content = document.getElementById("content");
+
+// Buttons
+
+const saveBtn = document.getElementById("saveBtn");
+const updateBtn = document.getElementById("updateBtn");
+const deleteBtn = document.getElementById("deleteBtn");
+const clearBtn = document.getElementById("clearBtn");
+
+// Container
+
+const postsContainer = document.getElementById("postsContainer");
+
+// Current Selected Document
+
+let selectedPostId = null;
+
+// Event Listeners
+
+saveBtn.addEventListener("click", savePost);
+
+updateBtn.addEventListener("click", updatePost);
+
+deleteBtn.addEventListener("click", deletePost);
+
+clearBtn.addEventListener("click", clearForm);
+
+// ==========================================
+// Utility Functions
+// ==========================================
+
+function clearForm(){
+
+    title.value = "";
+    category.selectedIndex = 0;
+    keywords.value = "";
+    shortDescription.value = "";
+    metaDescription.value = "";
+    slug.value = "";
+    featuredImage.value = "";
+    content.value = "";
+
+    selectedPostId = null;
+
+    console.log("Form Cleared");
+
+}
+
+// Placeholder Functions
+
+function updatePost(){
+
+    console.log("Update Function Coming In Part 9");
+
+}
+
+function deletePost(){
+
+    console.log("Delete Function Coming In Part 9");
+
+}
+
+// ==========================================
+// PART 7
+// Save Post
+// ==========================================
+
+async function savePost(){
+
+    try{
+
+        const postData = {
+
+            title: title.value.trim(),
+
+            category: category.value,
+
+            keywords: keywords.value.trim(),
+
+            shortDescription: shortDescription.value.trim(),
+
+            metaDescription: metaDescription.value.trim(),
+
+            slug: slug.value.trim(),
+
+            featuredImage: featuredImage.value.trim(),
+
+            content: content.value.trim(),
+
+            status: "Draft",
+
+            featured: false,
+
+            googleIndex: true,
+
+            createdAt: serverTimestamp(),
+
+            updatedAt: serverTimestamp()
+
+        };
+
+        await addDoc(postsCollection, postData);
+
+        alert("✅ Article Saved Successfully");
+
+        clearForm();
+
+        loadPosts();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert("❌ Unable to Save Article");
+
+    }
+
+}
+
+// ==========================================
+// PART 8
+// Load Posts
+// ==========================================
+
+async function loadPosts(){
+
+    try{
+
+        postsContainer.innerHTML = "<p>Loading Posts...</p>";
+
+        const snapshot = await getDocs(postsCollection);
+
+        if(snapshot.empty){
+
+            postsContainer.innerHTML = "<p>No Posts Available</p>";
+
+            return;
+
+        }
+
+        let html = "";
+
+        snapshot.forEach((document)=>{
+
+            const post = document.data();
+
+            html += `
+
+            <div class="card">
+
+                <h3>${post.title}</h3>
+
+                <p><strong>Category :</strong> ${post.category}</p>
+
+                <p><strong>Status :</strong> ${post.status}</p>
+
+                <button onclick="selectPost('${document.id}')">
+
+                Edit
+
+                </button>
+
+            </div>
+
+            `;
+
+        });
+
+        postsContainer.innerHTML = html;
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        postsContainer.innerHTML="<p>Unable to Load Posts</p>";
+
+    }
+
+}
+
+// Auto Load on Startup
+
+loadPosts();
+
+
+// ==========================================
+// Select Post
+// ==========================================
+
+function selectPost(id){
+
+    selectedPostId=id;
+
+    console.log("Selected :",id);
+
+}
+
+// ==========================================
+// PART 9
+// Update & Delete
+// ==========================================
+
+async function updatePost(){
+
+    if(selectedPostId==null){
+
+        alert("Please Select a Post");
+
+        return;
+
+    }
+
+    try{
+
+        const postRef = doc(db,"posts",selectedPostId);
+
+        await updateDoc(postRef,{
+
+            title:title.value.trim(),
+
+            category:category.value,
+
+            keywords:keywords.value.trim(),
+
+            shortDescription:shortDescription.value.trim(),
+
+            metaDescription:metaDescription.value.trim(),
+
+            slug:slug.value.trim(),
+
+            featuredImage:featuredImage.value.trim(),
+
+            content:content.value.trim(),
+
+            updatedAt:serverTimestamp()
+
+        });
+
+        alert("Post Updated Successfully");
+
+        loadPosts();
+
+        clearForm();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert("Unable To Update");
+
+    }
+
+}
+
+
+
+async function deletePost(){
+
+    if(selectedPostId==null){
+
+        alert("Please Select a Post");
+
+        return;
+
+    }
+
+    if(!confirm("Delete this post?")){
+
+        return;
+
+    }
+
+    try{
+
+        await deleteDoc(doc(db,"posts",selectedPostId));
+
+        alert("Post Deleted");
+
+        loadPosts();
+
+        clearForm();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert("Unable To Delete");
+
+    }
+
+}
+
+// ==========================================
+// PART 10
+// Final Features
+// ==========================================
+
+// Auto Slug Generator
+
+title.addEventListener("input",()=>{
+
+slug.value = title.value
+
+.toLowerCase()
+
+.trim()
+
+.replace(/[^a-z0-9]+/g,"-")
+
+.replace(/^-|-$/g,"");
+
+});
+
+
+// Basic Validation
+
+saveBtn.addEventListener("click",()=>{
+
+if(title.value.trim()==""){
+
+alert("Please Enter Title");
+
+return;
+
+}
+
+if(category.value==""){
+
+alert("Please Select Category");
+
+return;
+
+}
+
+if(content.value.trim()==""){
+
+alert("Please Enter Content");
+
+return;
+
+}
+
+});
+
+
+// Auto Refresh Every 30 Seconds
+
+setInterval(()=>{
+
+loadPosts();
+
+},30000);
+
+
+console.log("===================================");
+
+console.log("ATCCCO CMS v1.0 Ready");
+
+console.log("LagneshMitra Internal CMS");
+
+console.log("===================================");
+
+</script>
+
+</body>
+
+</html>
