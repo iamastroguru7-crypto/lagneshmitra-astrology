@@ -289,10 +289,6 @@ const postsContainer = document.getElementById("postsContainer");
 
 alert("Step 4");
 
-function savePost(){
-    alert("Save Button Working");
-}
-
 function updatePost(){
     alert("Update Button Working");
 }
@@ -315,7 +311,39 @@ alert("Step 5 Loaded");
 const postsCollection = collection(db, "posts");
 
 alert("Step 6 Loaded");
-    
+
+// ==========================
+// STEP 7
+// SAVE POST
+// ==========================
+
+async function savePost(){
+
+    alert("Entering savePost()");
+
+    try{
+
+        await addDoc(postsCollection,{
+
+            title:"Test Article",
+
+            createdAt:serverTimestamp()
+
+        });
+
+        alert("🎉 Firestore Write Success");
+
+    }
+
+    catch(error){
+
+        alert("ERROR : " + error.message);
+
+        console.error(error);
+
+    }
+
+}
 </script>
 
 </script>
