@@ -2,63 +2,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>LagneshMitra Engine v2.2 | Final Build</title>
+    <title>LagneshMitra Engine v2.2</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.3.1/html-docx.js"></script>
     <style>
-        :root { --bg-color: #0a0a0f; --accent-color: #ff3333; }
-        body { background: var(--bg-color); color: #e2e2e9; font-family: sans-serif; padding: 20px; }
+        :root { --bg: #0a0a0f; --accent: #00f2ff; }
+        body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; padding: 20px; }
         .wrapper { max-width: 800px; margin: auto; }
-        .panel { background: #12121a; border: 1px solid #2a2a3a; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
-        select, textarea, input { width: 100%; padding: 12px; background: #1a1a26; color: #fff; border: 1px solid #2a2a3a; margin-bottom: 10px; }
-        button { padding: 15px; background: var(--accent-color); color: #fff; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; }
-        #output { background: #0d0d14; padding: 20px; border-left: 4px solid var(--accent-color); white-space: pre-wrap; display: none; }
+        .panel { background: #12121a; border: 1px solid #333; padding: 20px; margin-bottom: 20px; border-radius: 8px; }
+        select, textarea, input { width: 100%; padding: 10px; background: #000; color: var(--accent); border: 1px solid #444; margin-bottom: 10px; }
+        button { width: 100%; padding: 15px; background: #ff3333; color: white; border: none; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
+        #output { background: #000; padding: 15px; border-left: 4px solid var(--accent); white-space: pre-wrap; display: none; }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
-    <h1>CORE ASTRO ENGINE v2.2</h1>
+    <h2 style="color:var(--accent)">AUTOMATED TRANSIT TIMELINE SCANNER</h2>
     
     <div class="panel">
         <label>Select Report Style</label>
         <select id="reportStyle">
-            <option value="heavy">Heavy Technical (Detailed Analysis)</option>
-            <option value="lite">Lite/Direct (Key Insights Only)</option>
-            <option value="short">Short/Actionable (Dates & Triggers)</option>
+            <option value="heavy">Heavy Technical Analysis</option>
+            <option value="lite">Lite Insights</option>
+            <option value="short">Short/Actionable</option>
         </select>
-        <button onclick="executeEngine()">Execute & Generate Report</button>
+        <button onclick="runEngine()">INTERSECT & EXTRACT DATES</button>
     </div>
 
     <div id="output" class="panel"></div>
-    <button id="downloadBtn" style="display:none; background:#444;" onclick="exportToWord()">Download as Word File (.docx)</button>
+    <button id="dlBtn" style="display:none; background:#222;" onclick="exportDoc()">Download .DOCX Report</button>
 </div>
 
 <script>
-async function executeEngine() {
-    const apiKey = document.getElementById('apiKey')?.value || "GUEST_MODE";
+async function runEngine() {
     const style = document.getElementById('reportStyle').value;
-    const output = document.getElementById('output');
+    const out = document.getElementById('output');
+    out.style.display = "block";
+    out.innerText = "Analyzing Matrix in " + style + " mode...";
     
-    output.style.display = "block";
-    output.innerText = "Analyzing Matrix via " + style.toUpperCase() + " Mode...";
-
-    // Engine logic to process data
-    const prompt = `Generate a ${style} Vedic Astrology report. Focus on 9th house stellium and current Venus-Venus dasha. Structure it with professional headings.`;
-
-    try {
-        // [SIMULATED API FETCH - Replace with real Groq fetch]
-        const result = `[REPORT STYLE: ${style.toUpperCase()}]\n\n1. IMPACT ANALYSIS: The 9th house stellium in Mithuna... (Full analysis based on your data)\n\n2. TIMELINE MATRIX: Peak crisis ends 15-Oct-2026...`;
-        output.innerText = result;
-        document.getElementById('downloadBtn').style.display = 'block';
-    } catch(e) { output.innerText = "Engine Error."; }
+    // Yahan API call aayegi... abhi ke liye simulation:
+    setTimeout(() => {
+        out.innerText = "Analysis Report [" + style + "]:\n\n1. Natal Impact: Stellium in 9th house indicates foreign shift.\n2. Dasha Trigger: Venus-Venus phase active until Sep 2027.\n3. Timeline: High probability window: Feb 2027 - Apr 2027.";
+        document.getElementById('dlBtn').style.display = "block";
+    }, 1000);
 }
 
-function exportToWord() {
+function exportDoc() {
     const content = document.getElementById('output').innerText;
     const converted = htmlDocx.asBlob(`<html><body><pre>${content}</pre></body></html>`);
     const link = document.createElement('a');
     link.href = URL.createObjectURL(converted);
-    link.download = "LagneshMitra_Report.docx";
+    link.download = "Report.docx";
     link.click();
 }
 </script>
