@@ -1,63 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LagneshMitra Engine v2.4</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.3.1/html-docx.js"></script>
-    <style>
-        body { background: #0a0a0f; color: #fff; font-family: monospace; padding: 10px; }
-        .panel { background: #12121a; border: 1px solid #333; padding: 15px; margin-bottom: 10px; border-radius: 8px; }
-        textarea, select, button { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 4px; box-sizing: border-box; }
-        textarea { background: #000; color: #00f2ff; border: 1px solid #444; height: 100px; }
-        button { background: #ff3333; color: white; font-weight: bold; border: none; cursor: pointer; }
-        #output { display: none; background: #000; padding: 15px; border-left: 4px solid #00f2ff; white-space: pre-wrap; }
-    </style>
-</head>
-<body>
+<!-- [START OF MODIFIED 226-LINE BACKUP STRUCTURE] -->
 
+<!-- 1. [DROPDOWN FOR REPORT STYLE - INSERT THIS BEFORE YOUR INTERSECT BUTTON] -->
 <div class="panel">
-    <h3>AUTOMATED TRANSIT TIMELINE SCANNER</h3>
-    <label>Report Style</label>
-    <select id="reportStyle">
+    <label style="color:#00f2ff;">Select Report Style</label>
+    <select id="reportStyle" style="width:100%; padding:12px; background:#000; color:#fff; border:1px solid #444; margin-bottom:15px; border-radius:4px;">
         <option value="heavy">Heavy Technical Analysis</option>
         <option value="lite">Lite Insights</option>
+        <option value="short">Short/Actionable</option>
     </select>
-    
-    <label>Natal/Navamsa Data</label>
-    <textarea id="chartData" placeholder="Paste Natal/Navamsa tables here..."></textarea>
-    
-    <label>Vimshottari Dasha</label>
-    <textarea id="dashaData" placeholder="Paste Dasha sequence..."></textarea>
-    
-    <button onclick="runEngine()">INTERSECT & EXTRACT DATES</button>
 </div>
 
-<div id="output" class="panel"></div>
-<button id="dlBtn" style="display:none; background:#222;" onclick="exportDoc()">Download .DOCX Report</button>
+<!-- 2. [YOUR EXISTING INTERSECT BUTTON - UPDATE ITS ONCLICK] -->
+<button onclick="executeEngineWithExport()" style="background:#ff3333; padding:15px; width:100%; border:none; color:white; font-weight:bold;">INTERSECT & EXTRACT DATES</button>
 
+<!-- 3. [NEW DOWNLOAD BUTTON - HIDE BY DEFAULT] -->
+<button id="downloadBtn" onclick="exportToWord()" style="display:none; background:#222; margin-top:10px; padding:15px; width:100%; border:none; color:white; font-weight:bold;">Download Full Report (.docx)</button>
+
+<!-- 4. [REQUIRED JAVASCRIPT MODIFICATION - ADD TO YOUR SCRIPT TAG] -->
 <script>
-function runEngine() {
-    const data = document.getElementById('chartData').value;
-    const dasha = document.getElementById('dashaData').value;
-    const style = document.getElementById('reportStyle').value;
-    const out = document.getElementById('output');
+async function executeEngineWithExport() {
+    // Apne purane API call logic ko yahan call karo
+    await executeEngine(); 
     
-    if(!data) return alert("Input fields cannot be empty!");
-    
-    out.style.display = "block";
-    out.innerText = `Analyzing [${style.toUpperCase()}]...\n\nProcessing Natal/Navamsa Matrix...\n\n[REPORT GENERATED]:\nDeepti's chart shows strong 9th house activation. Based on Venus-Venus dasha, the critical window for stabilization is Feb 2027 to Apr 2027.`;
-    document.getElementById('dlBtn').style.display = "block";
+    // API complete hone ke baad Download button dikhao
+    document.getElementById('downloadBtn').style.display = "block";
 }
 
-function exportDoc() {
-    const content = document.getElementById('output').innerText;
-    const converted = htmlDocx.asBlob(`<html><body><pre>${content}</pre></body></html>`);
+function exportToWord() {
+    // Yeh function tere output box se text uthayega
+    const content = document.getElementById('outputContainer').innerText;
+    const blob = htmlDocx.asBlob(`<html><body><pre style="white-space:pre-wrap;">${content}</pre></body></html>`);
     const link = document.createElement('a');
-    link.href = URL.createObjectURL(converted);
-    link.download = "Deepti_Full_Report.docx";
+    link.href = URL.createObjectURL(blob);
+    link.download = "Deepti_Chart_Analysis.docx";
     link.click();
 }
 </script>
-</body>
-</html>
+
+<!-- [END OF MODIFIED STRUCTURE] -->
