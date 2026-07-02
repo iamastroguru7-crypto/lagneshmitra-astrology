@@ -2,60 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AstroHumanizer v1.0 | Counseling Layer</title>
+    <title>Raw/Unpolished Reddit Engine v9.0</title>
     <style>
-        :root { --bg: #0b0e14; --accent: #ff4500; --text: #d1d5db; }
-        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; padding: 40px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 800px; }
-        textarea { width: 100%; height: 300px; background: #161b22; color: #fff; border: 1px solid #30363d; padding: 15px; border-radius: 8px; margin: 20px 0; }
-        .btn { padding: 15px 30px; background: var(--accent); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        #output { background: #010409; padding: 20px; border-left: 4px solid var(--accent); margin-top: 20px; white-space: pre-wrap; }
+        body { background: #000; color: #ccc; font-family: monospace; padding: 20px; }
+        .box { background: #111; padding: 15px; border: 1px solid #333; margin-bottom: 10px; }
+        textarea, input { width: 100%; background: #050505; color: #0f0; border: 1px solid #222; padding: 10px; }
+        button { width: 100%; padding: 15px; background: #222; color: #fff; cursor: pointer; border: 1px solid #444; }
+        #output { margin-top: 20px; white-space: pre-wrap; padding: 20px; border: 1px dashed #333; }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h2>AstroHumanizer | Counseling Tone Refiner</h2>
-    <p>Paste the raw AI output below. This will convert it into a deeply empathetic, counselor-style human tone.</p>
-    
-    <input type="password" id="apiKey" placeholder="Groq API Key" style="padding:10px; width:100%; background:#161b22; border:1px solid #30363d; color:white;">
-    
-    <textarea id="rawInput" placeholder="Paste generated post here..."></textarea>
-    
-    <button class="btn" onclick="humanize()">Refine & Humanize</button>
-    
+    <h2>UNPOLISHED REDDIT FORGER v9.0</h2>
+    <input type="password" id="key" placeholder="Groq Key">
+    <textarea id="data" rows="5" placeholder="Natal/Dasha data"></textarea>
+    <button onclick="run()">GENERATE RAW TEXT</button>
     <div id="output"></div>
-</div>
 
 <script>
-async function humanize() {
+async function run() {
     const output = document.getElementById('output');
-    output.innerText = "Refining tone to human counselor style...";
+    output.innerText = "Generating...";
     
-    const prompt = `You are a deeply empathetic, human Vedic Astrologer and Counselor. Your task is to take the provided text and rewrite it to sound 100% human, counseling, and peer-to-peer.
+    const prompt = `You are a dude on Reddit. You write like a normal person who hates typing.
     
     RULES:
-    1. COUNSELING TONE: Instead of 'The chart shows', write 'Bhai, main samajh sakta hoon yeh kitna frustrating hota hai'. Be supportive yet blunt.
-    2. REDUCE COMPLEXITY: Remove stiff technical flow. Explain the planetary logic as if you are talking to a friend on a call.
-    3. ADD IMPERFECTION: Use conversational filler naturally (e.g., 'Sach bolu toh', 'Ek baat notice karo', 'Worry mat karo').
-    4. BREAK PATTERNS: Ensure no two paragraphs start with the same structure. 
-    5. FINAL CHECK: Make it sound like a Reddit comment by a veteran user, not an AI output.`;
+    1. ZERO POLISH: Use lowercase mostly. Skip commas. Use bad grammar on purpose.
+    2. SLANGS: Use 'bhai', 'yaar', 'lafda', 'bc' (if appropriate), 'scene', 'dimag ka dahi'.
+    3. SHORT & CHOPPY: Write like you're texting a friend. No long fancy intros.
+    4. NO AI STRUCTURE: Do not use bullet points or organized headers. Just write a paragraph or two.
+    5. KEEP IT REAL: If the chart looks bad say it's bad. If it's good say it's good. No "hopeful" fake AI tone.
+    6. ANTI-DETECTION: Mix short sentences (3 words) with medium ones. 
+    
+    INPUT DATA: ${document.getElementById('data').value}`;
 
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
-        headers: { "Authorization": `Bearer ${document.getElementById('apiKey').value}`, "Content-Type": "application/json" },
+        headers: { "Authorization": `Bearer ${document.getElementById('key').value}`, "Content-Type": "application/json" },
         body: JSON.stringify({
             model: "llama-3.3-70b-versatile",
-            messages: [
-                { role: "system", content: prompt },
-                { role: "user", content: document.getElementById('rawInput').value }
-            ],
-            temperature: 0.8
+            messages: [{ role: "system", content: prompt }, { role: "user", content: "Write the post now." }],
+            temperature: 0.9 // High randomness for "unpolished" feel
         })
     });
-
-    const data = await response.json();
-    output.innerText = data.choices[0].message.content;
+    const d = await res.json();
+    output.innerText = d.choices[0].message.content;
 }
 </script>
 </body>
