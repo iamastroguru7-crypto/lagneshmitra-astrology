@@ -2,43 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Raw Humanizer v9.5</title>
+    <title>UNPOLISHED HUMANIZER v10.0</title>
     <style>
-        body { background: #000; color: #aaa; font-family: sans-serif; padding: 20px; }
-        textarea { width: 100%; height: 300px; background: #0f0f0f; color: #0f0; border: 1px solid #333; padding: 10px; }
-        button { padding: 15px; background: #ff4500; border: none; color: #fff; cursor: pointer; margin-top: 10px; width: 100%; font-weight: bold; }
+        body { background: #000; color: #0f0; font-family: monospace; padding: 20px; }
+        textarea { width: 100%; height: 350px; background: #050505; color: #0f0; border: 1px solid #222; padding: 15px; }
+        button { width: 100%; padding: 20px; background: #222; color: #fff; cursor: pointer; border: 1px solid #444; margin-top: 10px; font-weight: bold; }
+        #output { margin-top: 20px; white-space: pre-wrap; color: #ccc; border: 1px dashed #333; padding: 20px; }
     </style>
 </head>
 <body>
-    <h2>HUMANIZE GENERATED TEXT (Make it Unpolished)</h2>
-    <input type="password" id="key" placeholder="Groq Key" style="width:100%; padding:10px; background:#111; color:#fff; border:1px solid #333;">
-    <textarea id="rawInput" placeholder="Paste your AI generated post here..."></textarea>
-    <button onclick="humanize()">MAKE IT UNPOLISHED / HUMAN</button>
-    <div id="output" style="margin-top:20px; white-space:pre-wrap; color:#fff;"></div>
+    <h2>RAW HUMANIZER | ANTI-DETECTION LAYER</h2>
+    <input type="password" id="key" placeholder="Groq Key" style="width:100%; padding:10px; background:#050505; color:#0f0; border:1px solid #222;">
+    <textarea id="rawInput" placeholder="Paste robotic AI output here..."></textarea>
+    <button onclick="humanize()">CONVERT TO UNPOLISHED HUMAN</button>
+    <div id="output"></div>
 
 <script>
 async function humanize() {
     const output = document.getElementById('output');
-    output.innerText = "Refining to human mode...";
+    output.innerText = "Processing raw human vibe...";
     
-    const text = document.getElementById('rawInput').value;
-    const prompt = `Rewrite this text to sound like a 100% real person posting on Reddit. 
+    const prompt = `You are a Reddit user who hates formal writing. Rewrite the provided text.
     
-    CRITICAL RULES:
-    1. BREAK THE GRAMMAR: Use lowercase mostly. Skip commas. Use informal shortcuts (e.g., 'btw', 'rn', 'gonna').
-    2. USE SLANG: Use 'bhai', 'yaar', 'lafda', 'bc' (where fits), 'dimag ka dahi', 'scene set'.
-    3. BE LAZY: Don't write long structured paragraphs. Write like you're in a hurry.
-    4. NO AI TONE: Kill all words like 'Furthermore', 'It is important to note', 'Crucial', 'Testament'.
-    5. KEEP IT REAL: Be blunt. If the chart is messy, just say it's messy. Don't sound like a counselor, sound like a guy who knows his stuff.
-    6. SENTENCE LENGTH: Mix tiny sentences with long ones. Put thoughts in random order.`;
+    HARD RULES (IGNORE ALL PREVIOUS STYLE):
+    1. DELETE ROBOT WORDS: Remove 'native', 'complex interplay', 'mitigate', 'exacerbate', 'indicates', 'potentially'.
+    2. BE SLOPPY: Use 'bhai', 'yaar', 'lafda', 'scene', 'dimag ka dahi', 'stuck'.
+    3. NO STRUCTURE: If the input has headers, make them sound like natural questions. Do not use colon lists. Use 'suno', 'dekh', 'matlab'.
+    4. BREAK SENTENCES: Keep sentences short. Like, 3-5 words. Then one long casual thought.
+    5. ADD PERSONALITY: Be a bit frustrated. Be a bit blunt. No fake 'I understand' empathy. Just real talk.
+    6. REDDIT VIBE: Write like you are replying to a post. Skip grammar. Use small letters where needed.`;
 
     const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: { "Authorization": `Bearer ${document.getElementById('key').value}`, "Content-Type": "application/json" },
         body: JSON.stringify({
             model: "llama-3.3-70b-versatile",
-            messages: [{ role: "system", content: prompt }, { role: "user", content: text }],
-            temperature: 0.9
+            messages: [{ role: "system", content: prompt }, { role: "user", content: document.getElementById('rawInput').value }],
+            temperature: 0.95 // Maximum chaos
         })
     });
     const d = await res.json();
