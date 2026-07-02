@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internal Brutal Astro Engine</title>
+    <title>Internal Brutal Astro Engine v2</title>
     <style>
         :root {
             --bg-color: #0a0a0f;
@@ -102,8 +102,8 @@
 
 <div class="wrapper">
     <header>
-        <h1>CORE ASTRO LOGIC ENGINE</h1>
-        <p>[ INTERNAL ADMIN PANEL - UNFILTERED RUNTIME ]</p>
+        <h1>CORE ASTRO LOGIC ENGINE v2</h1>
+        <p>[ INTERNAL ADMIN PANEL - VIMSHOTTARI & ABROAD TIMELINE RUNTIME ]</p>
     </header>
 
     <!-- Configuration Panel -->
@@ -121,10 +121,13 @@
     <!-- Data Input Panel -->
     <div class="panel">
         <label>D1 Placements / Sidereal Ephemeris Data</label>
-        <textarea id="chartData" rows="6" placeholder="Paste JSON, degrees, or explicit placements here...&#10;Example:&#10;Ascendant: Scorpio 24°&#10;Sun: 8th House Gemini&#10;Venus: 8th House Gemini"></textarea>
+        <textarea id="chartData" rows="6" placeholder="Paste JSON or explicit placements here...&#10;Example:&#10;Ascendant: Virgo&#10;Saturn: 1st House Virgo&#10;Rahu: 9th House Taurus&#10;Jupiter: 12th House Leo"></textarea>
         
-        <label id="queryLabel">Specific Query / Focus Area (Optional for Report)</label>
-        <textarea id="userQuery" rows="3" placeholder="Ask about longevity, career ruin, marriage collapse, or specific dasha effects..."></textarea>
+        <label>Vimshottari Dasha Roll-downs (Current Timeline)</label>
+        <textarea id="dashaData" rows="4" placeholder="Enter current Dasha sequence here...&#10;Example:&#10;Mahadasha: Rahu (Till 2032)&#10;Antardasha: Jupiter (Till Mid-2027)&#10;Pratyantardasha: Saturn"></textarea>
+
+        <label id="queryLabel">Specific Query / Focus Area</label>
+        <textarea id="userQuery" rows="2" placeholder="Example: Abroad settlement exact timeline, foreign job, or migration stability."></textarea>
 
         <div class="btn-group">
             <button onclick="executeEngine()">Execute Unfiltered AI</button>
@@ -140,7 +143,6 @@
 </div>
 
 <script>
-// Auto-load key from browser memory if exists
 window.onload = function() {
     if (localStorage.getItem('savedAstroKey')) {
         document.getElementById('apiKey').value = localStorage.getItem('savedAstroKey');
@@ -150,6 +152,7 @@ window.onload = function() {
 async function executeEngine() {
     const apiKey = document.getElementById('apiKey').value.trim();
     const chartData = document.getElementById('chartData').value.trim();
+    const dashaData = document.getElementById('dashaData').value.trim();
     const userQuery = document.getElementById('userQuery').value.trim();
     const mode = document.getElementById('runMode').value;
     const outputContainer = document.getElementById('outputContainer');
@@ -163,19 +166,18 @@ async function executeEngine() {
         return;
     }
 
-    // Save key to LocalStorage so you don't have to type it again
     localStorage.setItem('savedAstroKey', apiKey);
 
     outputContainer.style.display = "block";
-    outputContainer.innerHTML = '<span class="loading">Bypassing guardrails... Synchronizing cosmic ephemeris...</span>';
+    outputContainer.innerHTML = '<span class="loading">Bypassing filters... Analyzing Vimshottari roll-downs...</span>';
 
-    // Kala Bhairav Strict System Persona
-    let systemPrompt = "You are 'Kala Bhairav Astro AI', an advanced, highly clinical, and brutally honest Vedic Astrologer operating within a dark-themed simulation engine. Your core directive is to analyze raw chart data (D1, degrees, ephemeris) and deliver uncompromising truths regarding karmic debts, structural life blockages, and harsh realities. Do NOT use comforting words, false remedies, or optimistic bias. If a placement shows destruction, decay, or immense struggle, outline it explicitly with technical authority.";
+    // Kala Bhairav Strict System Persona Upgraded for Abroad Travel and Dashas
+    let systemPrompt = "You are 'Kala Bhairav Astro AI', an advanced, highly clinical, and brutally honest Vedic Astrologer operating within a dark-themed simulation engine. Your core directive is to process raw chart placements alongside the provided Vimshottari Dasha roll-downs (Mahadasha, Antardasha, Pratyantardasha). You must calculate real, uncompromised alignments for foreign relocation, migration, or abroad settlement by examining the connections between the 3rd, 4th (loss of homeland), 9th (long journeys), and 12th (foreign lands) houses/lords, along with Rahu/Saturn influences. Do NOT give false hope or generic answers. Give an exact breakdown based on the dasha timing.";
 
     if (mode === 'report') {
-        systemPrompt += " Generate a highly structured, detailed report containing sections for: 1. Core Structural Vulnerabilities, 2. Karmic Debts & Past-Life Baggage, 3. Critical Timeline Threat Matrix. Maintain an intense, heavy, and cynical tone throughout.";
+        systemPrompt += " Structure the response with: 1. ABROAD RELOCATION POTENTIAL (House/Lord analysis), 2. VIMSHOTTARI DASHA ROLL-DOWN CRITIQUE (Timing alignment), 3. TRIGGER WINDOW & HARSH TIMELINE MATRIX (When will it actually open or crash). Maintain a heavy, technical, and cynical tone.";
     } else {
-        systemPrompt += " Keep your response concise, sharp, conversational, and direct, as if speaking to the user face-to-face in a high-stakes consultation. Answer the specific query precisely with maximum cynicism.";
+        systemPrompt += " Deliver a sharp, conversational, and direct analysis of their abroad yog and dasha timeline with maximum cynicism.";
     }
 
     try {
@@ -186,12 +188,12 @@ async function executeEngine() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "llama-3.3-70b-versatile", // Upgraded to the verified production model
+                model: "llama-3.3-70b-versatile",
                 messages: [
                     { role: "system", content: systemPrompt },
-                    { role: "user", content: `[DATA MATRIX]:\n${chartData}\n\n[USER QUERY]:\n${userQuery || "Perform absolute chart reading."}` }
+                    { role: "user", content: `[CHART DATA]:\n${chartData}\n\n[VIMSHOTTARI DASHA]:\n${dashaData || "Not specified"}\n\n[QUERY]:\n${userQuery || "Analyze absolute abroad travel yog and dasha triggers."}` }
                 ],
-                temperature: mode === 'report' ? 0.5 : 0.75,
+                temperature: 0.5,
                 top_p: 0.95
             })
         });
@@ -201,22 +203,21 @@ async function executeEngine() {
         if (response.ok && data.choices && data.choices[0]) {
             outputContainer.innerText = data.choices[0].message.content;
         } else {
-            // High-precision debugger to print exact server rejections
             if (data.error) {
-                outputContainer.innerText = `Groq API Error: ${data.error.message}\nType: ${data.error.type}\nCode: ${data.error.code || 'None'}`;
+                outputContainer.innerText = `Groq API Error: ${data.error.message}`;
             } else {
                 outputContainer.innerText = `Raw Server Error Stack:\n${JSON.stringify(data, null, 2)}`;
             }
         }
 
     } catch (error) {
-        outputContainer.innerText = `Fatal network disruption or invalid connection. Details: ${error.message}`;
-        console.error(error);
+        outputContainer.innerText = `Fatal connection disruption. Details: ${error.message}`;
     }
 }
 
 function clearForm() {
     document.getElementById('chartData').value = '';
+    document.getElementById('dashaData').value = '';
     document.getElementById('userQuery').value = '';
     document.getElementById('outputContainer').style.display = "none";
 }
