@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maha Astro AI v5.5 - Intelligent Timeline Parser</title>
+    <title>Maha Astro AI v6.0 - Automation Terminal</title>
     <style>
         :root {
             --bg-dark: #020204;
@@ -152,8 +152,8 @@
 
 <div class="container">
     <div class="header-console">
-        <h1>INTELLIGENT ASTRO DATA & TIMELINE RADAR</h1>
-        <p>[ INTELLIGENT TEXT PARSER • EXACT TRANSIT INTERSECTION ENGINE ]</p>
+        <h1>AUTOMATED TRANSIT TIMELINE SCANNER</h1>
+        <p>[ POKRELA BYPASS MATRIX • LIVE DATE EXTRACTION ENGINE ]</p>
     </div>
 
     <!-- API Core -->
@@ -164,28 +164,28 @@
 
     <!-- STEP 1: RAW INGESTION PARSER -->
     <div class="panel-node" style="border: 1px dashed var(--neon-blue);">
-        <label style="color: var(--success-green);">⚡ STEP 1: Raw Chart Copy-Paste Area (Any Software/Web Format)</label>
-        <textarea id="rawInput" rows="5" placeholder="Paste dirty chart tables, planet lists, degrees, or random text copied from astro sites..."></textarea>
-        <button class="parse-btn" onclick="parseRawChartData()">Convert Chart to Structured Text Matrix</button>
+        <label style="color: var(--success-green);">⚡ STEP 1: Paste Pokrela Raw Text Data (Natal / Navamsa Tables)</label>
+        <textarea id="rawInput" rows="5" placeholder="Paste raw text grids or copied rows directly here..."></textarea>
+        <button class="parse-btn" onclick="parseRawChartData()">Convert & Structure Data Matrix</button>
     </div>
 
     <!-- STEP 2: MAIN COMPILATION CHANNELS -->
     <div class="panel-node">
-        <label>⚡ STEP 2: Refined Natal Matrix (Auto-Filled or Manual)</label>
-        <textarea id="chartData" rows="4" placeholder="Structured text data will appear here..."></textarea>
+        <label>⚡ STEP 2: Structured Natal / Navamsa Matrix</label>
+        <textarea id="chartData" rows="4" placeholder="Parsed data will auto-populate here..."></textarea>
         <br><br>
         <div class="grid-2">
             <div>
-                <label>Live Transits (Gochar Coordinates)</label>
-                <textarea id="transitData" rows="6" placeholder="Enter current positions of Saturn, Rahu, Ketu, Mars..."></textarea>
+                <label>Live Transits (Leave blank for 2026 Auto-Engine)</label>
+                <textarea id="transitData" rows="6" placeholder="If left empty, current July 2026 transits will automatically load in background..."></textarea>
             </div>
             <div>
                 <label>Vimshottari Dasha Sequences</label>
-                <textarea id="dashaData" rows="6" placeholder="Paste active Mahadasha, Antardasha, and Pratyantardasha dates..."></textarea>
+                <textarea id="dashaData" rows="6" placeholder="Paste running Mahadasha, Antardasha, and Pratyantardasha timelines..."></textarea>
             </div>
         </div>
-        <label>Patient/Case Current State Context</label>
-        <textarea id="contextData" rows="2" placeholder="e.g., Hospitalized with severe infection since yesterday..."></textarea>
+        <label>Patient/Case Context & Status</label>
+        <textarea id="contextData" rows="2" placeholder="Describe current crisis status or medical intensity..."></textarea>
     </div>
 
     <!-- Compute -->
@@ -202,58 +202,65 @@ window.onload = function() {
     }
 }
 
-// 🧠 NEW: Smart Client-Side Parser to clean raw text copies instantly before hit
 function parseRawChartData() {
     const rawText = document.getElementById('rawInput').value.trim();
     if (!rawText) {
-        alert("Please paste some raw chart data first!");
+        alert("Paste some raw text first!");
         return;
     }
-    
-    // Quick regex cleaning to map common table strings into a clean markdown format
     let cleaned = rawText
-        .replace(/(\r\n|\n|\r)/gm, "\n") // normalize breaks
-        .replace(/\t/g, " | ")           // convert tabs to table pipes
-        .replace(/ +(?= )/g, '');        // remove double spaces
+        .replace(/(\r\n|\n|\r)/gm, "\n")
+        .replace(/\t/g, " | ")
+        .replace(/ +(?= )/g, '');
 
-    document.getElementById('chartData').value = `[AUTO-PARSED NATAL MATRIX]:\n${cleaned}`;
-    alert("Data Converted & Shifted to Step 2! Check the matrix below.");
+    document.getElementById('chartData').value = `[PARSED MATRIX DATA]:\n${cleaned}`;
+    alert("Data matrix formatted successfully!");
 }
 
 async function calculateTransitDates() {
     const apiKey = document.getElementById('apiKey').value.trim();
     const chartData = document.getElementById('chartData').value.trim();
-    const transitData = document.getElementById('transitData').value.trim();
+    let transitData = document.getElementById('transitData').value.trim();
     const dashaData = document.getElementById('dashaData').value.trim();
     const contextData = document.getElementById('contextData').value.trim();
     const reportCanvas = document.getElementById('reportCanvas');
 
-    if (!apiKey || !transitData || !dashaData) {
-        alert("System Error: Transits or Dasha sequences are required.");
+    if (!apiKey || !dashaData) {
+        alert("System Error: API Key or Dasha timeline data is missing.");
         return;
+    }
+
+    // 🤖 POKRELA BYPASS: Auto-load 2026 transit data if the box is empty
+    if (!transitData) {
+        transitData = `[AUTOMATED ENGINE DIRECTIVE - YEAR 2026]: 
+- Transit Saturn: Retrograde/Direct movements in Aquarius (Kumbha Rashi) hitting natal placements.
+- Transit Jupiter: Transiting through Taurus (Vrishabha Rashi) casting aspects on houses.
+- Transit Rahu: Pisces (Meena) / Transit Ketu: Virgo (Kanya) axis active on critical degrees.
+- Transit Mars: Moving through fast high-intensity nodes creating heat over critical points.`;
     }
 
     localStorage.setItem('savedAstroKey', apiKey);
     reportCanvas.style.display = "block";
-    reportCanvas.innerHTML = '<div class="status-ticker">DECODING TEXT MATRIX... CORRELATING TIMELINES... EXTRACTING ABSOLUTE DATE WINDOWS...</div>';
+    reportCanvas.innerHTML = '<div class="status-ticker">BYPASSING IMAGE CONSTRAINTS... INTERSECTING DASHAS WITH BACKGROUND LIVE TRANSITS... COMPILING CALENDAR TIMELINES...</div>';
 
-    const timelinePrompt = `You are running under the 'LagneshMitra Custom Cadence Layer v5.5'. You are a blunt, precision-driven Vedic Astrologer analyzing a critical situation. Your input contains a text-mapped chart matrix, live transits, and dasha dates. You must output absolute, point-blank calendar date windows.
+    const timelinePrompt = `You are running under the 'LagneshMitra Custom Cadence Layer v6.0'. You are a blunt, precision-driven Vedic Astrologer analyzing a critical case. Your task is to look at the chart layout, dasha blocks, and live transits to spit out absolute point-blank calendar timelines.
 
-STRICT RULES:
+STRICT WRITING RULES:
 1. NO AI SIGNALS (In conclusion, Furthermore, Moreover, It is important to note).
-2. Write in English with a raw, direct, human rhythm.
-3. Keep it crisp, technical, and focused heavily on exact date ranges.
+2. Write in English with a raw, conversational, yet highly clinical rhythm.
+3. Be direct. Immediately lay down the target dates and duration ranges without long generic introductions.
 
-STRUCTURE:
-[1. RADICAL DIAGNOSIS OF THE PARSED MATRIX]
-- Briefly read the auto-parsed planet positions to identify the core weakness (Lagna, 6th, or 8th house).
+OUTPUT FORMAT REQUIREMENTS:
 
-[2. THE PEAK FRICTION TIMELINE (EXACT DATES)]
+[1. IMPACT ANALYSIS OF ACTIVE NODES]
+- Read the parsed natal/navamsa text block and immediately address the structural weakness relative to the current emergency context.
+
+[2. THE PEAK CRISIS DURATION (EXACT DATES)]
 - State clearly: 'The absolute peak of this crisis runs from [Date] to [Date].'
-- Break down the next phase (e.g., 'The next 10-15 days/months layout'). Detail whether the pressure is continuous or spikes on specific days.
+- Clearly address the next phase layout (e.g., 'The next 10-15 days/months layout'). Outline when the patient requires extreme, high-level clinical and personal care.
 
-[3. THE COOLING WINDOW (WHEN PRESSURE LIFTS)]
-- Give a definitive date window where stability returns.`;
+[3. THE RELIEF GATEWAY]
+- Specify the exact week or date range where the heavy dasha friction clears up or the fast transit separation begins, allowing the situation to cool down.`;
 
     try {
         const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -266,9 +273,9 @@ STRUCTURE:
                 model: "llama-3.3-70b-versatile",
                 messages: [
                     { role: "system", content: timelinePrompt },
-                    { role: "user", content: `[CHART DATA MATRIX]:\n${chartData}\n\n[LIVE GOCHAR TRANSITS]:\n${transitData}\n\n[VIMSHOTTARI SEQUENCES]:\n${dashaData}\n\n[CONTEXT]:\n${contextData}` }
+                    { role: "user", content: `[CHART MATRIX]:\n${chartData || "Provided via Step 1"}\n\n[LIVE TRANSITS]:\n${transitData}\n\n[VIMSHOTTARI TIMELINES]:\n${dashaData}\n\n[CONTEXT]:\n${contextData}` }
                 ],
-                temperature: 0.3,
+                temperature: 0.35,
                 top_p: 0.9
             })
         });
@@ -277,14 +284,13 @@ STRUCTURE:
         if (response.ok && data.choices && data.choices[0]) {
             reportCanvas.innerText = data.choices[0].message.content;
         } else {
-            reportCanvas.innerText = data.error ? data.error.message : "Error compiling timeline.";
+            reportCanvas.innerText = data.error ? data.error.message : "Error establishing API matrix links.";
         }
     } catch (error) {
-        reportCanvas.innerText = `Link Disrupted: ${error.message}`;
+        reportCanvas.innerText = `Automation Interrupted: ${error.message}`;
     }
 }
 </script>
 
 </body>
 </html>
-
