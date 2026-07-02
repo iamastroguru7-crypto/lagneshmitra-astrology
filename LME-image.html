@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Universal Art Engine | LagneshMitra</title>
+    <style>
+        body { 
+            background: #0f0f0f; 
+            color: #d4af37; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 30px; 
+        }
+        .box { 
+            background: #1a1a1a; 
+            padding: 30px; 
+            border-radius: 15px; 
+            border: 2px solid #d4af37; 
+            width: 100%; 
+            max-width: 600px; 
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+        h2 { text-align: center; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        p.subtitle { text-align: center; color: #888; font-size: 14px; margin-bottom: 25px; }
+        textarea { 
+            width: 100%; 
+            height: 100px; 
+            background: #000; 
+            color: #fff; 
+            border: 1px solid #333; 
+            margin-bottom: 15px; 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-size: 16px;
+            resize: none;
+        }
+        textarea:focus { outline: none; border-color: #d4af37; }
+        button { 
+            width: 100%; 
+            background: #d4af37; 
+            color: #000; 
+            border: none; 
+            padding: 15px; 
+            font-weight: bold; 
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: background 0.3s;
+        }
+        button:hover { background: #e6c35e; }
+        button:disabled { background: #555; cursor: not-allowed; }
+        
+        #output { margin-top: 30px; text-align: center; position: relative; display: inline-block; }
+        
+        .img-wrapper {
+            position: relative;
+            display: inline-block;
+            border: 3px solid #d4af37;
+            border-radius: 10px;
+            overflow: hidden;
+            line-height: 0; /* Removes extra space below image */
+        }
+
+        img { 
+            max-width: 100%; 
+            height: auto; 
+        }
+
+        /* Brand Watermark Overlay */
+        .watermark {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+            color: #d4af37;
+            padding: 5px 10px;
+            font-family: monospace;
+            font-size: 12px;
+            border-radius: 4px;
+            pointer-events: none; /* Prevent clicking */
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .download-btn {
+            margin-top: 15px;
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+        }
+        .download-btn:hover { background: #444; }
+
+        #status { margin-top: 15px; color: #888; font-style: italic; min-height: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Universal Art Engine</h2>
+    <p class="subtitle">Powered by LagneshMitra Astrology</p>
+    
+    <textarea id="prompt" placeholder="Describe any vision... e.g., A futuristic cyberpunk city at sunset, or Lord Ganesha in a neon style..."></textarea>
+    
+    <button id="genBtn" onclick="generateImage()">Generate Vision</button>
+    
+    <div id="status"></div>
+    <div id="output"></div>
+</div>
+
+<script>
+    async function generateImage() {
+        const prompt = document.getElementById('prompt').value;
+        const output = document.getElementById('output');
+        const status = document.getElementById('status');
+        const btn = document.getElementById('genBtn');
+
+        if (!prompt.trim()) {
+            status.innerText = "Please enter a description first.";
+            return;
+        }
+
+        // UI Updates
+        btn.disabled = true;
+        btn.innerText = "Generating... (might take a moment)";
+        status.innerText = "Channeling the creative energy... 🌌";
+        output.innerHTML = ""; // Clear previous image
+
+        // Hugging Face Stable Diffusion XL Model (General Purpose)
+        const API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0";
+        
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: { 
+                    // REPLACEME: Apna Hugging Face Token yahan daalna
+                    "Authorization": "Bearer YOUR_HF_TOKEN_HERE", 
+                    "Content-Type": "application/json" 
+                },
+                // Thoda optimization: HF par heavy models ke liye hum "wait_for_model: true" use karte hain
+                body: JSON.stringify({ 
+                    inputs: prompt + ", high quality, detailed, cinematic lighting",
+                    options: { wait_for_model: true } 
+                }),
+            });
+
+            if (!response.ok) {
+                 throw new Error(`API Error: ${response.statusText}`);
+            }
+
+            const blob = await response.blob();
+            const imageUrl = URL.createObjectURL(blob);
+            
+            // Display Image with Watermark
+            output.innerHTML = `
+                <div class="img-wrapper">
+                    <img src="${imageUrl}" alt="Generated Art">
+                    <div class="watermark">© LagneshMitra</div>
+                </div>
+                <br>
+                <a href="${imageUrl}" download="lagneshmitra_vision.png" class="download-btn">Download Full Image</a>
+            `;
+            
+            status.innerText = "Vision Manifested! ✨";
+
+        } catch (error) {
+            console.error(error);
+            status.innerText = "Error: Check your API Token or Internet Connection. (HF Free Tier might be busy).";
+        } finally {
+            // Reset Button
+            btn.disabled = false;
+            btn.innerText = "Generate Vision";
+        }
+    }
+</script>
+</body>
+</html>
