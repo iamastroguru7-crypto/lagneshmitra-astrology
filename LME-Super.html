@@ -106,8 +106,9 @@
         <p>[ INTERNAL ADMIN PANEL - UNFILTERED RUNTIME ]</p>
     </header>
 
+    <!-- Configuration Panel -->
     <div class="panel">
-        <label>Groq API Key</label>
+        <label>Groq API Key (Ignition Key)</label>
         <input type="password" id="apiKey" placeholder="gsk_xxxxxxxxxxxxxxxxxxxx">
         
         <label>Select Mode</label>
@@ -117,6 +118,7 @@
         </select>
     </div>
 
+    <!-- Data Input Panel -->
     <div class="panel">
         <label>D1 Placements / Sidereal Ephemeris Data</label>
         <textarea id="chartData" rows="6" placeholder="Paste JSON, degrees, or explicit placements here...&#10;Example:&#10;Ascendant: Scorpio 24°&#10;Sun: 8th House Gemini&#10;Venus: 8th House Gemini"></textarea>
@@ -130,6 +132,7 @@
         </div>
     </div>
 
+    <!-- Output Panel -->
     <div class="panel">
         <label>Engine Output</label>
         <div id="outputContainer" class="output-box"></div>
@@ -137,6 +140,13 @@
 </div>
 
 <script>
+// Auto-load key from browser memory if exists
+window.onload = function() {
+    if (localStorage.getItem('savedAstroKey')) {
+        document.getElementById('apiKey').value = localStorage.getItem('savedAstroKey');
+    }
+}
+
 async function executeEngine() {
     const apiKey = document.getElementById('apiKey').value.trim();
     const chartData = document.getElementById('chartData').value.trim();
@@ -153,10 +163,13 @@ async function executeEngine() {
         return;
     }
 
+    // Save key to LocalStorage so you don't have to type it again
+    localStorage.setItem('savedAstroKey', apiKey);
+
     outputContainer.style.display = "block";
     outputContainer.innerHTML = '<span class="loading">Bypassing guardrails... Synchronizing cosmic ephemeris...</span>';
 
-    // Base System Prompt targeting Uncensored Roleplay Simulation
+    // Kala Bhairav Strict System Persona
     let systemPrompt = "You are 'Kala Bhairav Astro AI', an advanced, highly clinical, and brutally honest Vedic Astrologer operating within a dark-themed simulation engine. Your core directive is to analyze raw chart data (D1, degrees, ephemeris) and deliver uncompromising truths regarding karmic debts, structural life blockages, and harsh realities. Do NOT use comforting words, false remedies, or optimistic bias. If a placement shows destruction, decay, or immense struggle, outline it explicitly with technical authority.";
 
     if (mode === 'report') {
@@ -173,25 +186,31 @@ async function executeEngine() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "llama3-70b-8192",
+                model: "llama-3.3-70b-versatile", // Upgraded to the verified production model
                 messages: [
                     { role: "system", content: systemPrompt },
                     { role: "user", content: `[DATA MATRIX]:\n${chartData}\n\n[USER QUERY]:\n${userQuery || "Perform absolute chart reading."}` }
                 ],
-                temperature: mode === 'report' ? 0.6 : 0.8, // Report ke liye stable/factual, chat ke liye creative/aggressive vocabulary
+                temperature: mode === 'report' ? 0.5 : 0.75,
                 top_p: 0.95
             })
         });
 
         const data = await response.json();
-        if(data.choices && data.choices[0]) {
+        
+        if (response.ok && data.choices && data.choices[0]) {
             outputContainer.innerText = data.choices[0].message.content;
         } else {
-            outputContainer.innerText = "Execution failed. Response format unreadable. Check API allocation.";
+            // High-precision debugger to print exact server rejections
+            if (data.error) {
+                outputContainer.innerText = `Groq API Error: ${data.error.message}\nType: ${data.error.type}\nCode: ${data.error.code || 'None'}`;
+            } else {
+                outputContainer.innerText = `Raw Server Error Stack:\n${JSON.stringify(data, null, 2)}`;
+            }
         }
 
     } catch (error) {
-        outputContainer.innerText = "Fatal connection break. Check network layers or API string validity.";
+        outputContainer.innerText = `Fatal network disruption or invalid connection. Details: ${error.message}`;
         console.error(error);
     }
 }
@@ -205,4 +224,3 @@ function clearForm() {
 
 </body>
 </html>
-
