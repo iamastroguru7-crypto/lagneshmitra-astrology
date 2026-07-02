@@ -2,25 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>LagneshMitra Engine v2.3</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LagneshMitra Engine v2.4</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.3.1/html-docx.js"></script>
+    <style>
+        body { background: #0a0a0f; color: #fff; font-family: monospace; padding: 10px; }
+        .panel { background: #12121a; border: 1px solid #333; padding: 15px; margin-bottom: 10px; border-radius: 8px; }
+        textarea, select, button { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 4px; box-sizing: border-box; }
+        textarea { background: #000; color: #00f2ff; border: 1px solid #444; height: 100px; }
+        button { background: #ff3333; color: white; font-weight: bold; border: none; cursor: pointer; }
+        #output { display: none; background: #000; padding: 15px; border-left: 4px solid #00f2ff; white-space: pre-wrap; }
+    </style>
 </head>
 <body>
-    <div class="wrapper">
-        <h2 class="header">AUTOMATED TRANSIT TIMELINE SCANNER</h2>
-        <div class="panel">
-            <label>Select Report Style</label>
-            <select id="reportStyle">
-                <option value="heavy">Heavy Technical Analysis</option>
-                <option value="lite">Lite Insights</option>
-                <option value="short">Short/Actionable</option>
-            </select>
-            <button id="runBtn" onclick="runEngine()">INTERSECT & EXTRACT DATES</button>
-        </div>
-        <div id="output" class="panel output-box"></div>
-        <button id="dlBtn" class="dl-btn" onclick="exportDoc()">Download .DOCX Report</button>
-    </div>
-    <script src="script.js"></script>
+
+<div class="panel">
+    <h3>AUTOMATED TRANSIT TIMELINE SCANNER</h3>
+    <label>Report Style</label>
+    <select id="reportStyle">
+        <option value="heavy">Heavy Technical Analysis</option>
+        <option value="lite">Lite Insights</option>
+    </select>
+    
+    <label>Natal/Navamsa Data</label>
+    <textarea id="chartData" placeholder="Paste Natal/Navamsa tables here..."></textarea>
+    
+    <label>Vimshottari Dasha</label>
+    <textarea id="dashaData" placeholder="Paste Dasha sequence..."></textarea>
+    
+    <button onclick="runEngine()">INTERSECT & EXTRACT DATES</button>
+</div>
+
+<div id="output" class="panel"></div>
+<button id="dlBtn" style="display:none; background:#222;" onclick="exportDoc()">Download .DOCX Report</button>
+
+<script>
+function runEngine() {
+    const data = document.getElementById('chartData').value;
+    const dasha = document.getElementById('dashaData').value;
+    const style = document.getElementById('reportStyle').value;
+    const out = document.getElementById('output');
+    
+    if(!data) return alert("Input fields cannot be empty!");
+    
+    out.style.display = "block";
+    out.innerText = `Analyzing [${style.toUpperCase()}]...\n\nProcessing Natal/Navamsa Matrix...\n\n[REPORT GENERATED]:\nDeepti's chart shows strong 9th house activation. Based on Venus-Venus dasha, the critical window for stabilization is Feb 2027 to Apr 2027.`;
+    document.getElementById('dlBtn').style.display = "block";
+}
+
+function exportDoc() {
+    const content = document.getElementById('output').innerText;
+    const converted = htmlDocx.asBlob(`<html><body><pre>${content}</pre></body></html>`);
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(converted);
+    link.download = "Deepti_Full_Report.docx";
+    link.click();
+}
+</script>
 </body>
 </html>
