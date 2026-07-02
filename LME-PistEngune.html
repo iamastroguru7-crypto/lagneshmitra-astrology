@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maha Astro AI v6.5 - Reddit Pluralism Engine</title>
+    <style>
+        :root {
+            --bg-dark: #030303;
+            --panel-bg: #09090f;
+            --reddit-orange: #ff4500;
+            --neon-blue: #00e5ff;
+            --border-color: #1a1a2e;
+            --text-pure: #eef0f6;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-pure);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+        .header-console {
+            text-align: center;
+            border: 2px solid var(--reddit-orange);
+            background: #140500;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.15);
+        }
+        .header-console h1 {
+            color: var(--reddit-orange);
+            margin: 0 0 5px 0;
+            letter-spacing: 3px;
+            font-size: 22px;
+        }
+        .header-console p {
+            color: #ffcc00;
+            font-weight: bold;
+            margin: 5px 0 0 0;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        .panel-node {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            margin-bottom: 20px;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--neon-blue);
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+        textarea, input {
+            width: 100%;
+            background: #0c0c16;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 12px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 13px;
+            font-family: monospace;
+            resize: vertical;
+        }
+        textarea:focus, input:focus {
+            border-color: var(--reddit-orange);
+            outline: none;
+        }
+        .trigger-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff4500, #b33000);
+            color: #fff;
+            border: 1px solid var(--reddit-orange);
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(255, 69, 0, 0.2);
+            transition: 0.2s;
+        }
+        .trigger-btn:hover {
+            background: linear-gradient(135deg, #ff5714, #ff4500);
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.4);
+        }
+        .report-canvas {
+            background: #010103;
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--reddit-orange);
+            padding: 35px;
+            border-radius: 4px;
+            margin-top: 35px;
+            line-height: 1.8;
+            font-size: 15px;
+            display: none;
+            color: #e1e4ed;
+            white-space: pre-wrap;
+        }
+        .copy-btn {
+            background: #1a1a2e;
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 8px 12px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            float: right;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .copy-btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-console">
+        <h1>REDDIT ANTI-DETECTION POST FORGER</h1>
+        <p>[ PLURALISM CADENCE ENGINE v6.5 • HUMAN BYPASS LAYER ]</p>
+    </div>
+
+    <!-- API Core Key Management -->
+    <div class="panel-node">
+        <label>Groq Master Key</label>
+        <input type="password" id="apiKey" placeholder="gsk_xxxxxxxxxxxxxxxxxxxx">
+    </div>
+
+    <!-- INGESTION MATRIX PANEL -->
+    <div class="panel-node">
+        <label>⚡ Structured Natal / Navamsa Matrix</label>
+        <textarea id="chartData" rows="6" placeholder="Paste parsed D1/D9 chart positions here..."></textarea>
+        <br><br>
+        <div class="grid-2">
+            <div>
+                <label>Vimshottari Dasha Ingestion</label>
+                <textarea id="dashaData" rows="5" placeholder="Ke/Ve/Mo 27/06/2026&#10;Ke/Ve/Ma 22/07/2026"></textarea>
+            </div>
+            <div>
+                <label>Target Reddit Narrative / Angle</label>
+                <textarea id="topicAngle" rows="5" placeholder="e.g., Sudden health block tracking, financial chokeholds, massive career breakdown anomalies..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Action Button -->
+    <button class="trigger-btn" onclick="forgeRedditPost()">Forge Reddit Post Matrix</button>
+
+    <!-- OUTPUT DISPATCH CANVAS -->
+    <div>
+        <button id="copyBtn" class="copy-btn" style="display:none;" onclick="copyToClipboard()">Copy Reddit Markdown</button>
+        <div id="reportCanvas" class="report-canvas"></div>
+    </div>
+</div>
+
+<script>
+// Auto-load API key from local storage if existing
+window.onload = function() {
+    if (localStorage.getItem('savedAstroKey')) {
+        document.getElementById('apiKey').value = localStorage.getItem('savedAstroKey');
+    }
+}
+
+async function forgeRedditPost() {
+    const apiKey = document.getElementById('apiKey').value.trim();
+    const chartData = document.getElementById('chartData').value.trim();
+    const dashaData = document.getElementById('dashaData').value.trim();
+    const topicAngle = document.getElementById('topicAngle').value.trim();
+    const reportCanvas = document.getElementById('reportCanvas');
+    const copyBtn = document.getElementById('copyBtn');
+
+    if (!apiKey || !chartData || !dashaData) {
+        alert("System Ingestion Error: Please populate Chart Data, Dasha Elements, and API Key.");
+        return;
+    }
+
+    // Cache key for workflow continuity
+    localStorage.setItem('savedAstroKey', apiKey);
+    
+    reportCanvas.style.display = "block";
+    reportCanvas.innerHTML = '<div style="color:var(--reddit-orange); text-align:center; font-weight:bold;">DEPLOYING PLURALISM WEAPON SYSTEM... SCRAMBLING AI PATTERNS... GENERATING FORGE MATRIX...</div>';
+
+    // The Complete Anti-Detection System Prompt using the Pluralism Factor
+    const dynamicPluralismPrompt = `You are a legendary, hyper-technical Vedic Astrologer formatting a post explicitly for subreddits like r/vedicastrology. You communicate with absolute structural authority and zero sugar-coating.
+
+STRICT ANTI-DETECTION & WRITING RULES (CRITICAL):
+1. THE PLURALISM FACTOR: Completely eliminate standard singular abstract nouns that AI classifiers flag as predictable code patterns. Intentionally shift your entire vocabulary matrix toward pluralistic expressions of systemic flow.
+   - NEVER use 'adaptability' -> ALWAYS use 'adaptabilities'.
+   - NEVER use 'capability' -> ALWAYS use 'capabilities' or 'potentialities'.
+   - NEVER use 'complexity' -> ALWAYS use 'complexities'.
+   - NEVER use 'vulnerability' -> ALWAYS use 'vulnerabilities'.
+   - Incorporate multiple expressions of plural structural phenomena (e.g., 'frictions', 'intensities', 'alignments', 'transits', 'deficiencies').
+2. NO CHATGPT WATERMARKS: Absolutely ban words like 'In conclusion', 'Furthermore', 'Moreover', 'It is crucial to note', 'testament', 'beacon', 'delve', 'nested'. 
+3. STRUCTURAL VARIABILITY: Violently alternate sentence structures. Pair super-short, hard-hitting blunt insights with complex, technically detailed planetary breakdowns to copy organic human writing architecture.
+4. TONAL STYLE: Blunt, deeply insightful, clinical, peer-to-peer. You aren't pitching a product; you are breaking down a cosmic operational design.
+
+POST MATRIX BluePrint FOR REDDIT:
+- [SUGGESTED REDDIT TITLES]: Provide 2-3 viral, highly clickable title options engineered for intense curiosity hooks.
+- [THE RAW BREAKDOWN]: Directly unpack the positional matrix from the client's natal chart, citing precise degrees and houses. Focus on structural complexities, vulnerabilities, and energetic misalignments.
+- [THE TIMELINE CRUX]: Map out the current active Vimshottari dasha sub-periods against ongoing transits. Deliver point-blank date windows where structural pressures peak or unlock.
+- [THE CONVERSION MATRIX (CTA)]: Conclude with an authentic, non-salesy invitation that prompts readers to share their chart configurations or drop DMs for an engineering-level deep dive.`;
+
+    try {
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${apiKey}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile",
+                messages: [
+                    { role: "system", content: dynamicPluralismPrompt },
+                    { role: "user", content: `[CHART DATA MATRICES]:\n${chartData}\n\n[VIMSHOTTARI DASHA LAYOUT]:\n${dashaData}\n\n[TARGETED DISCOURSE ANGLE]:\n${topicAngle}` }
+                ],
+                temperature: 0.6,
+                top_p: 0.9
+            })
+        });
+
+        const data = await response.json();
+        if (response.ok && data.choices && data.choices[0]) {
+            reportCanvas.innerText = data.choices[0].message.content;
+            copyBtn.style.display = "block";
+        } else {
+            reportCanvas.innerText = data.error ? data.error.message : "API Request Failed Connection Node.";
+        }
+    } catch (error) {
+        reportCanvas.innerText = `System Critical Error: ${error.message}`;
+    }
+}
+
+function copyToClipboard() {
+    const text = document.getElementById('reportCanvas').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        alert("Reddit Anti-Detect Markdown Copied Successfully!");
+    });
+}
+</script>
+
+</body>
+</html>
