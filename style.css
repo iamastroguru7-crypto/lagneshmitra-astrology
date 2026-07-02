@@ -1,0 +1,8 @@
+body { background: #0a0a0f; color: #fff; font-family: monospace; padding: 20px; }
+.wrapper { max-width: 800px; margin: auto; }
+.panel { background: #12121a; border: 1px solid #333; padding: 20px; margin-bottom: 20px; border-radius: 8px; }
+select, button { width: 100%; padding: 15px; margin-bottom: 10px; border-radius: 6px; }
+select { background: #000; color: #00f2ff; border: 1px solid #444; }
+button { background: #ff3333; color: white; border: none; font-weight: bold; cursor: pointer; }
+.output-box { display: none; white-space: pre-wrap; border-left: 4px solid #00f2ff; }
+.dl-btn { background: #222; display: none; }
