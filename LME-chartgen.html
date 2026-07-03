@@ -3,82 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Engine v2.6 | Advanced Astro Core</title>
+    <title>Engine v2.6 | Chart Generator</title>
     <style>
-        :root { --bg-color: #0a0a0f; --panel-bg: #12121a; --accent-color: #ff3333; --text-color: #e2e2e9; --border-color: #2a2a3a; }
-        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Segoe UI', sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .wrapper { width: 100%; max-width: 850px; }
-        .panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
-        textarea, input, select { width: 100%; padding: 12px; background: #1a1a26; border: 1px solid var(--border-color); color: white; border-radius: 6px; margin-bottom: 10px; box-sizing: border-box; font-size: 14px; }
-        button { width: 100%; padding: 15px; background: var(--accent-color); border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; margin-top: 5px; }
-        .output { background: #0d0d14; padding: 20px; border-left: 4px solid var(--accent-color); margin-top: 20px; display: none; white-space: pre-wrap; line-height: 1.6; }
+        :root { --bg-color: #0a0a0f; --panel-bg: #12121a; --accent-color: #ff3333; --text-color: #e2e2e9; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Segoe UI', sans-serif; padding: 20px; }
+        .panel { background: var(--panel-bg); padding: 20px; border-radius: 12px; border: 1px solid #2a2a3a; margin-bottom: 15px; }
+        input, textarea { width: 100%; padding: 10px; background: #1a1a26; border: 1px solid #2a2a3a; color: white; border-radius: 6px; margin-bottom: 10px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: var(--accent-color); border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; }
+        .output { background: #0d0d14; padding: 20px; border-left: 4px solid var(--accent-color); margin-top: 20px; white-space: pre-wrap; }
     </style>
 </head>
 <body>
 
-<div class="wrapper">
-    <h2 style="color:var(--accent-color); text-align:center;">CORE ASTRO LOGIC ENGINE v2.6</h2>
-    
-    <div class="panel">
-        <input type="password" id="apiKey" placeholder="Groq API Key (gsk_...)">
-        <select id="reportStyle">
-            <option value="heavy">Heavy Technical Analysis</option>
-            <option value="lite">Lite Insights</option>
-        </select>
-    </div>
-
-    <div class="panel">
-        <input type="text" id="dob" placeholder="Date of Birth (YYYY-MM-DD)">
-        <input type="text" id="tob" placeholder="Time of Birth (HH:MM)">
-        <input type="text" id="pob" placeholder="Place of Birth">
-        
-        <textarea id="d1Data" placeholder="D1 Placements..." rows="3"></textarea>
-        <textarea id="d9Data" placeholder="D9 Placements..." rows="3"></textarea>
-        <textarea id="dashaData" placeholder="Dasha (MD/AD/PD with dates)..." rows="3"></textarea>
-        <textarea id="avTransits" placeholder="Ashtakvarga & Today's Transits..." rows="3"></textarea>
-        <textarea id="query" placeholder="Specific Query..." rows="2"></textarea>
-        
-        <button onclick="executeEngine()">Execute Unfiltered AI</button>
-        <button style="background:#2a2a3a; margin-top:10px;" onclick="location.reload()">Clear Data</button>
-    </div>
-    
-    <div id="output" class="output"></div>
+<div class="panel">
+    <input type="password" id="apiKey" placeholder="Groq API Key (gsk_...)">
+    <input type="text" id="dob" placeholder="DOB (YYYY-MM-DD)">
+    <input type="text" id="tob" placeholder="TOB (HH:MM)">
+    <input type="text" id="pob" placeholder="POB (City, Country)">
+    <button onclick="generateChart()">Generate Chart Data</button>
 </div>
 
+<div id="output" class="output" style="display:none;"></div>
+
 <script>
-async function executeEngine() {
+async function generateChart() {
     const out = document.getElementById('output');
-    const prompt = `Perform a high-level Vedic Astrology analysis.
-    Context: Use the provided birth location for all calculations.
-    Birth Data: 
-    - DOB: ${document.getElementById('dob').value}
-    - TOB: ${document.getElementById('tob').value}
-    - POB: ${document.getElementById('pob').value}
-    
-    Chart Data:
-    - D1: ${document.getElementById('d1Data').value}
-    - D9: ${document.getElementById('d9Data').value}
-    - Dasha Periods: ${document.getElementById('dashaData').value}
-    - Ashtakvarga & Transits: ${document.getElementById('avTransits').value}
-    
-    Instruction: Provide the analysis based strictly on these details. If planetary coordinates or specific chart houses are provided in the input, prioritize them over generic calculations.
-    Query: ${document.getElementById('query').value}`;
+    const prompt = `Act as an expert Vedic Astrologer. For the birth details: 
+    Date: ${document.getElementById('dob').value}, 
+    Time: ${document.getElementById('tob').value}, 
+    Place: ${document.getElementById('pob').value}. 
+    Calculate and provide:
+    1. Ascendant (Lagna) sign and degree.
+    2. D1 planetary positions (Rashi and Degree).
+    3. D9 (Navamsa) planetary positions.
+    4. Current Mahadasha/Antardasha.
+    Provide the output in a clean, structured list format.`;
 
     out.style.display = "block";
-    out.innerText = "Processing computational matrix...";
+    out.innerText = "Calculating planetary matrix...";
 
-    try {
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: "POST",
-            headers: { "Authorization": `Bearer ${document.getElementById('apiKey').value}`, "Content-Type": "application/json" },
-            body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
-                messages: [{ role: "user", content: prompt }]
-            })
-        });
-        const data = await res.json();
-        out.innerText = data.choices[0].message.content;
-    } catch(e) { out.innerText = "Error: " + e.message; }
+    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${document.getElementById('apiKey').value}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+            model: "llama-3.3-70b-versatile",
+            messages: [{ role: "user", content: prompt }]
+        })
+    });
+    const data = await res.json();
+    out.innerText = data.choices[0].message.content;
 }
 </script>
 </body>
