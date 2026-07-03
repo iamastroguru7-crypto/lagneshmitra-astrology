@@ -25,6 +25,11 @@
     </div>
 
     <div class="panel">
+        <!-- DOB/TOB/POB added here -->
+        <input type="text" id="dob" placeholder="Date of Birth (YYYY-MM-DD)">
+        <input type="text" id="tob" placeholder="Time of Birth (HH:MM)">
+        <input type="text" id="pob" placeholder="Place of Birth">
+        
         <textarea id="d1Data" placeholder="D1 Placements..." rows="3"></textarea>
         <textarea id="d9Data" placeholder="D9 Placements..." rows="3"></textarea>
         <textarea id="dashaData" placeholder="Dasha (MD/AD/PD with dates)..." rows="3"></textarea>
@@ -40,7 +45,10 @@
 <script>
 async function executeEngine() {
     const out = document.getElementById('output');
-    const prompt = `Perform Vedic Astrology analysis:
+    const prompt = `Perform Vedic Astrology analysis for: 
+    DOB: ${document.getElementById('dob').value}
+    TOB: ${document.getElementById('tob').value}
+    POB: ${document.getElementById('pob').value}
     D1: ${document.getElementById('d1Data').value}
     D9: ${document.getElementById('d9Data').value}
     Dasha: ${document.getElementById('dashaData').value}
@@ -66,4 +74,3 @@ async function executeEngine() {
 </script>
 </body>
 </html>
-
