@@ -9,9 +9,9 @@
         body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Segoe UI', sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .wrapper { width: 100%; max-width: 850px; }
         .panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
-        textarea, input, select { width: 100%; padding: 10px; background: #1a1a26; border: 1px solid var(--border-color); color: white; border-radius: 6px; margin-bottom: 10px; box-sizing: border-box; }
-        button { width: 100%; padding: 15px; background: var(--accent-color); border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; }
-        .output { background: #0d0d14; padding: 20px; border-left: 4px solid var(--accent-color); margin-top: 20px; display: none; white-space: pre-wrap; }
+        textarea, input, select { width: 100%; padding: 12px; background: #1a1a26; border: 1px solid var(--border-color); color: white; border-radius: 6px; margin-bottom: 10px; box-sizing: border-box; font-size: 14px; }
+        button { width: 100%; padding: 15px; background: var(--accent-color); border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .output { background: #0d0d14; padding: 20px; border-left: 4px solid var(--accent-color); margin-top: 20px; display: none; white-space: pre-wrap; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -21,11 +21,13 @@
     
     <div class="panel">
         <input type="password" id="apiKey" placeholder="Groq API Key (gsk_...)">
-        <select id="reportStyle"><option value="heavy">Heavy Technical Analysis</option><option value="lite">Lite Insights</option></select>
+        <select id="reportStyle">
+            <option value="heavy">Heavy Technical Analysis</option>
+            <option value="lite">Lite Insights</option>
+        </select>
     </div>
 
     <div class="panel">
-        <!-- DOB/TOB/POB added here -->
         <input type="text" id="dob" placeholder="Date of Birth (YYYY-MM-DD)">
         <input type="text" id="tob" placeholder="Time of Birth (HH:MM)">
         <input type="text" id="pob" placeholder="Place of Birth">
@@ -37,6 +39,7 @@
         <textarea id="query" placeholder="Specific Query..." rows="2"></textarea>
         
         <button onclick="executeEngine()">Execute Unfiltered AI</button>
+        <button style="background:#2a2a3a; margin-top:10px;" onclick="location.reload()">Clear Data</button>
     </div>
     
     <div id="output" class="output"></div>
@@ -45,14 +48,20 @@
 <script>
 async function executeEngine() {
     const out = document.getElementById('output');
-    const prompt = `Perform Vedic Astrology analysis for: 
-    DOB: ${document.getElementById('dob').value}
-    TOB: ${document.getElementById('tob').value}
-    POB: ${document.getElementById('pob').value}
-    D1: ${document.getElementById('d1Data').value}
-    D9: ${document.getElementById('d9Data').value}
-    Dasha: ${document.getElementById('dashaData').value}
-    AV/Transits: ${document.getElementById('avTransits').value}
+    const prompt = `Perform a high-level Vedic Astrology analysis.
+    Context: Use the provided birth location for all calculations.
+    Birth Data: 
+    - DOB: ${document.getElementById('dob').value}
+    - TOB: ${document.getElementById('tob').value}
+    - POB: ${document.getElementById('pob').value}
+    
+    Chart Data:
+    - D1: ${document.getElementById('d1Data').value}
+    - D9: ${document.getElementById('d9Data').value}
+    - Dasha Periods: ${document.getElementById('dashaData').value}
+    - Ashtakvarga & Transits: ${document.getElementById('avTransits').value}
+    
+    Instruction: Provide the analysis based strictly on these details. If planetary coordinates or specific chart houses are provided in the input, prioritize them over generic calculations.
     Query: ${document.getElementById('query').value}`;
 
     out.style.display = "block";
