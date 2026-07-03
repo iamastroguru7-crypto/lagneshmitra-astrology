@@ -12,7 +12,7 @@
         header h1 { color: var(--accent-color); margin-bottom: 5px; letter-spacing: 2px; }
         .panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; margin-bottom: 20px; }
         label { display: block; font-weight: bold; margin-bottom: 8px; color: var(--accent-color); text-transform: uppercase; }
-        textarea { width: 100%; padding: 12px; background: #000; color: var(--accent-color); border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; margin-bottom: 15px; font-size: 14px; }
+        textarea, input { width: 100%; padding: 12px; background: #000; color: var(--accent-color); border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; margin-bottom: 15px; font-size: 14px; }
         button { padding: 14px; background: var(--accent-color); color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; width: 100%; text-transform: uppercase; }
         .secondary { background: #2a2a3a; color: #fff; margin-top: 10px; }
         .output-box { background: #0d0d14; border-left: 4px solid var(--accent-color); padding: 20px; border-radius: 4px; white-space: pre-wrap; line-height: 1.7; display: none; margin-top: 20px; }
@@ -23,8 +23,14 @@
 <div class="wrapper">
     <header>
         <h1>CORE ASTRO LOGIC ENGINE v2.7</h1>
-        <p>[ ADMIN PANEL - TRANSIT & RUNTIME ]</p>
+        <p>[ ADMIN PANEL - API INTEGRATED ]</p>
     </header>
+
+    <!-- API CONFIG PANEL -->
+    <div class="panel">
+        <label>Groq API Key</label>
+        <input type="password" id="apiKey" placeholder="gsk_...">
+    </div>
 
     <!-- BOX 1: RAW_CHART_INJECTOR -->
     <div class="panel">
@@ -52,21 +58,21 @@
 
 <script>
 async function executeEngine() {
+    const apiKey = document.getElementById('apiKey').value.trim();
     const b1 = document.getElementById('box1').value;
     const b2 = document.getElementById('box2').value;
     const b3 = document.getElementById('box3').value;
     const out = document.getElementById('outputContainer');
     
-    if (!b1 || !b3) return alert("Fill Box 1 and Box 3!");
+    if (!apiKey || !b1 || !b3) return alert("Fill API Key, Box 1 and Box 3!");
 
     out.style.display = "block";
     out.innerText = "Injecting data into logic matrix... [RUNNING]";
 
     try {
-        // Logic: Yahan hum box 1, 2, aur 3 ko combine karke AI ko bhej rahe hain
         const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
-            headers: { "Authorization": `Bearer YOUR_KEY_HERE`, "Content-Type": "application/json" },
+            headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
                 messages: [{ role: "user", content: `Context: ${b1}. Dasha: ${b2}. Query: ${b3}. Execute Heavy Technical Analysis.` }]
