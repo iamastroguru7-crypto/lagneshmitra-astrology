@@ -3,90 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internal Brutal Astro Engine v2.6</title>
+    <title>Internal Brutal Astro Engine v2.7</title>
     <style>
-        :root { --bg-color: #0a0a0f; --panel-bg: #12121a; --accent-color: #ff3333; --text-color: #e2e2e9; --border-color: #2a2a3a; }
-        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        :root { --bg-color: #0a0a0f; --panel-bg: #12121a; --accent-color: #00ff00; --text-color: #e2e2e9; --border-color: #2a2a3a; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Courier New', monospace; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .wrapper { width: 100%; max-width: 800px; }
         header { text-align: center; margin-bottom: 30px; }
         header h1 { color: var(--accent-color); margin-bottom: 5px; letter-spacing: 2px; }
         .panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; margin-bottom: 20px; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; color: #aaa; }
-        input, textarea, select { width: 100%; padding: 12px; background: #1a1a26; border: 1px solid var(--border-color); color: #fff; border-radius: 6px; box-sizing: border-box; margin-bottom: 15px; font-size: 15px; }
-        .btn-group { display: flex; gap: 10px; flex-direction: column; }
-        button { padding: 14px; background: var(--accent-color); color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; width: 100%; }
-        button.secondary { background: #2a2a3a; border: 1px solid var(--border-color); }
-        .output-box { background: #0d0d14; border-left: 4px solid var(--accent-color); padding: 20px; border-radius: 4px; white-space: pre-wrap; line-height: 1.7; display: none; min-height: 100px; margin-top: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: var(--accent-color); text-transform: uppercase; }
+        textarea { width: 100%; padding: 12px; background: #000; color: var(--accent-color); border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; margin-bottom: 15px; font-size: 14px; }
+        button { padding: 14px; background: var(--accent-color); color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; width: 100%; text-transform: uppercase; }
+        .secondary { background: #2a2a3a; color: #fff; margin-top: 10px; }
+        .output-box { background: #0d0d14; border-left: 4px solid var(--accent-color); padding: 20px; border-radius: 4px; white-space: pre-wrap; line-height: 1.7; display: none; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
     <header>
-        <h1>CORE ASTRO LOGIC ENGINE v2.6</h1>
-        <p>[ ADMIN PANEL - ABROAD TIMELINE RUNTIME ]</p>
+        <h1>CORE ASTRO LOGIC ENGINE v2.7</h1>
+        <p>[ ADMIN PANEL - TRANSIT & RUNTIME ]</p>
     </header>
 
+    <!-- BOX 1: RAW_CHART_INJECTOR -->
     <div class="panel">
-        <label>Groq API Key</label>
-        <input type="password" id="apiKey" placeholder="gsk_...">
+        <label>Box 1: RAW_CHART_INJECTOR</label>
+        <textarea id="box1" rows="6" placeholder="Paste [ENGINE_READY_DATA] block here..."></textarea>
+    </div>
+
+    <!-- BOX 2: DASHA_FILTER_LOCK -->
+    <div class="panel">
+        <label>Box 2: DASHA_FILTER_LOCK</label>
+        <textarea id="box2" rows="2" placeholder="[MAHADASHA: ...] [ANTARDASHA: ...] [TARGET_DATE: ...]"></textarea>
+    </div>
+
+    <!-- BOX 3: LOGIC_QUERY_EXECUTION -->
+    <div class="panel">
+        <label>Box 3: LOGIC_QUERY_EXECUTION</label>
+        <textarea id="box3" rows="2" placeholder="Enter specific analytical query here..."></textarea>
         
-        <label>Report Style</label>
-        <select id="reportStyle">
-            <option value="heavy">Heavy Technical Analysis</option>
-            <option value="lite">Lite Insights</option>
-        </select>
+        <button onclick="executeEngine()">RUN ENGINE EXECUTION</button>
+        <button class="secondary" onclick="location.reload()">Clear Data</button>
     </div>
 
-    <div class="panel">
-        <label>D1 Placements</label>
-        <textarea id="chartData" rows="6"></textarea>
-        <label>Vimshottari Dasha</label>
-        <textarea id="dashaData" rows="4"></textarea>
-        <label>Specific Query</label>
-        <textarea id="userQuery" rows="2"></textarea>
-
-        <div class="btn-group">
-            <button onclick="executeEngine()">Execute Unfiltered AI</button>
-            <button id="downloadBtn" style="display:none; background:#007bff;" onclick="exportToWord()">Download Report (.doc)</button>
-            <button class="secondary" onclick="location.reload()">Clear Data</button>
-        </div>
-        <div id="outputContainer" class="output-box"></div>
-    </div>
+    <div id="outputContainer" class="output-box"></div>
 </div>
 
 <script>
 async function executeEngine() {
-    const apiKey = document.getElementById('apiKey').value.trim();
+    const b1 = document.getElementById('box1').value;
+    const b2 = document.getElementById('box2').value;
+    const b3 = document.getElementById('box3').value;
     const out = document.getElementById('outputContainer');
-    if (!apiKey || !document.getElementById('chartData').value) return alert("Fill data!");
+    
+    if (!b1 || !b3) return alert("Fill Box 1 and Box 3!");
 
     out.style.display = "block";
-    out.innerText = "Processing matrix...";
+    out.innerText = "Injecting data into logic matrix... [RUNNING]";
 
     try {
+        // Logic: Yahan hum box 1, 2, aur 3 ko combine karke AI ko bhej rahe hain
         const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
-            headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
+            headers: { "Authorization": `Bearer YOUR_KEY_HERE`, "Content-Type": "application/json" },
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
-                messages: [{ role: "user", content: `Generate a ${document.getElementById('reportStyle').value} Vedic astrology report for: ${document.getElementById('chartData').value}. Query: ${document.getElementById('userQuery').value}` }]
+                messages: [{ role: "user", content: `Context: ${b1}. Dasha: ${b2}. Query: ${b3}. Execute Heavy Technical Analysis.` }]
             })
         });
         const data = await res.json();
         out.innerText = data.choices[0].message.content;
-        document.getElementById('downloadBtn').style.display = "block";
-    } catch(e) { out.innerText = "Error: " + e.message; }
-}
-
-function exportToWord() {
-    const content = document.getElementById('outputContainer').innerText;
-    const blob = new Blob(['\ufeff', content], { type: 'application/msword' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = "Astro_Analysis.doc";
-    link.click();
+    } catch(e) { out.innerText = "System Error: " + e.message; }
 }
 </script>
 </body>
