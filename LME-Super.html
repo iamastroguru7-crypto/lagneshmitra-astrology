@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CORE ASTRO LOGIC ENGINE v2.9</title>
+    <title>CORE ASTRO LOGIC ENGINE v3.0</title>
     <style>
         :root { --bg-color: #0a0a0f; --panel-bg: #12121a; --accent-color: #00ff00; --text-color: #e2e2e9; --border-color: #2a2a3a; }
         body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Courier New', monospace; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .wrapper { width: 100%; max-width: 800px; }
         header { text-align: center; margin-bottom: 20px; }
         .panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
-        label { color: var(--accent-color); font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; font-size: 12px; }
-        textarea, input { width: 100%; padding: 10px; background: #000; color: var(--accent-color); border: 1px solid var(--border-color); border-radius: 4px; box-sizing: border-box; margin-bottom: 10px; }
+        label { color: var(--accent-color); font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; font-size: 11px; }
+        textarea, input { width: 100%; padding: 8px; background: #000; color: var(--accent-color); border: 1px solid var(--border-color); border-radius: 4px; box-sizing: border-box; margin-bottom: 8px; font-family: monospace; }
         .subject-card { border: 1px solid #333; padding: 15px; margin-bottom: 15px; border-radius: 8px; background: #1a1a24; }
         button { padding: 10px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 5px; }
         .run-btn { background: var(--accent-color); color: #000; width: 100%; }
@@ -21,22 +21,24 @@
 <body>
 
 <div class="wrapper">
-    <header><h1>CORE ASTRO LOGIC ENGINE v2.9</h1><p>[ ADMIN PANEL - STRUCTURED MATRIX ]</p></header>
+    <header><h1>CORE ASTRO LOGIC ENGINE v3.0</h1><p>[ ADMIN PANEL - FULL MATRIX ENABLED ]</p></header>
 
     <div class="panel">
         <label>Groq API Key</label>
         <input type="password" id="apiKey" placeholder="gsk_...">
     </div>
 
-    <!-- Subject Injector with D1/D9 fields -->
+    <!-- Subject Injector with D1, D9, MDAD -->
     <div class="panel">
         <label>Subject Data Matrices</label>
         <div id="subjectsContainer">
             <div class="subject-card">
                 <label>D1 Matrix</label>
-                <textarea rows="2" class="d1-data" placeholder="Paste D1 Chart Data..."></textarea>
+                <textarea rows="2" class="d1-data" placeholder="Paste D1 Chart..."></textarea>
                 <label>D9 Matrix</label>
-                <textarea rows="2" class="d9-data" placeholder="Paste D9 Chart Data..."></textarea>
+                <textarea rows="2" class="d9-data" placeholder="Paste D9 Chart..."></textarea>
+                <label>MDAD Matrix</label>
+                <textarea rows="2" class="mdad-data" placeholder="[Mahadasha: ...] [Antardasha: ...]"></textarea>
             </div>
         </div>
         <button onclick="addSubject()">+ Add Subject</button>
@@ -60,9 +62,11 @@
         div.className = 'subject-card';
         div.innerHTML = `
             <label>D1 Matrix</label>
-            <textarea rows="2" class="d1-data" placeholder="Paste D1 Chart Data..."></textarea>
+            <textarea rows="2" class="d1-data" placeholder="Paste D1 Chart..."></textarea>
             <label>D9 Matrix</label>
-            <textarea rows="2" class="d9-data" placeholder="Paste D9 Chart Data..."></textarea>
+            <textarea rows="2" class="d9-data" placeholder="Paste D9 Chart..."></textarea>
+            <label>MDAD Matrix</label>
+            <textarea rows="2" class="mdad-data" placeholder="[Mahadasha: ...] [Antardasha: ...]"></textarea>
         `;
         document.getElementById('subjectsContainer').appendChild(div);
     }
@@ -80,7 +84,8 @@
         document.querySelectorAll('.subject-card').forEach((card, index) => {
             let d1 = card.querySelector('.d1-data').value;
             let d9 = card.querySelector('.d9-data').value;
-            subjectsData += `Subject ${index + 1} [D1: ${d1} | D9: ${d9}] | `;
+            let mdad = card.querySelector('.mdad-data').value;
+            subjectsData += `Subject ${index + 1} [D1: ${d1} | D9: ${d9} | MDAD: ${mdad}] | `;
         });
 
         const query = document.getElementById('box3').value;
