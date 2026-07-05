@@ -2,86 +2,104 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internal Brutal Astro Engine v2.7</title>
+    <title>CORE ASTRO LOGIC ENGINE v2.8</title>
     <style>
         :root { --bg-color: #0a0a0f; --panel-bg: #12121a; --accent-color: #00ff00; --text-color: #e2e2e9; --border-color: #2a2a3a; }
-        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Courier New', monospace; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Courier New', monospace; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .wrapper { width: 100%; max-width: 800px; }
-        header { text-align: center; margin-bottom: 30px; }
-        header h1 { color: var(--accent-color); margin-bottom: 5px; letter-spacing: 2px; }
-        .panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; margin-bottom: 20px; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; color: var(--accent-color); text-transform: uppercase; }
-        textarea, input { width: 100%; padding: 12px; background: #000; color: var(--accent-color); border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; margin-bottom: 15px; font-size: 14px; }
-        button { padding: 14px; background: var(--accent-color); color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; width: 100%; text-transform: uppercase; }
-        .secondary { background: #2a2a3a; color: #fff; margin-top: 10px; }
-        .output-box { background: #0d0d14; border-left: 4px solid var(--accent-color); padding: 20px; border-radius: 4px; white-space: pre-wrap; line-height: 1.7; display: none; margin-top: 20px; }
+        header { text-align: center; margin-bottom: 20px; }
+        .panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
+        label { color: var(--accent-color); font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        textarea, input { width: 100%; padding: 10px; background: #000; color: var(--accent-color); border: 1px solid var(--border-color); border-radius: 4px; box-sizing: border-box; margin-bottom: 10px; }
+        .subject-card { border: 1px dashed #333; padding: 10px; margin-bottom: 10px; border-radius: 6px; }
+        button { padding: 10px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .run-btn { background: var(--accent-color); color: #000; width: 100%; }
+        .export-btn { background: #2e7d32; color: #fff; width: 100%; margin-top: 10px; }
+        .output-box { background: #0d0d14; border-left: 4px solid var(--accent-color); padding: 20px; margin-top: 20px; display: none; white-space: pre-wrap; }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
-    <header>
-        <h1>CORE ASTRO LOGIC ENGINE v2.7</h1>
-        <p>[ ADMIN PANEL - API INTEGRATED ]</p>
-    </header>
+    <header><h1>CORE ASTRO LOGIC ENGINE v2.8</h1><p>[ ADMIN PANEL - SYNASTRY ENABLED ]</p></header>
 
-    <!-- API CONFIG PANEL -->
     <div class="panel">
         <label>Groq API Key</label>
         <input type="password" id="apiKey" placeholder="gsk_...">
     </div>
 
-    <!-- BOX 1: RAW_CHART_INJECTOR -->
+    <!-- Dynamic Subject Injector -->
     <div class="panel">
-        <label>Box 1: RAW_CHART_INJECTOR</label>
-        <textarea id="box1" rows="6" placeholder="Paste [ENGINE_READY_DATA] block here..."></textarea>
+        <label>Subject Charts</label>
+        <div id="subjectsContainer">
+            <div class="subject-card">
+                <textarea rows="3" class="subject-data" placeholder="Paste Chart Data..."></textarea>
+            </div>
+        </div>
+        <button onclick="addSubject()">+ Add Subject</button>
+        <button onclick="removeSubject()">- Remove Last</button>
+        <div style="margin-top:10px;"><input type="checkbox" id="jointMode"> <label style="display:inline;">Enable Joint Synastry/Relationship Mode</label></div>
     </div>
 
-    <!-- BOX 2: DASHA_FILTER_LOCK -->
+    <!-- Execution -->
     <div class="panel">
-        <label>Box 2: DASHA_FILTER_LOCK</label>
-        <textarea id="box2" rows="2" placeholder="[MAHADASHA: ...] [ANTARDASHA: ...] [TARGET_DATE: ...]"></textarea>
-    </div>
-
-    <!-- BOX 3: LOGIC_QUERY_EXECUTION -->
-    <div class="panel">
-        <label>Box 3: LOGIC_QUERY_EXECUTION</label>
+        <label>Logic Query</label>
         <textarea id="box3" rows="2" placeholder="Enter specific analytical query here..."></textarea>
-        
-        <button onclick="executeEngine()">RUN ENGINE EXECUTION</button>
-        <button class="secondary" onclick="location.reload()">Clear Data</button>
+        <button class="run-btn" onclick="executeEngine()">RUN ENGINE EXECUTION</button>
+        <button class="export-btn" onclick="exportToWord()">EXPORT TO WORD</button>
     </div>
 
     <div id="outputContainer" class="output-box"></div>
 </div>
 
 <script>
-async function executeEngine() {
-    const apiKey = document.getElementById('apiKey').value.trim();
-    const b1 = document.getElementById('box1').value;
-    const b2 = document.getElementById('box2').value;
-    const b3 = document.getElementById('box3').value;
-    const out = document.getElementById('outputContainer');
-    
-    if (!apiKey || !b1 || !b3) return alert("Fill API Key, Box 1 and Box 3!");
+    function addSubject() {
+        const div = document.createElement('div');
+        div.className = 'subject-card';
+        div.innerHTML = `<textarea rows="3" class="subject-data" placeholder="Paste Chart Data..."></textarea>`;
+        document.getElementById('subjectsContainer').appendChild(div);
+    }
 
-    out.style.display = "block";
-    out.innerText = "Injecting data into logic matrix... [RUNNING]";
+    function removeSubject() {
+        const container = document.getElementById('subjects-container');
+        if(container.children.length > 1) container.lastElementChild.remove();
+    }
 
-    try {
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: "POST",
-            headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
-            body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
-                messages: [{ role: "user", content: `Context: ${b1}. Dasha: ${b2}. Query: ${b3}. Execute Heavy Technical Analysis.` }]
-            })
-        });
-        const data = await res.json();
-        out.innerText = data.choices[0].message.content;
-    } catch(e) { out.innerText = "System Error: " + e.message; }
-}
+    async function executeEngine() {
+        const apiKey = document.getElementById('apiKey').value;
+        const subjects = Array.from(document.querySelectorAll('.subject-data')).map(t => t.value).join(' | ');
+        const query = document.getElementById('box3').value;
+        const isJoint = document.getElementById('jointMode').checked;
+        const out = document.getElementById('outputContainer');
+
+        out.style.display = "block";
+        out.innerText = "Processing Logic Matrix...";
+
+        const finalQuery = isJoint ? `[JOINT_SYNASTRY_MODE_ACTIVE] Analyze: ${query} across these subjects: ${subjects}` : `Context: ${subjects}. Query: ${query}`;
+
+        try {
+            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: "POST",
+                headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    messages: [{ role: "user", content: finalQuery }]
+                })
+            });
+            const data = await res.json();
+            out.innerText = data.choices[0].message.content;
+        } catch(e) { out.innerText = "Error: " + e.message; }
+    }
+
+    function exportToWord() {
+        const content = document.getElementById('outputContainer').innerText;
+        const blob = new Blob(['\ufeff', content], { type: 'application/msword' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Succession_Audit_Report.doc';
+        a.click();
+    }
 </script>
 </body>
 </html>
