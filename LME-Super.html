@@ -2,46 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CORE ASTRO LOGIC ENGINE v2.8</title>
+    <title>CORE ASTRO LOGIC ENGINE v2.9</title>
     <style>
         :root { --bg-color: #0a0a0f; --panel-bg: #12121a; --accent-color: #00ff00; --text-color: #e2e2e9; --border-color: #2a2a3a; }
         body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Courier New', monospace; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .wrapper { width: 100%; max-width: 800px; }
         header { text-align: center; margin-bottom: 20px; }
         .panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
-        label { color: var(--accent-color); font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        label { color: var(--accent-color); font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; font-size: 12px; }
         textarea, input { width: 100%; padding: 10px; background: #000; color: var(--accent-color); border: 1px solid var(--border-color); border-radius: 4px; box-sizing: border-box; margin-bottom: 10px; }
-        .subject-card { border: 1px dashed #333; padding: 10px; margin-bottom: 10px; border-radius: 6px; }
+        .subject-card { border: 1px solid #333; padding: 15px; margin-bottom: 15px; border-radius: 8px; background: #1a1a24; }
         button { padding: 10px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 5px; }
         .run-btn { background: var(--accent-color); color: #000; width: 100%; }
         .export-btn { background: #2e7d32; color: #fff; width: 100%; margin-top: 10px; }
-        .output-box { background: #0d0d14; border-left: 4px solid var(--accent-color); padding: 20px; margin-top: 20px; display: none; white-space: pre-wrap; }
+        .output-box { background: #0d0d14; border-left: 4px solid var(--accent-color); padding: 20px; margin-top: 20px; display: none; white-space: pre-wrap; font-size: 14px; }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
-    <header><h1>CORE ASTRO LOGIC ENGINE v2.8</h1><p>[ ADMIN PANEL - SYNASTRY ENABLED ]</p></header>
+    <header><h1>CORE ASTRO LOGIC ENGINE v2.9</h1><p>[ ADMIN PANEL - STRUCTURED MATRIX ]</p></header>
 
     <div class="panel">
         <label>Groq API Key</label>
         <input type="password" id="apiKey" placeholder="gsk_...">
     </div>
 
-    <!-- Dynamic Subject Injector -->
+    <!-- Subject Injector with D1/D9 fields -->
     <div class="panel">
-        <label>Subject Charts</label>
+        <label>Subject Data Matrices</label>
         <div id="subjectsContainer">
             <div class="subject-card">
-                <textarea rows="3" class="subject-data" placeholder="Paste Chart Data..."></textarea>
+                <label>D1 Matrix</label>
+                <textarea rows="2" class="d1-data" placeholder="Paste D1 Chart Data..."></textarea>
+                <label>D9 Matrix</label>
+                <textarea rows="2" class="d9-data" placeholder="Paste D9 Chart Data..."></textarea>
             </div>
         </div>
         <button onclick="addSubject()">+ Add Subject</button>
         <button onclick="removeSubject()">- Remove Last</button>
-        <div style="margin-top:10px;"><input type="checkbox" id="jointMode"> <label style="display:inline;">Enable Joint Synastry/Relationship Mode</label></div>
+        <div style="margin-top:15px;"><input type="checkbox" id="jointMode"> <label style="display:inline; color: white;">Enable Joint Synastry/Relationship Mode</label></div>
     </div>
 
-    <!-- Execution -->
     <div class="panel">
         <label>Logic Query</label>
         <textarea id="box3" rows="2" placeholder="Enter specific analytical query here..."></textarea>
@@ -56,26 +58,38 @@
     function addSubject() {
         const div = document.createElement('div');
         div.className = 'subject-card';
-        div.innerHTML = `<textarea rows="3" class="subject-data" placeholder="Paste Chart Data..."></textarea>`;
+        div.innerHTML = `
+            <label>D1 Matrix</label>
+            <textarea rows="2" class="d1-data" placeholder="Paste D1 Chart Data..."></textarea>
+            <label>D9 Matrix</label>
+            <textarea rows="2" class="d9-data" placeholder="Paste D9 Chart Data..."></textarea>
+        `;
         document.getElementById('subjectsContainer').appendChild(div);
     }
 
     function removeSubject() {
-        const container = document.getElementById('subjects-container');
+        const container = document.getElementById('subjectsContainer');
         if(container.children.length > 1) container.lastElementChild.remove();
     }
 
     async function executeEngine() {
         const apiKey = document.getElementById('apiKey').value;
-        const subjects = Array.from(document.querySelectorAll('.subject-data')).map(t => t.value).join(' | ');
+        const out = document.getElementById('outputContainer');
+        
+        let subjectsData = "";
+        document.querySelectorAll('.subject-card').forEach((card, index) => {
+            let d1 = card.querySelector('.d1-data').value;
+            let d9 = card.querySelector('.d9-data').value;
+            subjectsData += `Subject ${index + 1} [D1: ${d1} | D9: ${d9}] | `;
+        });
+
         const query = document.getElementById('box3').value;
         const isJoint = document.getElementById('jointMode').checked;
-        const out = document.getElementById('outputContainer');
 
         out.style.display = "block";
         out.innerText = "Processing Logic Matrix...";
 
-        const finalQuery = isJoint ? `[JOINT_SYNASTRY_MODE_ACTIVE] Analyze: ${query} across these subjects: ${subjects}` : `Context: ${subjects}. Query: ${query}`;
+        const finalQuery = isJoint ? `[JOINT_SYNASTRY_MODE_ACTIVE] Analyze: ${query} across these data matrices: ${subjectsData}` : `Context: ${subjectsData}. Query: ${query}`;
 
         try {
             const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
