@@ -59,7 +59,15 @@
         humanizeBtn.innerText = "Processing...";
         humanizeBtn.disabled = true;
 
-        const systemPrompt = `Rewrite the following text to be 100% human-sounding, natural, and engaging. Avoid all robotic/AI-typical words. Keep the meaning exact. Text: ${rawText}`;
+        // Strict Prompt Engineering
+        const systemPrompt = `Rewrite the text below. 
+        Rules: 
+        1. Output ONLY the rewritten text. 
+        2. NO explanations, NO bullet points, NO intros, NO meta-commentary.
+        3. Use a natural, conversational, and punchy human tone.
+        4. Maintain exact original meaning.
+        
+        Text to rewrite: ${rawText}`;
 
         try {
             const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -79,7 +87,7 @@
             if (data.error) {
                 alert("Groq Error: " + data.error.message);
             } else if (data.choices) {
-                document.getElementById("outputText").value = data.choices[0].message.content;
+                document.getElementById("outputText").value = data.choices[0].message.content.trim();
                 document.getElementById("aiScore").innerText = "AI Score: 0% (Humanized)";
             }
         } catch (err) {
