@@ -125,9 +125,9 @@ async function updateCelestialData() {
     const tbody = document.getElementById('liveDataBody');
     tbody.innerHTML = "Loading...";
 
-    try {
-        const apiUrl = 'https://api.vedastro.org/Calculate/AllPlanetData/Location/Lucknow/Date/07/07/2026/Time/02.00/UTC/5.30';
-        const response = await fetch(apiUrl, {
+    try {// Line 130 ko aise change karo:
+const apiUrl = 'https://api.vedastro.org/Calculate/PlanetData/Lucknow/Date/07/07/2026/Time/02.00/UTC/5.30';
+
             headers: { 'Authorization': `Bearer ${vedastroApiKey}` }
         });
 
