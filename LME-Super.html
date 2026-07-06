@@ -119,12 +119,37 @@ async function updateCelestialData() {
     }
 }
     // ... upar wala code ...
-
+// Yahan define kar (Line 122 ke aas-paas)
+const vedastroApiKey = "sk_live_0QU8V8YdAMv7v08zj1oST2kqk7Mi9Oxf19f54OiF"; 
 // 1. Table update wala function (Line 99 se)
 async function updateCelestialData() {
-    // ... API call logic ...
-}
+    const tbody = document.getElementById('liveDataBody');
+    tbody.innerHTML = "Loading..."; // Pata chalega ki function chal raha hai
 
+    try {
+        // Yahan apni sahi URL daal dena
+        const apiUrl = 'https://api.vedastro.org/Calculate/AllPlanetData/Location/Lucknow/Date/07/07/2026/Time/02.00/UTC/5.30';
+        
+        const response = await fetch(apiUrl, {
+            headers: { 'Authorization': `Bearer ${vedastroApiKey}` } // Line 142 wali key use ho rahi hai
+        });
+        
+        const data = await response.json();
+        tbody.innerHTML = ''; // Loading hatao
+
+        data.Payload.forEach(planet => {
+            tbody.innerHTML += `<tr>
+                <td>${planet.Name}</td>
+                <td>${planet.Nakshatra}</td>
+                <td>${planet.House}</td>
+                <td>${planet.Degree.toFixed(2)}°</td>
+            </tr>`;
+        });
+    } catch (error) {
+        tbody.innerHTML = "Error loading data";
+        console.error("Table Update Error:", error);
+    }
+}
 // 2. Main engine (Line 121 se shuru hoga)
 
     async function executeEngine() {
