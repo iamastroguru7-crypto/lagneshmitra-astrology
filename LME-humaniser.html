@@ -1,96 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Master Engine 9.5 (Prediction + Humanizer)</title>
+    <title>Quick Test</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background: #f4f7f6; padding: 20px; }
-        .container { max-width: 900px; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .subject-card { border: 2px solid #007bff; padding: 15px; margin-bottom: 15px; border-radius: 10px; background: #fff; position: relative; }
-        .del-btn { position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; border: none; padding: 4px 10px; border-radius: 5px; }
-    </style>
 </head>
-<body>
-
-<div class="container">
-    <h3 class="text-primary fw-bold text-center">Master Engine 9.5</h3>
-    <input type="password" id="apiKey" class="form-control mb-3" placeholder="Enter API Key...">
-    
-    <div id="subjectsContainer">
-        <div class="subject-card">
-            <label>D1 Matrix</label><textarea class="form-control d1-data mb-2"></textarea>
-            <label>D9 Matrix</label><textarea class="form-control d9-data mb-2"></textarea>
-            <label>MDAD Matrix</label><textarea class="form-control mdad-data"></textarea>
-        </div>
+<body class="p-4">
+    <div class="container" style="max-width: 600px;">
+        <input type="password" id="apiKey" class="form-control mb-2" placeholder="API Key...">
+        <textarea id="inputText" class="form-control mb-2" rows="4" placeholder="Kuch bhi likho..."></textarea>
+        <button class="btn btn-primary w-100" onclick="testLlama()">Test Engine</button>
+        <div id="out" class="mt-3 p-3 border bg-light" style="white-space: pre-wrap;"></div>
     </div>
 
-    <div class="d-flex gap-2 mb-3">
-        <button class="btn btn-outline-primary flex-fill" onclick="addSubject()">+ Add Subject</button>
-        <button class="btn btn-success flex-fill" onclick="exportToExcel()">Export Excel</button>
-    </div>
-
-    <input type="text" id="box3" class="form-control mb-3" placeholder="Enter query here...">
-    
-    <div class="d-flex gap-2">
-        <button class="btn btn-dark flex-fill" onclick="executeEngine('predict')">Run Prediction</button>
-        <button class="btn btn-info flex-fill text-white" onclick="executeEngine('humanise')">Audit & Humanise (0%)</button>
-    </div>
-    
-    <label class="mt-4 fw-bold">Result Output:</label>
-    <div id="outputContainer" class="border p-3 mt-2 bg-light shadow-sm" style="min-height: 200px; white-space: pre-wrap;"></div>
-</div>
-
-<script>
-    function addSubject() {
-        const div = document.createElement('div');
-        div.className = 'subject-card';
-        div.innerHTML = `<button class="del-btn" onclick="this.parentElement.remove()">X</button>
-            <label>D1 Matrix</label><textarea class="form-control d1-data mb-2"></textarea>
-            <label>D9 Matrix</label><textarea class="form-control d9-data mb-2"></textarea>
-            <label>MDAD Matrix</label><textarea class="form-control mdad-data"></textarea>`;
-        document.getElementById('subjectsContainer').appendChild(div);
-    }
-
-    function exportToExcel() {
-        let csv = "Subject,D1,D9,MDAD\n";
-        document.querySelectorAll('.subject-card').forEach((card, i) => {
-            csv += `${i+1},"${card.querySelector('.d1-data').value}","${card.querySelector('.d9-data').value}","${card.querySelector('.mdad-data').value}"\n`;
-        });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-        a.download = "Astrology_Data.csv"; a.click();
-    }
-
-    async function executeEngine(mode) {
-        const apiKey = document.getElementById('apiKey').value;
-        const out = document.getElementById('outputContainer');
-        const query = document.getElementById('box3').value;
-        let subjectsData = "";
-        document.querySelectorAll('.subject-card').forEach((card, i) => {
-            subjectsData += `Subject ${i+1} [D1: ${card.querySelector('.d1-data').value} | D9: ${card.querySelector('.d9-data').value} | MDAD: ${card.querySelector('.mdad-data').value}] `;
-        });
-
-        out.innerText = mode === 'humanise' ? "Auditing and rewriting for human cadence..." : "Processing prediction...";
-
-        try {
+    <script>
+        async function testLlama() {
+            const key = document.getElementById('apiKey').value;
+            const input = document.getElementById('inputText').value;
+            const out = document.getElementById('out');
+            
+            out.innerText = "Testing...";
             const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: 'POST',
-                headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+                headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    messages: [{ 
-                        role: "system", 
-                        content: mode === 'humanise' 
-                            ? "Audit input for AI patterns. Then rewrite it using natural synonyms, burstiness, and a casual, human-like flow to achieve 0% AI detection." 
-                            : "Act as an expert Vedic Astrologer. Analyze the data directly." 
-                    }, { role: "user", content: `Analyze: ${subjectsData}. Query: ${query}` }]
+                    messages: [{ role: "user", content: input }]
                 })
             });
             const data = await res.json();
             out.innerText = data.choices[0].message.content;
-        } catch (e) { out.innerText = "Error: " + e.message; }
-    }
-</script>
+        }
+    </script>
 </body>
 </html>
