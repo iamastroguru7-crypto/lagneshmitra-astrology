@@ -126,7 +126,11 @@ async function updateCelestialData() {
 }
 
 // 2. Main engine (Line 121 se shuru hoga)
-async function executeEngine() {
+
+    async function executeEngine() {
+    // Ye 2 lines add kar:
+    const queryElement = document.querySelector('textarea[placeholder="Enter your query here..."]');
+    const query = queryElement ? queryElement.value : "Provide a professional, concise, and insightful prediction.";
     const outputContainer = document.getElementById('outputContainer');
     outputContainer.innerText = "Processing Data from VedAstro & Groq...";
 
@@ -136,8 +140,7 @@ async function executeEngine() {
 
         // Apne code mein ye lines aise likh:
 const vedastroApiKey = "sk_live_0QU8V8YdAMv7v08zj1oST2kqk7Mi9Oxf19f54OiF"; // Hardcode kar de
-const groqApiKey = document.getElementById('apiKey').value; // UI se Groq key utha
-
+const groqApiKey = document.getElementById('apiKey').value || "SK_GROQ_KEY_YAHAN_DAALO"; 
 
         
         let subjectsData = "";
@@ -154,8 +157,8 @@ const groqApiKey = document.getElementById('apiKey').value; // UI se Groq key ut
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
                 messages: [
-                    { role: "system", content: "You are an Expert Astrologer." }, 
-                    { role: "user", content: `Analyze the following planetary data for this query: ${query}. Data: ${subjectsData}` }
+                    { role: "system", content: "You are an Expert Astrologer." },
+{ role: "user", content: `Analyze the following planetary data for this query: ${query}. Data: ${subjectsData}` }
                 ]
             })
         });
