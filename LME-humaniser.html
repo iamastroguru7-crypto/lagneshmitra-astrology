@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Humanizer Engine 4.5 - Pro</title>
+    <title>Humanizer Engine 5.0 - Final</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background: #121212; color: #e0e0e0; padding: 40px; }
@@ -15,32 +15,37 @@
 <body>
 
 <div class="container">
-    <h3 class="text-center mb-4 text-white">Humanizer Engine 4.5</h3>
+    <h3 class="text-center mb-4 text-white">Humanizer Engine 5.0 (Zero-AI Mode)</h3>
     <input type="password" id="apiKey" class="form-control mb-3" placeholder="API Key...">
     <textarea id="inputText" class="form-control mb-3" rows="5" placeholder="Input robotic text here..."></textarea>
     
     <button class="btn btn-secondary w-100 mb-2" onclick="generateDraft()">Phase 1: Generate Chaos Draft</button>
     <div id="output" class="d-none"></div>
     
-    <button id="impBtn" class="btn btn-custom w-100 mt-3 d-none" onclick="implementFinal()">Phase 2: Final Human Polish (Sandwich)</button>
+    <button id="impBtn" class="btn btn-custom w-100 mt-3 d-none" onclick="implementFinal()">Phase 2: Final Human Polish (Zero-AI)</button>
     <div id="finalOutput" class="d-none"></div>
 </div>
 
 <script>
     let currentDraft = "";
     
-    // Logic Expansion: Advanced System Instructions
     const SYSTEM_DRAFT = "You are a raw, chaotic writer. Take the input, destroy its formal structure, and write a short, punchy, cynical version using broken syntax, sentence fragments, and intense vocabulary.";
-    const SYSTEM_POLISH = `You are a human expert writer using the 'Sandwich Strategy'. 
-    1. HOOK: Start with 1-2 sharp, aggressive, and short sentences that grab attention immediately.
-    2. FLOW: The middle must be a natural, conversational bridge using dashes (-) for pauses and contractions. Keep it relatable.
-    3. FINISH: End with 1-2 abrupt, fragmented, or cynical thoughts. 
-    4. MANDATORY: Absolutely NO formal transitions like 'Furthermore' or 'In conclusion'.`;
+    
+    const SYSTEM_POLISH = `You are a human expert writer using the 'Sandwich Strategy' to defeat AI detectors. 
+    1. HOOK: Start with a slightly controversial, punchy sentence.
+    2. FLOW: The middle must sound like a spoken, stream-of-consciousness thought. 
+    3. MANDATORY IRREGULARITY: 
+       - Occasionally use a grammatically 'incorrect' but colloquial phrasing.
+       - Use 'dashes (-)' for erratic pauses, NOT just for punctuation.
+       - INTENTIONALLY avoid 'perfect' balanced sentences.
+       - Keep sentences wildly different in length (one word, then 20 words, then three).
+    4. FINISH: End with a cynical, blunt fragment. 
+    5. FORBIDDEN: ABSOLUTELY NO 'AI' buzzwords like 'autonomous', 'unprecedented', 'necessitates', 'fostering', 'integration', or 'landscape'. Use plain, blunt, street-level English.`;
 
     async function generateDraft() {
         const text = document.getElementById('inputText').value;
         const out = document.getElementById('output');
-        if(!document.getElementById('apiKey').value) return alert("API Key!");
+        if(!document.getElementById('apiKey').value) return alert("API Key daal!");
         
         out.classList.remove('d-none');
         out.innerText = "Drafting chaos...";
@@ -54,7 +59,7 @@
     async function implementFinal() {
         const finalDiv = document.getElementById('finalOutput');
         finalDiv.classList.remove('d-none');
-        finalDiv.innerText = "Polishing text for final output...";
+        finalDiv.innerText = "Polishing text for Zero-AI output...";
         
         const finalRes = await callAI(currentDraft, SYSTEM_POLISH);
         finalDiv.innerText = finalRes;
@@ -70,8 +75,9 @@
                 },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    temperature: 0.92,
-                    frequency_penalty: 1.2,
+                    temperature: 0.95,
+                    frequency_penalty: 1.5,
+                    presence_penalty: 1.2,
                     messages: [{ role: "system", content: prompt }, { role: "user", content: content }]
                 })
             });
