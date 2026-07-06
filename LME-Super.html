@@ -38,7 +38,30 @@
     
     <div id="outputContainer" class="border p-3 mt-4 bg-light shadow-sm" style="min-height: 150px; white-space: pre-wrap;"></div>
 </div>
-
+<!-- Live Celestial Tracker Section -->
+<div id="celestialTracker" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; background-color: #fafafa;">
+    <h3 style="margin-top: 0; font-size: 16px; color: #333;">Live Celestial Tracker</h3>
+    <table style="width:100%; border-collapse: collapse; font-family: sans-serif; font-size: 14px;">
+        <thead>
+            <tr style="background-color: #eee;">
+                <th style="padding: 10px; border: 1px solid #ddd;">Planet</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Nakshatra</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">House</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Degree</th>
+            </tr>
+        </thead>
+        <tbody id="liveDataBody">
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;">Ketu</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">Mula</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">6th</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">12.4°</td>
+            </tr>
+            <!-- New rows will be added here -->
+        </tbody>
+    </table>
+</div>
+    
 <script>
     function addSubject() {
         const div = document.createElement('div');
