@@ -156,26 +156,13 @@ const apiUrl = 'https://api.vedastro.org/Calculate/PlanetData/Lucknow/Date/07/07
 // 2. Main engine (Line 121 se shuru hoga)
 
     async function executeEngine() {
-    // Ye 2 lines add kar:
     const queryElement = document.querySelector('textarea[placeholder="Enter your query here..."]');
-    const query = queryElement ? queryElement.value : "Provide a professional, concise, and insightful prediction.";
+    const query = queryElement ? queryElement.value : "Analyze my chart brutally.";
     const outputContainer = document.getElementById('outputContainer');
-    outputContainer.innerText = "Processing Data from VedAstro & Groq...";
+    outputContainer.innerText = "Processing...";
 
     try {
-        // 1. Pehle VedAstro se celestial data lao (Table update)
-        await updateCelestialData();
-
-        // Apne code mein ye lines aise likh:
-const vedastroApiKey = "sk_live_0QU8V8YdAMv7v08zj1oST2kqk7Mi9Oxf19f54OiF"; // Hardcode kar de
-const groqApiKey = document.getElementById('apiKey').value || "SK_GROQ_KEY_YAHAN_DAALO"; 
-
-        
-        let subjectsData = "";
-        document.querySelectorAll('.subject-card').forEach((card, i) => {
-            subjectsData += `Subject ${i+1} [D1: ${card.querySelector('.d1-data').value} | D9: ${card.querySelector('.d9-data').value} | MDAD: ${card.querySelector('.mdad-data').value}]`;
-        });
-
+        const groqApiKey = document.getElementById('apiKey').value;
         const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: 'POST',
             headers: { 
@@ -185,20 +172,18 @@ const groqApiKey = document.getElementById('apiKey').value || "SK_GROQ_KEY_YAHAN
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
                 messages: [
-                    { role: "system", content: "You are an Expert Astrologer." },
-// Yahan line 186 se replace kar:
-{ 
-    role: "user", 
-    content: `Analyze the following planetary data for this query: "${query}". 
-    CRITICAL INSTRUCTIONS:
-    1. ZERO HYPOTHESIS: Do not offer spiritual, philosophical, or generic advice.
-    2. BRUTAL ANALYSIS: Focus only on planetary strengths and weaknesses.
-    3. QUANTIFY: Provide a percentage probability (0-100%) for the query's outcome based on the transits.
-    4. NO SOFTENING: State the reality of the chart plainly. 
-    Data: ${subjectsData}` 
-}
-                    
+                    { role: "system", content: "You are a ruthless, data-driven astrologer. No fluff, no spiritual nonsense." },
+                    { role: "user", content: `Query: ${query}. CRITICAL: Give a raw, brutal analysis. No softening. Focus on planetary strengths, weaknesses, and a clear percentage probability for success.` }
                 ]
+            })
+        });
+        const data = await res.json();
+        outputContainer.innerText = data.choices[0].message.content;
+    } catch (e) {
+        outputContainer.innerText = "Error: " + e.message;
+    }
+}
+
             })
         });
 
