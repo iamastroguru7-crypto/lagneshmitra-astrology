@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Humanizer Engine Pro 2.0</title>
+    <title>Humanizer Engine Pro 3.0</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background: #f0f2f5; padding: 30px; }
@@ -13,10 +13,10 @@
 <body>
 
 <div class="container">
-    <h4 class="text-center fw-bold mb-4">Humanizer Engine 2.0 (Calibration Mode)</h4>
+    <h4 class="text-center fw-bold mb-4">Humanizer Engine 3.0 (Chaos Mode)</h4>
     <input type="password" id="apiKey" class="form-control mb-3" placeholder="Enter API Key...">
     <textarea id="inputText" class="form-control mb-3" rows="6" placeholder="Paste robotic text here..."></textarea>
-    <button class="btn btn-primary w-100 py-2" onclick="humanizeText()">Make it Human</button>
+    <button class="btn btn-danger w-100 py-2" onclick="humanizeText()">Trigger Chaos Humanization</button>
     
     <label class="mt-4 fw-bold text-muted">Raw Output:</label>
     <div id="output" class="mt-2">Output yahan aayega...</div>
@@ -29,7 +29,7 @@
         const out = document.getElementById('output');
         
         if(!key) return alert("API Key daal bhai!");
-        out.innerText = "Recalibrating for human tone...";
+        out.innerText = "Triggering chaos logic...";
         
         try {
             const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -37,16 +37,19 @@
                 headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    temperature: 0.85, 
+                    temperature: 0.95,
+                    frequency_penalty: 1.5,
+                    presence_penalty: 1.0,
                     messages: [{ 
                         role: "system", 
-                        content: `You are a real human writing for a casual blog. 
-                        RULES:
-                        - Use unpredictable sentence lengths: Mix very short, punchy sentences with long, rambling ones.
-                        - Inject 'human' imperfections: Use contractions (don't, it's, gonna), slang, and filler words like 'honestly', 'look', 'maybe'.
-                        - AVOID: Professional jargon, perfect grammar structure, and predictable AI-style listicles.
-                        - Break formal rules: Use dashes (-) for pauses instead of structured semicolons.
-                        - Destroy the 'AI' vibe: The output should feel like a reddit post or a chat between friends.` 
+                        content: `You are an erratic, disorganized human writer. RULES: 
+                        1. ABOLISH all pleasant, helpful, or chatty filler phrases like "I was thinking," "Honestly," "It's pretty cool," or "you know."
+                        2. Write like you are in a rush. Start sentences abruptly. 
+                        3. Use weird, unconventional sentence structures. 
+                        4. Insert sudden, jarring shifts in tone. 
+                        5. No standard paragraph flow: One line could be extremely detailed, the next could be one word. 
+                        6. NEVER use "So..." or "I guess" or "It's like" to start sentences.
+                        7. BE AGGRESSIVE AND UNPREDICTABLE. Destroy the "helpful assistant" tone entirely.` 
                     }, { 
                         role: "user", 
                         content: text 
