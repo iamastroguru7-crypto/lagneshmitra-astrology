@@ -121,7 +121,6 @@ async function updateCelestialData() {
     // ... upar wala code ...
 // Yahan define kar (Line 122 ke aas-paas)
 const vedastroApiKey = "sk_live_0QU8V8YdAMv7v08zj1oST2kqk7Mi9Oxf19f54OiF"; 
-// Line 124 se 151 tak ise replace karo
 async function updateCelestialData() {
     const tbody = document.getElementById('liveDataBody');
     tbody.innerHTML = "Loading...";
@@ -133,11 +132,14 @@ async function updateCelestialData() {
             headers: { 'Authorization': `Bearer ${vedastroApiKey}` }
         });
 
-        if (!response.ok) throw new Error(`API Status: ${response.status}`);
+        // Exact error status dekhne ke liye
+        if (!response.ok) {
+            const errorText = await response.text(); 
+            throw new Error(`API failed with status ${response.status}: ${errorText}`);
+        }
         
         const data = await response.json();
         
-        // Data aate hi tbody saaf karo aur naya fill karo
         tbody.innerHTML = ''; 
         data.Payload.forEach(planet => {
             tbody.innerHTML += `<tr>
@@ -148,8 +150,8 @@ async function updateCelestialData() {
             </tr>`;
         });
     } catch (error) {
-        tbody.innerHTML = "Error loading data";
-        console.error("Table Update Error:", error);
+        tbody.innerHTML = "Error loading data (Check Console)";
+        console.error("DEBUG - Table Update Error:", error.message);
     }
 }
 // 2. Main engine (Line 121 se shuru hoga)
