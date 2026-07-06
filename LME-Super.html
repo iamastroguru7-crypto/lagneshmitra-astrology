@@ -121,22 +121,24 @@ async function updateCelestialData() {
     // ... upar wala code ...
 // Yahan define kar (Line 122 ke aas-paas)
 const vedastroApiKey = "sk_live_0QU8V8YdAMv7v08zj1oST2kqk7Mi9Oxf19f54OiF"; 
-// 1. Table update wala function (Line 99 se)
+// Line 124 se 151 tak ise replace karo
 async function updateCelestialData() {
     const tbody = document.getElementById('liveDataBody');
-    tbody.innerHTML = "Loading..."; // Pata chalega ki function chal raha hai
+    tbody.innerHTML = "Loading...";
 
     try {
-        // Yahan apni sahi URL daal dena
         const apiUrl = 'https://api.vedastro.org/Calculate/AllPlanetData/Location/Lucknow/Date/07/07/2026/Time/02.00/UTC/5.30';
         
         const response = await fetch(apiUrl, {
-            headers: { 'Authorization': `Bearer ${vedastroApiKey}` } // Line 142 wali key use ho rahi hai
+            headers: { 'Authorization': `Bearer ${vedastroApiKey}` }
         });
+
+        if (!response.ok) throw new Error(`API Status: ${response.status}`);
         
         const data = await response.json();
-        tbody.innerHTML = ''; // Loading hatao
-
+        
+        // Data aate hi tbody saaf karo aur naya fill karo
+        tbody.innerHTML = ''; 
         data.Payload.forEach(planet => {
             tbody.innerHTML += `<tr>
                 <td>${planet.Name}</td>
@@ -149,6 +151,7 @@ async function updateCelestialData() {
         tbody.innerHTML = "Error loading data";
         console.error("Table Update Error:", error);
     }
+}
 }
 // 2. Main engine (Line 121 se shuru hoga)
 
