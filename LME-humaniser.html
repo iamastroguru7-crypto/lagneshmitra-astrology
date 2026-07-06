@@ -2,148 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Text Humanizer</title>
+    <title>Humanizer Engine 4.5 - Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #f3f4f6;
-            --container-bg: #ffffff;
-            --primary: #3b82f6;
-            --primary-hover: #2563eb;
-            --border: #d1d5db;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-        }
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-        .container {
-            background-color: var(--container-bg);
-            width: 100%;
-            max-width: 800px;
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            margin-top: 0;
-            font-size: 1.5rem;
-        }
-        .text-group {
-            margin-bottom: 16px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        textarea {
-            width: 100%;
-            height: 150px;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            resize: vertical;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-        }
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        button:hover {
-            background-color: var(--primary-hover);
-        }
-        .output-box {
-            background-color: #f9fafb;
-            border: 1px solid var(--border);
-            padding: 16px;
-            border-radius: 6px;
-            min-height: 150px;
-            white-space: pre-wrap;
-        }
+        body { background: #121212; color: #e0e0e0; padding: 40px; }
+        .container { max-width: 800px; background: #1e1e1e; padding: 30px; border-radius: 15px; border: 1px solid #333; }
+        .form-control { background: #2a2a2a; border: 1px solid #444; color: white; }
+        #output, #finalOutput { background: #000; padding: 20px; border-radius: 10px; border-left: 4px solid #0d6efd; margin-top: 10px; }
+        .btn-custom { background: #0d6efd; color: white; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>AI Text Humanizer</h1>
-    <p>Paste your AI-generated text below to remove robotic phrasing and improve conversational flow.</p>
-
-    <div class="text-group">
-        <label for="input-text">Input Text:</label>
-        <textarea id="input-text" placeholder="e.g., In today's digital landscape, artificial intelligence has truly revolutionized how we delve into complex data..."></textarea>
-    </div>
-
-    <button onclick="humanizeText()">Humanize Text</button>
-
-    <div class="text-group" style="margin-top: 24px;">
-        <label for="output-text">Humanized Output:</label>
-        <div class="output-box" id="output-text">Your humanized text will appear here...</div>
-    </div>
+    <h3 class="text-center mb-4 text-white">Humanizer Engine 4.5</h3>
+    <input type="password" id="apiKey" class="form-control mb-3" placeholder="API Key...">
+    <textarea id="inputText" class="form-control mb-3" rows="5" placeholder="Input robotic text here..."></textarea>
+    
+    <button class="btn btn-secondary w-100 mb-2" onclick="generateDraft()">Phase 1: Generate Chaos Draft</button>
+    <div id="output" class="d-none"></div>
+    
+    <button id="impBtn" class="btn btn-custom w-100 mt-3 d-none" onclick="implementFinal()">Phase 2: Final Human Polish (Sandwich)</button>
+    <div id="finalOutput" class="d-none"></div>
 </div>
 
 <script>
-    function humanizeText() {
-        let text = document.getElementById('input-text').value;
-        if (!text.trim()) {
-            alert('Please enter some text to humanize.');
-            return;
-        }
+    let currentDraft = "";
+    
+    // Logic Expansion: Advanced System Instructions
+    const SYSTEM_DRAFT = "You are a raw, chaotic writer. Take the input, destroy its formal structure, and write a short, punchy, cynical version using broken syntax, sentence fragments, and intense vocabulary.";
+    const SYSTEM_POLISH = `You are a human expert writer using the 'Sandwich Strategy'. 
+    1. HOOK: Start with 1-2 sharp, aggressive, and short sentences that grab attention immediately.
+    2. FLOW: The middle must be a natural, conversational bridge using dashes (-) for pauses and contractions. Keep it relatable.
+    3. FINISH: End with 1-2 abrupt, fragmented, or cynical thoughts. 
+    4. MANDATORY: Absolutely NO formal transitions like 'Furthermore' or 'In conclusion'.`;
 
-        // Dictionary of common AI words and their human replacements
-        const replacements = [
-            { search: /\bdelve\b/gi, replace: 'explore' },
-            { search: /\btapestry\b/gi, replace: 'variety' },
-            { search: /\bnavigate\b/gi, replace: 'handle' },
-            { search: /\btestament\b/gi, replace: 'proof' },
-            { search: /\bbasically\b/gi, replace: '' },
-            { search: /\btruly\b/gi, replace: '' },
-            { search: /\bfurthermore\b/gi, replace: 'also' },
-            { search: /\bmoreover\b/gi, replace: 'plus' },
-            { search: /\bin conclusion\b/gi, replace: 'finally' },
-            { search: /\bleverage\b/gi, replace: 'use' },
-            { search: /\butilize\b/gi, replace: 'use' },
-            { search: /\bmultifaceted\b/gi, replace: 'complex' },
-            { search: /\bevidenced by\b/gi, replace: 'shown by' },
-            { search: /\bdelves\b/gi, replace: 'explores' },
-            { search: /\bbelow\b/gi, replace: 'under' },
-            { search: /\bIn today's digital landscape\b/gi, replace: 'Today' },
-            { search: /\bsignificantly\b/gi, replace: 'a lot' }
-        ];
+    async function generateDraft() {
+        const text = document.getElementById('inputText').value;
+        const out = document.getElementById('output');
+        if(!document.getElementById('apiKey').value) return alert("API Key!");
+        
+        out.classList.remove('d-none');
+        out.innerText = "Drafting chaos...";
+        
+        const res = await callAI(text, SYSTEM_DRAFT);
+        currentDraft = res;
+        out.innerText = res;
+        document.getElementById('impBtn').classList.remove('d-none');
+    }
 
-        // Apply replacements
-        replacements.forEach(item => {
-            text = text.replace(item.search, item.replace);
-        });
+    async function implementFinal() {
+        const finalDiv = document.getElementById('finalOutput');
+        finalDiv.classList.remove('d-none');
+        finalDiv.innerText = "Polishing text for final output...";
+        
+        const finalRes = await callAI(currentDraft, SYSTEM_POLISH);
+        finalDiv.innerText = finalRes;
+    }
 
-        // Break down unnatural "-ly" adverbs where appropriate
-        text = text.replace(/\bsignificantly\b/gi, 'greatly');
-        text = text.replace(/\bcompletely\b/gi, 'totally');
-
-        // Cleanup any double spaces caused by removing words
-        text = text.replace(/\s+/g, ' ');
-
-        document.getElementById('output-text').innerText = text.trim();
+    async function callAI(content, prompt) {
+        try {
+            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: 'POST',
+                headers: { 
+                    'Authorization': `Bearer ${document.getElementById('apiKey').value}`, 
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    temperature: 0.92,
+                    frequency_penalty: 1.2,
+                    messages: [{ role: "system", content: prompt }, { role: "user", content: content }]
+                })
+            });
+            const data = await res.json();
+            return data.choices[0].message.content;
+        } catch (e) { return "Error: " + e.message; }
     }
 </script>
-
 </body>
 </html>
