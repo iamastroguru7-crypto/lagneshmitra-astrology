@@ -87,26 +87,24 @@
             out.innerText = data.choices[0].message.content;
         } catch (e) { out.innerText = "Error: " + e.message; }
     }
-    async function fetchAndPopulate() {
-    try {
-        const response = await fetch('/api/transit');
-        const data = await response.json();
-        console.log("Transit Data:", data);
+        async function fetchAndPopulate() {
+        console.log("Mock data loading...");
+        // Ye raha tumhara static data
+        const data = {
+            Sun: "12", Moon: "15", Mars: "10",
+            Jupiter: "20", Saturn: "5", Rahu: "2", Ketu: "8"
+        };
         
-        // Pehle card ke D1 field mein data bharo (Dynamic mapping)
+        // Data populate karna
         const firstCard = document.querySelector('.subject-card');
         if (firstCard) {
-            firstCard.querySelector('.d1-data').value = 
-                `Sun: ${data.Sun}°, Moon: ${data.Moon}°, Mars: ${data.Mars}°`;
-            firstCard.querySelector('.d9-data').value = 
-                `Jupiter: ${data.Jupiter}°, Saturn: ${data.Saturn}°`;
-            firstCard.querySelector('.mdad-data').value = 
-                `Rahu: ${data.Rahu}°, Ketu: ${data.Ketu}°`;
+            firstCard.querySelector('.d1-data').value = `Sun: ${data.Sun}°, Moon: ${data.Moon}°, Mars: ${data.Mars}°`;
+            firstCard.querySelector('.d9-data').value = `Jupiter: ${data.Jupiter}°, Saturn: ${data.Saturn}°`;
+            firstCard.querySelector('.mdad-data').value = `Rahu: ${data.Rahu}°, Ketu: ${data.Ketu}°`;
+            console.log("Data populated successfully!");
         }
-    } catch (error) {
-        console.error("Engine Connection Failed:", error);
     }
-}
+
     // Call the function
     fetchAndPopulate();
     </script>
