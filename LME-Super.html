@@ -183,7 +183,18 @@ const groqApiKey = document.getElementById('apiKey').value || "SK_GROQ_KEY_YAHAN
                 model: "llama-3.3-70b-versatile",
                 messages: [
                     { role: "system", content: "You are an Expert Astrologer." },
-{ role: "user", content: `Analyze the following planetary data for this query: ${query}. Data: ${subjectsData}` }
+// Yahan line 186 se replace kar:
+{ 
+    role: "user", 
+    content: `Analyze the following planetary data for this query: "${query}". 
+    CRITICAL INSTRUCTIONS:
+    1. ZERO HYPOTHESIS: Do not offer spiritual, philosophical, or generic advice.
+    2. BRUTAL ANALYSIS: Focus only on planetary strengths and weaknesses.
+    3. QUANTIFY: Provide a percentage probability (0-100%) for the query's outcome based on the transits.
+    4. NO SOFTENING: State the reality of the chart plainly. 
+    Data: ${subjectsData}` 
+}
+                    
                 ]
             })
         });
