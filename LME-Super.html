@@ -161,7 +161,7 @@ const apiUrl = 'https://api.vedastro.org/Calculate/PlanetData/Lucknow/Date/07/07
     const outputContainer = document.getElementById('outputContainer');
     outputContainer.innerText = "Processing...";
 
-        try {
+            try {
         const groqApiKey = document.getElementById('apiKey').value;
         const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: 'POST',
@@ -172,19 +172,21 @@ const apiUrl = 'https://api.vedastro.org/Calculate/PlanetData/Lucknow/Date/07/07
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
                 messages: [
-                    { role: "system", content: "You are a ruthless, data-driven astrologer. No fluff, no spiritual nonsense." },
-                    { role: "user", content: `Query: ${query}. CRITICAL: Give a raw, brutal analysis. No softening. Focus on planetary strengths, weaknesses, and a clear percentage probability for success.` }
+                    { role: "system", content: "You are a ruthless, data-driven astrologer. No fluff." },
+                    { role: "user", content: `Query: ${query}. CRITICAL: Give a raw, brutal analysis. No softening.` }
                 ]
             })
         });
 
         const data = await res.json();
         outputContainer.innerText = data.choices[0].message.content;
+
     } catch (e) {
         outputContainer.innerText = "Engine Error: " + e.message;
         console.error("Engine Error:", e);
     }
 }
+
 </script>
 </body>
 </html>
