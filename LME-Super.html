@@ -84,6 +84,27 @@
             out.innerText = data.choices[0].message.content;
         } catch (e) { out.innerText = "Error: " + e.message; }
     }
+    async function fetchAndPopulate() {
+    try {
+        // Vercel API endpoint ko call kar raha hai
+        const response = await fetch('/api/transit');
+        const data = await response.json();
+        
+        // Console mein check kar ki data aa raha hai ya nahi
+        console.log("Transit Data:", data);
+        
+        // Ab boxes mein value fill kar (Apne input IDs se match kar lena)
+        // Agar IDs alag hain, toh 'd1-matrix' ki jagah apni ID use karna
+        document.getElementById('d1-matrix').value = `Sun: ${data.Sun}, Moon: ${data.Moon}`;
+        
+    } catch (error) {
+        console.error("Engine Connection Failed:", error);
+    }
+}
+
+// Button click ya load hone par call kar
+fetchAndPopulate();
+    
 </script>
 </body>
 </html>
