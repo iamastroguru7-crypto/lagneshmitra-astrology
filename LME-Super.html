@@ -161,7 +161,7 @@ const apiUrl = 'https://api.vedastro.org/Calculate/PlanetData/Lucknow/Date/07/07
     const outputContainer = document.getElementById('outputContainer');
     outputContainer.innerText = "Processing...";
 
-    try {
+        try {
         const groqApiKey = document.getElementById('apiKey').value;
         const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: 'POST',
@@ -177,26 +177,14 @@ const apiUrl = 'https://api.vedastro.org/Calculate/PlanetData/Lucknow/Date/07/07
                 ]
             })
         });
-        const data = await res.json();
-        outputContainer.innerText = data.choices[0].message.content;
-    } catch (e) {
-        outputContainer.innerText = "Error: " + e.message;
-    }
-}
-
-            })
-        });
 
         const data = await res.json();
         outputContainer.innerText = data.choices[0].message.content;
-
     } catch (e) {
-        outputContainer.innerText = "Error: " + e.message + ". Check your API Keys!";
+        outputContainer.innerText = "Engine Error: " + e.message;
         console.error("Engine Error:", e);
     }
 }
-    
-
-    </script>
+</script>
 </body>
 </html>
