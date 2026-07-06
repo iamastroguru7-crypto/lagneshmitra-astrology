@@ -2,75 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LM 8.0 Master Engine</title>
+    <title>Master Engine 9.5 (Prediction + Humanizer)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background: #f0f2f5; padding: 20px; }
-        .container { max-width: 850px; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        textarea { height: 120px; width: 100%; border: 1px solid #ccc; padding: 10px; border-radius: 8px; margin-top: 5px; font-size: 14px; }
-        .score-box { display: flex; gap: 10px; justify-content: center; margin: 15px 0; }
-        .btn-score { flex: 1; padding: 10px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        body { background: #f4f7f6; padding: 20px; }
+        .container { max-width: 900px; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .subject-card { border: 2px solid #007bff; padding: 15px; margin-bottom: 15px; border-radius: 10px; background: #fff; position: relative; }
+        .del-btn { position: absolute; top: 10px; right: 10px; background: #dc3545; color: white; border: none; padding: 4px 10px; border-radius: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 class="text-center fw-bold text-primary">LM 8.0 Master Engine</h2>
-    <input type="password" id="apiKey" class="form-control mb-3" placeholder="Enter Groq API Key...">
+    <h3 class="text-primary fw-bold text-center">Master Engine 9.5</h3>
+    <input type="password" id="apiKey" class="form-control mb-3" placeholder="Enter API Key...">
     
-    <label class="fw-bold">Input/Prompt:</label>
-    <textarea id="inputText" placeholder="Astro Query ya Text yahan daalo..."></textarea>
-    
-    <div class="score-box">
-        <button class="btn-score bg-danger text-white" onclick="setScore(100)">AI 100%</button>
-        <button class="btn-score bg-warning text-dark" onclick="setScore(50)">AI-Assisted</button>
-        <button class="btn-score bg-success text-white" onclick="setScore(0)">Human 0%</button>
+    <div id="subjectsContainer">
+        <div class="subject-card">
+            <label>D1 Matrix</label><textarea class="form-control d1-data mb-2"></textarea>
+            <label>D9 Matrix</label><textarea class="form-control d9-data mb-2"></textarea>
+            <label>MDAD Matrix</label><textarea class="form-control mdad-data"></textarea>
+        </div>
     </div>
 
-    <button id="runBtn" class="btn btn-primary w-100 py-2 fw-bold" onclick="generateReading()">Generate Reading & Humanise</button>
+    <div class="d-flex gap-2 mb-3">
+        <button class="btn btn-outline-primary flex-fill" onclick="addSubject()">+ Add Subject</button>
+        <button class="btn btn-success flex-fill" onclick="exportToExcel()">Export Excel</button>
+    </div>
+
+    <input type="text" id="box3" class="form-control mb-3" placeholder="Enter query here...">
     
-    <label class="fw-bold mt-3">Final Output:</label>
-    <textarea id="outputText" readonly></textarea>
-    <p class="text-center mt-2 fw-bold text-muted" id="currentScore">Target: AI Assisted (50%)</p>
+    <div class="d-flex gap-2">
+        <button class="btn btn-dark flex-fill" onclick="executeEngine('predict')">Run Prediction</button>
+        <button class="btn btn-info flex-fill text-white" onclick="executeEngine('humanise')">Audit & Humanise (0%)</button>
+    </div>
+    
+    <label class="mt-4 fw-bold">Result Output:</label>
+    <div id="outputContainer" class="border p-3 mt-2 bg-light shadow-sm" style="min-height: 200px; white-space: pre-wrap;"></div>
 </div>
 
 <script>
-    let targetScore = 50;
-
-    function setScore(val) {
-        targetScore = val;
-        document.getElementById("currentScore").innerText = `Target: ${val === 0 ? 'Human 0%' : val === 100 ? 'AI 100%' : 'AI-Assisted (50%)'}`;
+    function addSubject() {
+        const div = document.createElement('div');
+        div.className = 'subject-card';
+        div.innerHTML = `<button class="del-btn" onclick="this.parentElement.remove()">X</button>
+            <label>D1 Matrix</label><textarea class="form-control d1-data mb-2"></textarea>
+            <label>D9 Matrix</label><textarea class="form-control d9-data mb-2"></textarea>
+            <label>MDAD Matrix</label><textarea class="form-control mdad-data"></textarea>`;
+        document.getElementById('subjectsContainer').appendChild(div);
     }
 
-    async function generateReading() {
-        const input = document.getElementById("inputText").value;
-        const apiKey = document.getElementById("apiKey").value;
-        const btn = document.getElementById("runBtn");
+    function exportToExcel() {
+        let csv = "Subject,D1,D9,MDAD\n";
+        document.querySelectorAll('.subject-card').forEach((card, i) => {
+            csv += `${i+1},"${card.querySelector('.d1-data').value}","${card.querySelector('.d9-data').value}","${card.querySelector('.mdad-data').value}"\n`;
+        });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+        a.download = "Astrology_Data.csv"; a.click();
+    }
 
-        if(!apiKey || !input) return alert("Bhai, Key aur Input dono daalo!");
-        
-        btn.disabled = true;
-        btn.innerText = "Processing Logic Matrix...";
+    async function executeEngine(mode) {
+        const apiKey = document.getElementById('apiKey').value;
+        const out = document.getElementById('outputContainer');
+        const query = document.getElementById('box3').value;
+        let subjectsData = "";
+        document.querySelectorAll('.subject-card').forEach((card, i) => {
+            subjectsData += `Subject ${i+1} [D1: ${card.querySelector('.d1-data').value} | D9: ${card.querySelector('.d9-data').value} | MDAD: ${card.querySelector('.mdad-data').value}] `;
+        });
+
+        out.innerText = mode === 'humanise' ? "Auditing and rewriting for human cadence..." : "Processing prediction...";
 
         try {
-            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    temperature: targetScore === 0 ? 0.95 : 0.7,
-                    messages: [{
-                        role: "system",
-                        content: `You are an expert Vedic Astrologer and Ghostwriter. Target AI Detection Score: ${targetScore}%. If score is 0%, use extreme burstiness, informal tone, and zero AI jargon. If 100%, use standard professional tone.`
-                    }, { role: "user", content: input }]
+                    messages: [{ 
+                        role: "system", 
+                        content: mode === 'humanise' 
+                            ? "Audit input for AI patterns. Then rewrite it using natural synonyms, burstiness, and a casual, human-like flow to achieve 0% AI detection." 
+                            : "Act as an expert Vedic Astrologer. Analyze the data directly." 
+                    }, { role: "user", content: `Analyze: ${subjectsData}. Query: ${query}` }]
                 })
             });
-
-            const data = await response.json();
-            document.getElementById("outputText").value = data.choices[0].message.content;
-        } catch(e) { alert(e.message); }
-        finally { btn.disabled = false; btn.innerText = "Generate Reading & Humanise"; }
+            const data = await res.json();
+            out.innerText = data.choices[0].message.content;
+        } catch (e) { out.innerText = "Error: " + e.message; }
     }
 </script>
 </body>
