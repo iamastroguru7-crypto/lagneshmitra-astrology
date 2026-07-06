@@ -10,7 +10,8 @@
     <style>
         .subject-card { border: 2px solid #007bff; padding: 20px; margin-bottom: 20px; border-radius: 12px; background: #fff; position: relative; }
         .del-btn { position: absolute; top: 10px; right: 10px; background: red; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
-        .btn-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        .btn-gro
+up { display: flex; gap: 10px; margin-bottom: 20px; }
     </style>
 </head>
 <body class="p-4" style="background: #f4f7f6;">
@@ -18,8 +19,7 @@
 <div class="container bg-white p-4 shadow rounded">
     <h3 class="text-primary fw-bold mb-4">Master Prediction Engine 9.0</h3>
     
-    <input type="password" id="apiKey" class="form-control mb-3" placeholder="sk_live_0QU8V8YdAMv7v08zj1oST2kqk7Mi9Oxf19f54OiF">
-
+    <input type="password" id="apiKey" class="form-control mb-3" placeholder="gsk">
     <div id="subjectsContainer">
         <div class="subject-card">
             <label>D1 Matrix</label><textarea class="form-control d1-data mb-2"></textarea>
@@ -134,9 +134,10 @@ async function executeEngine() {
         // 1. Pehle VedAstro se celestial data lao (Table update)
         await updateCelestialData();
 
-        // Sirf ye line update kar de apne code mein
-const groqApiKey = document.getElementById('apiKey').value; 
-const vedastroApiKey = document.getElementById('apiKey').value; // Dono ke liye ek hi box use hoga
+        // Apne code mein ye lines aise likh:
+const vedastroApiKey = "sk_live_0QU8V8YdAMv7v08zj1oST2kqk7Mi9Oxf19f54OiF"; // Hardcode kar de
+const groqApiKey = document.getElementById('apiKey').value; // UI se Groq key utha
+
 
         
         let subjectsData = "";
