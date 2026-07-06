@@ -134,9 +134,10 @@ async function executeEngine() {
         // 1. Pehle VedAstro se celestial data lao (Table update)
         await updateCelestialData();
 
-        // 2. Ab Groq AI ko analysis ke liye data bhejo
-        const groqApiKey = document.getElementById('apiKey').value; // Groq Key yahan daal
-        const query = document.getElementById('box3').value;
+        // Sirf ye line update kar de apne code mein
+const groqApiKey = document.getElementById('apiKey').value; 
+const vedastroApiKey = document.getElementById('apiKey').value; // Dono ke liye ek hi box use hoga
+
         
         let subjectsData = "";
         document.querySelectorAll('.subject-card').forEach((card, i) => {
