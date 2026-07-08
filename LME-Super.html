@@ -3,59 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Master Prediction Engine 9.0</title>
+    <title>Engine 9.0</title>
     <style>
-        body, html { 
-            height: 100%; margin: 0; padding: 0; 
-            background: url('background2.png') no-repeat center center fixed; 
-            background-size: cover; 
-            display: flex; justify-content: center; align-items: center;
-            font-family: sans-serif; overflow: hidden;
-        }
-        .main-container { 
-            width: 90%; max-width: 450px; background: rgba(0, 0, 0, 0.85); 
-            padding: 20px; border: 2px solid #ffd700; border-radius: 15px; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-        input, textarea { 
-            width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #333; 
-            background: #111; color: #fff; box-sizing: border-box; border-radius: 5px;
-        }
-        button { 
-            width: 100%; padding: 12px; background: #ffd700; border: none; 
-            font-weight: bold; cursor: pointer; border-radius: 5px;
-        }
-        #output { 
-            height: 120px; color: #00ff00; font-family: monospace; font-size: 12px; 
-            margin-top: 10px; border-left: 3px solid #ffd700; padding: 10px; overflow-y: auto; 
-            background: #000;
-        }
+        body, html { height: 100%; margin: 0; background: url('background2.png') center/cover fixed; font-family: sans-serif; overflow: hidden; display: flex; justify-content: center; }
+        .main-container { width: 95%; max-width: 450px; height: 95%; display: flex; flex-direction: column; padding: 10px; box-sizing: border-box; }
+        #output { flex-grow: 1; background: rgba(0,0,0,0.8); color: #00ff00; border: 2px solid #ffd700; border-radius: 10px; padding: 15px; font-family: monospace; overflow-y: auto; margin-bottom: 10px; font-size: 14px; }
+        textarea { width: 100%; background: rgba(0,0,0,0.6); color: #fff; border: 1px solid #555; padding: 10px; border-radius: 5px; box-sizing: border-box; margin-bottom: 5px; }
+        button { width: 100%; padding: 12px; background: #ffd700; border: none; font-weight: bold; border-radius: 5px; cursor: pointer; }
+        #menu-icon { position: absolute; top: 10px; right: 10px; color: #ffd700; cursor: pointer; font-size: 20px; }
     </style>
 </head>
 <body>
 
 <div class="main-container">
-    <h3 style="color:#ffd700; margin-top:0;">Master Prediction Engine 9.0</h3>
-    <input type="password" id="apiKey" placeholder="Enter API Key">
-    <textarea id="d1" placeholder="D1 Matrix..." rows="1"></textarea>
-    <textarea id="d9" placeholder="D9 Matrix..." rows="1"></textarea>
-    <textarea id="query" placeholder="Query..." rows="1"></textarea>
-    <button onclick="runEngine()">RUN PREDICTION ENGINE</button>
-    <div id="output">Engine Status: Ready...</div>
+    <div id="menu-icon" onclick="setKey()">⚙️</div>
+    <div id="output">System Ready. Awaiting Input...</div>
+    <textarea id="query" placeholder="Enter Analysis Query..." rows="3"></textarea>
+    <button onclick="runEngine()">SEND</button>
 </div>
 
 <script>
+    let apiKey = localStorage.getItem('engineKey') || "";
+    function setKey() {
+        const key = prompt("Enter API Key:", apiKey);
+        if (key) { apiKey = key; localStorage.setItem('engineKey', key); }
+    }
     async function runEngine() {
         const out = document.getElementById('output');
+        const q = document.getElementById('query').value;
         out.innerText = "Processing...";
         try {
             const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: 'POST',
-                headers: { 'Authorization': `Bearer ${document.getElementById('apiKey').value}`, 'Content-Type': 'application/json' },
+                headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    messages: [{ role: "system", content: "Ruthless data analysis only." },
-                               { role: "user", content: `D1:${document.getElementById('d1').value}, D9:${document.getElementById('d9').value}. Query:${document.getElementById('query').value}` }]
+                    messages: [{ role: "system", content: "Ruthless data analysis only. No fluff." },
+                               { role: "user", content: q }]
                 })
             });
             const data = await res.json();
