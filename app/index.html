@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="manifest.json">
+    <title>LME App</title>
+    <script>
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+    </script>
+    <style>
+        /* App-specific styling to keep it distinct from Web view */
+        body { background: #000; color: #ffd700; touch-action: manipulation; }
+        /* Add your optimized App CSS here */
+    </style>
+</head>
+<body>
+    <div id="app-root"></div>
+</body>
+</html>
+
