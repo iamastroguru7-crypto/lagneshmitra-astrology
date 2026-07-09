@@ -2,24 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GSK Humanizer Tester</title>
+    <title>Groq-GSK Powered Humanizer</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; padding: 20px; max-width: 600px; margin: auto; background: #f0f2f5; }
-        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; }
-        #output { margin-top: 20px; padding: 20px; background: #fff; border-left: 5px solid #28a745; white-space: pre-wrap; line-height: 1.6; }
+        body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; background: #f4f4f4; }
+        .box { background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        input, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #d63384; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        #output { margin-top: 20px; padding: 15px; background: #fff; border: 1px solid #ddd; white-space: pre-wrap; }
     </style>
 </head>
 <body>
 
-    <h2>GSK Humanizer Tester</h2>
+    <h2>Groq Server Humanizer</h2>
 
-    <div class="card">
-        <input type="password" id="apiKey" placeholder="Enter Gemini API Key (AIza...)">
-        <textarea id="userInput" rows="4" placeholder="Kya likhna hai?"></textarea>
-        <button id="sendBtn">Generate & Humanize</button>
+    <div class="box">
+        <input type="password" id="apiKey" placeholder="Paste Groq API Key (gsk_...)">
+        <textarea id="userInput" rows="4" placeholder="Kuch likho..."></textarea>
+        <button id="sendBtn">Generate with Groq</button>
     </div>
 
     <div id="output">Result yahan aayega...</div>
@@ -30,39 +29,35 @@
             const prompt = document.getElementById('userInput').value.trim();
             const output = document.getElementById('output');
 
-            if (!key || !prompt) return alert("Key aur Prompt dono daal bhai!");
-
-            output.innerText = "Analyzing & Humanizing...";
-
-            const finalPrompt = `
-                Respond to this: "${prompt}".
-                Instructions:
-                1. Write in a very natural, conversational, and human-like tone.
-                2. Avoid robotic patterns or repetitive AI phrases.
-                3. After the answer, give a "Humanizer Score" in percentage (0-100%) based on how natural the text sounds.
-                Format:
-                [Answer]
-                
-                ---
-                Humanizer Score: [X]%
-            `;
+            output.innerText = "Processing via Groq Engine...";
 
             try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
-                const res = await fetch(url, {
+                // Groq API Endpoint
+                const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: finalPrompt }] }] })
+                    headers: { 
+                        "Content-Type": "application/json", 
+                        "Authorization": `Bearer ${key}` 
+                    },
+                    body: JSON.stringify({ 
+                        // Groq par Llama 3 70B use kar, yeh "Humanizer" ke liye best hai
+                        model: "llama3-70b-8192", 
+                        messages: [
+                            { role: "system", content: "You are a human-like writing assistant. Respond precisely and provide a 'Humanizer Score' (0-100%) at the end." },
+                            { role: "user", content: prompt }
+                        ] 
+                    })
                 });
 
                 const data = await res.json();
-                if (data.candidates) {
-                    output.innerText = data.candidates[0].content.parts[0].text;
+                
+                if (data.error) {
+                    output.innerText = "Error: " + data.error.message;
                 } else {
-                    output.innerText = "Error: " + JSON.stringify(data);
+                    output.innerText = data.choices[0].message.content;
                 }
             } catch (err) {
-                output.innerText = "Fetch Error: " + err.message;
+                output.innerText = "Error: " + err.message;
             }
         });
     </script>
