@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Zero-GPT Bypass Engine Pro</title>
+    <title>Zero-GPT Bypass Engine [Extreme]</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background: #0a0a0a; color: #ccc; padding: 20px; font-family: sans-serif; }
-        .container { max-width: 700px; background: #161616; padding: 30px; border-radius: 12px; border: 1px solid #444; }
-        textarea { background: #000; color: #0f0; border: 1px solid #555; width: 100%; padding: 12px; border-radius: 8px; }
-        #result { background: #050505; border-left: 4px solid #f00; padding: 20px; margin-top: 20px; white-space: pre-wrap; color: #fff; min-height: 100px; }
+        body { background: #080808; color: #bbb; padding: 20px; font-family: sans-serif; }
+        .container { max-width: 700px; background: #121212; padding: 30px; border-radius: 15px; border: 1px solid #555; }
+        textarea { background: #000; color: #0f0; border: 1px solid #666; width: 100%; padding: 15px; border-radius: 10px; }
+        #result { background: #000; border-left: 5px solid #ff0000; padding: 20px; margin-top: 20px; white-space: pre-wrap; color: #fff; font-size: 16px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h3 class="text-center text-white mb-4">Zero-GPT Bypass Engine (Pro)</h3>
-    <input type="password" id="apiKey" class="form-control mb-3" placeholder="Enter Groq API Key...">
-    <textarea id="inputText" rows="6" placeholder="Paste your robotic text here..."></textarea>
-    <button class="btn btn-danger w-100 mt-2" onclick="processText()">Smash Detection (Generate 0% AI)</button>
+    <h3 class="text-center text-white mb-4">Zero-GPT Bypass [Extreme Mode]</h3>
+    <input type="password" id="apiKey" class="form-control mb-3" placeholder="Groq API Key...">
+    <textarea id="inputText" rows="6" placeholder="Paste robotic text here..."></textarea>
+    <button class="btn btn-danger w-100 mt-2" onclick="processText()">Generate Chaotic Human Text</button>
     <div id="result" class="d-none"></div>
 </div>
 
@@ -27,20 +27,19 @@
         const text = document.getElementById('inputText').value;
         const resDiv = document.getElementById('result');
         
-        if(!key || !text) return alert("API Key aur Text dono daal!");
+        if(!key || !text) return alert("Key aur text dal bhai!");
         
         resDiv.classList.remove('d-none');
-        resDiv.innerText = "Injecting human patterns & bypassing...";
+        resDiv.innerText = "Applying extreme human jitter...";
 
-        // Super-Aggressive Prompt
-        const systemPrompt = `You are an expert human writer. Rewrite the text to bypass AI detectors.
+        const systemPrompt = `You are a human writer who is bad at structured writing. 
         RULES:
-        1. MEANING LOCK: Keep every single fact, detail, and argument the same.
-        2. CHAOTIC BURSTINESS: Mix extremely short fragments (2-3 words) with long, complex, trailing sentences. 
-        3. RHETORICAL QUESTIONS: Ask 1-2 questions within the text to sound like a human engaged in a debate.
-        4. VOCABULARY: Use raw, conversational, and slightly messy language. Avoid formal AI-transition words like 'Furthermore', 'Consequently', 'Overall', 'However' at the start.
-        5. STARTING WORDS: Vary openers. Use 'Honestly,', 'So,', 'Look,', 'Actually,', or just start with the noun.
-        6. NO MARKDOWN: Output raw text only. No introductions or explanations.`;
+        1. CHAOTIC FLOW: Stream of consciousness. Do not use perfect paragraphs. Use dashes (—), ellipses (...), and line breaks randomly.
+        2. MEANING LOCK: Keep the original facts and logic, but change the delivery to be messy and blunt.
+        3. HUMAN JITTER: Use phrases like 'you know?', 'anyway,', 'look,', 'I mean,'.
+        4. STRUCTURE: Vary sentence length aggressively—from 2-word punchlines to 30-word run-on sentences. 
+        5. NO AI PATTERNS: Do not be polished. Be raw. No perfect transitions. 
+        6. NO MARKDOWN: Output plain text only.`;
 
         try {
             const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -48,9 +47,9 @@
                 headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    temperature: 0.85, 
-                    frequency_penalty: 0.8,
-                    presence_penalty: 0.8,
+                    temperature: 0.95, 
+                    frequency_penalty: 1.5,
+                    presence_penalty: 1.5,
                     messages: [{ role: "system", content: systemPrompt }, { role: "user", content: text }]
                 })
             });
