@@ -1,39 +1,55 @@
+from flask import Flask, request, jsonify
 import os
 from openai import OpenAI
 
-# API Key runtime ke environment variables se uthayega
-# Isko GitHub par push karte waqt key mat likhna!
+app = Flask(__name__)
+
+# NVIDIA API setup
 client = OpenAI(
-  base_url = "https://integrate.api.nvidia.com/v1",
-  api_key = os.getenv("NVIDIA_API_KEY") 
+    base_url="https://integrate.api.nvidia.com/v1",
+    api_key=os.getenv("NVIDIA_API_KEY")
 )
 
-def get_astrology_verdict(user_input):
-    completion = client.chat.completions.create(
-      model="nvidia/nemotron-3-nano-omni-30b-a3b-reasoning",
-      messages=[{"role":"user","content": user_input}],
-      temperature=0.6,
-      top_p=0.95,
-      max_tokens=4096,
-      extra_body={
-          "chat_template_kwargs": {"enable_thinking": True},
-          "reasoning_budget": 1024
-      },
-      stream=False
-    )
-    
-    # Reasoning aur Final Answer dono fetch kar rahe hain
-    reasoning = getattr(completion.choices[0].message, "reasoning_content", None)
-    answer = completion.choices[0].message.content
-    
-    return reasoning, answer
+@app.route('/')
+def home():
+    return "Astrology Engine is Online and Ready!"
 
-# Testing ke liye (Runtime pe ye part tumhare UI se connect hoga)
-if __name__ == "__main__":
-    query = "Kundali mein Mangal Dosh ka prabhav kya hai?"
-    think, ans = get_astrology_verdict(query)
+@app.route('/get-report', methods=['POST'])
+def get_report():
+    data = request.json
+    user_input = data.get("prompt", "")
     
-    if think:
-        print("--- Soch (Reasoning) ---\n", think)
-    print("\n--- Verdict ---\n", ans)
-  
+    if not user_input:
+        return jsonify({"error": "No prompt provided"}), 400
+
+    # Professional formatting logic
+    system_prompt = """You are a professional astrologer. 
+    Format the response in this exact style:
+    ### 📜 ASTROLOGY REPORT: NEETHU PHILLIPS
+    ---
+    **1. Astrological Summary:** [Summary here]
+    **2. Second Marriage Window:** [Timing here]
+    **3. Partner Characteristics:** [Traits here]
+    **4. Life Journey:** [Predictions here]
+    **5. Remedial Guidance:** [Tips here]
+    """
+
+    try:
+        completion = client.chat.completions.create(
+            model="nvidia/nemotron-3-nano-omni-30b-a3b-reasoning",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_input}
+            ],
+            temperature=0.6,
+            extra_body={"chat_template_kwargs": {"enable_thinking": True}}
+        )
+        report = completion.choices[0].message.content
+        return jsonify({"report": report})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == "__main__":
+    # Render port ko automatically detect karega
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host='0.0.0.0', port=port)
