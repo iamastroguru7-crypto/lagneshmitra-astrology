@@ -1,28 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Gemini Engine</title>
+    <meta charset="UTF-8">
+    <title>Gemini Engine (Secure Admin Mode)</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        #chat-container { border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px; margin-bottom: 10px; }
+    </style>
 </head>
 <body>
+
+    <h2>Gemini Engine</h2>
     <div id="chat-container"></div>
     <input type="text" id="userInput" placeholder="Ask something...">
     <button id="sendBtn">Send</button>
 
     <script>
-        // Apni 'Aq...' wali key yahan rakho
+        // ADMIN NOTE: Yahan 'Aq' key ko secure jagah se fetch karna
+        // Abhi ke liye yahan define kiya hai
         const API_KEY = "AQ.Ab8RN6KDaTb3piWYu-tawwGcLrxKQsPggimr5VW_w4IOrZn7HQ";
         
         async function askGemini() {
             const userInput = document.getElementById("userInput").value;
             const chatContainer = document.getElementById("chat-container");
 
-            // URL format mein 'key=' parameter use karo
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+            if (!userInput) return;
+
+            // URL mein ab 'key=' parameter ki zaroorat nahi hai
+            const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
             try {
                 const response = await fetch(url, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}` // AQ key ke liye zaruri
+                    },
                     body: JSON.stringify({
                         contents: [{ parts: [{ text: userInput }] }]
                     })
@@ -31,14 +44,15 @@
                 const data = await response.json();
 
                 if (data.error) {
-                    // Agar abhi bhi error aaya, toh samajh lena ki yeh key browser ke liye nahi bani hai
-                    alert("API Error: " + data.error.message);
+                    // Agar abhi bhi error aaye toh console mein check karna
+                    console.error("Full Error:", data);
+                    alert("Error: " + (data.error.message || "Unknown Error"));
                 } else {
                     const text = data.candidates[0].content.parts[0].text;
                     chatContainer.innerHTML += `<p><b>Gemini:</b> ${text}</p>`;
                 }
             } catch (error) {
-                alert("Connection Error: " + error.message);
+                alert("Connection Failed: " + error.message);
             }
         }
 
