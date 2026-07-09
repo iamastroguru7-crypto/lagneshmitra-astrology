@@ -6,37 +6,32 @@
 <body>
     <div id="chat-container"></div>
     <input type="text" id="userInput" placeholder="Ask something...">
-    <button id="sendBtn" disabled>Loading Engine...</button>
+    <button id="sendBtn">Send</button>
 
-    <!-- Library ko yahan load karo -->
-    <script src="https://unpkg.com/@google/generative-ai@0.1.0/dist/index.min.js"></script>
+    <script type="module">
+        // Hum library ko direct import kar rahe hain (Modern JavaScript)
+        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
-    <script>
         const API_KEY = "AQ.Ab8RN6KDaTb3piWYu-tawwGcLrxKQsPggimr5VW_w4IOrZn7HQ";
-        const btn = document.getElementById("sendBtn");
-
-        // Library load hone ka wait karo
-        window.onload = () => {
-            btn.disabled = false;
-            btn.innerText = "Send";
-            btn.onclick = askGemini;
-        };
-
+        
         async function askGemini() {
             const userInput = document.getElementById("userInput").value;
             const chatContainer = document.getElementById("chat-container");
-
+            
             try {
-                // Yahan library ka access lo
-                const genAI = new google.generativeAI.GoogleGenerativeAI(API_KEY);
+                const genAI = new GoogleGenerativeAI(API_KEY);
                 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
                 const result = await model.generateContent(userInput);
-                chatContainer.innerHTML += `<p><b>Gemini:</b> ${result.response.text()}</p>`;
+                const text = result.response.text();
+
+                chatContainer.innerHTML += `<p><b>Gemini:</b> ${text}</p>`;
             } catch (error) {
                 alert("Error: " + error.message);
             }
         }
+
+        document.getElementById("sendBtn").onclick = askGemini;
     </script>
 </body>
 </html>
