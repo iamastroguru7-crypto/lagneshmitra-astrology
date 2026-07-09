@@ -2,38 +2,37 @@
 <html>
 <head>
     <title>Gemini Engine</title>
-    <!-- Google ka official SDK load karo -->
-    <script src="https://unpkg.com/@google/generative-ai@0.1.0/dist/index.min.js"></script>
 </head>
 <body>
     <div id="chat-container"></div>
     <input type="text" id="userInput" placeholder="Ask something...">
-    <button onclick="askGemini()">Send</button>
+    <button id="sendBtn" disabled>Loading Engine...</button>
+
+    <!-- Library ko yahan load karo -->
+    <script src="https://unpkg.com/@google/generative-ai@0.1.0/dist/index.min.js"></script>
 
     <script>
         const API_KEY = "AQ.Ab8RN6KDaTb3piWYu-tawwGcLrxKQsPggimr5VW_w4IOrZn7HQ";
-        
+        const btn = document.getElementById("sendBtn");
+
+        // Library load hone ka wait karo
+        window.onload = () => {
+            btn.disabled = false;
+            btn.innerText = "Send";
+            btn.onclick = askGemini;
+        };
+
         async function askGemini() {
             const userInput = document.getElementById("userInput").value;
             const chatContainer = document.getElementById("chat-container");
 
-            if (!userInput) return;
-
-            // Check karo ki SDK load hua ya nahi
-            if (typeof google === 'undefined' || !google.generativeAI) {
-                alert("SDK abhi load ho raha hai, 2 second ruk kar wapas dabao!");
-                return;
-            }
-
             try {
+                // Yahan library ka access lo
                 const genAI = new google.generativeAI.GoogleGenerativeAI(API_KEY);
                 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
                 const result = await model.generateContent(userInput);
-                const response = await result.response;
-                const text = response.text();
-
-                chatContainer.innerHTML += `<p><b>Gemini:</b> ${text}</p>`;
+                chatContainer.innerHTML += `<p><b>Gemini:</b> ${result.response.text()}</p>`;
             } catch (error) {
                 alert("Error: " + error.message);
             }
