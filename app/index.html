@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Gemini Engine</title>
+    <script src="https://unpkg.com/@google/generative-ai@0.1.0/dist/index.min.js"></script>
 </head>
 <body>
     <div id="chat-container"></div>
@@ -9,34 +10,30 @@
     <button onclick="askGemini()">Send</button>
 
     <script>
-        const API_KEY = "AQ.Ab8RN6KDaTb3piWYu-tawwGcLrxKQsPggimr5VW_w4IOrZn7HQ"; 
+        // Apni API key yahan daalo
+        const API_KEY = "AQ.Ab8RN6KDaTb3piWYu-tawwGcLrxKQsPggimr5VW_w4IOrZn7HQ";
         
         async function askGemini() {
             const userInput = document.getElementById("userInput").value;
             const chatContainer = document.getElementById("chat-container");
 
-            // URL sahi kar diya hai yahan:
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+            if (!userInput) return;
 
             try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: userInput }] }]
-                    })
-                });
+                // SDK ka use karke Gemini initialize karo
+                const genAI = new window.google.generativeAI.GoogleGenerativeAI(API_KEY);
+                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-                const data = await response.json();
+                // Request bhejo
+                const result = await model.generateContent(userInput);
+                const response = await result.response;
+                const text = response.text();
 
-                if (data.error) {
-                    alert("Error: " + data.error.message);
-                } else {
-                    const botReply = data.candidates[0].content.parts[0].text;
-                    chatContainer.innerHTML += `<p><b>Gemini:</b> ${botReply}</p>`;
-                }
+                // UI update karo
+                chatContainer.innerHTML += `<p><b>Gemini:</b> ${text}</p>`;
             } catch (error) {
-                alert("Connection Failed: " + error.message);
+                console.error(error);
+                alert("Error: " + error.message);
             }
         }
     </script>
