@@ -5,41 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wealth Engine | Precision AI</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: url('/global/background2.png') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Segoe UI', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: white;
-        }
-        .container {
-            width: 90%;
-            max-width: 500px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        #outputBox {
-            height: 300px;
-            background: rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            overflow-y: auto;
-            border: 1px solid #444;
-            color: #ddd;
-        }
-        .input-area { display: flex; gap: 10px; }
-        input { flex: 1; padding: 12px; border-radius: 5px; border: none; background: rgba(255, 255, 255, 0.1); color: white; }
-        button { padding: 10px 20px; background: #ffcc00; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
-    </style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: url('/global/background2.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Yeh screen height cover karega */
+        width: 100vw;  /* Yeh screen width cover karega */
+        color: white;
+    }
+    .container {
+        width: 95%;      /* Screen ka almost 95% width */
+        height: 90vh;    /* Screen ka 90% height */
+        max-width: none; /* Max-width hata di taaki stretch ho sake */
+        background: rgba(0, 0, 0, 0.85); /* Thoda aur dark taki text saaf dikhe */
+        padding: 20px;
+        border-radius: 0; /* Full screen look ke liye corners sharp ya kam round */
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+    }
+    #outputBox {
+        flex: 1; /* Yeh bacha hua poora space lega */
+        background: rgba(0, 0, 0, 0.4);
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 10px;
+        overflow-y: auto;
+        border: 1px solid #444;
+    }
+    .input-area { 
+        display: flex; 
+        gap: 10px; 
+    }
+    input { 
+        flex: 1; 
+        padding: 15px; 
+        border-radius: 5px; 
+        border: none; 
+        background: rgba(255, 255, 255, 0.1); 
+        color: white; 
+    }
+    button { 
+        padding: 10px 25px; 
+        background: #ffcc00; 
+        border: none; 
+        border-radius: 5px; 
+        cursor: pointer; 
+        font-weight: bold; 
+    }
+</style>
+
 </head>
 <body>
 
