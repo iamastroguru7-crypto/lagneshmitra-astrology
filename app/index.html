@@ -1,73 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tester</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; }
-        .box { margin-bottom: 15px; }
-        textarea, select, input { width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box; }
-        #output { border: 1px solid #ccc; padding: 10px; min-height: 100px; margin-top: 20px; background: #f9f9f9; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; max-width: 500px; margin: auto; background: #f4f4f9; }
+        .box { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        input, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+        #output { margin-top: 20px; padding: 15px; background: #fff; border: 1px solid #ddd; border-radius: 4px; min-height: 50px; white-space: pre-wrap; }
     </style>
 </head>
 <body>
 
     <h2>AI Multi-Engine Tester</h2>
 
-    <!-- Option Box -->
     <div class="box">
-        <label>Select AI Engine:</label>
-        <select id="engineSelect">
-            <option value="gsk">GSK (Gemini)</option>
-            <option value="openai">OpenAI (GPT)</option>
-        </select>
+        <label>API Key:</label>
+        <input type="password" id="apiKey" placeholder="sk-...">
     </div>
 
-    <!-- Key Input Box -->
     <div class="box">
-        <label>Enter API Key:</label>
-        <input type="password" id="apiKey" placeholder="Paste your API key here...">
+        <textarea id="userInput" rows="3" placeholder="Enter your prompt..."></textarea>
+        <button id="sendBtn">Generate Response</button>
     </div>
 
-    <!-- User Input -->
-    <textarea id="userInput" rows="4" placeholder="Type your prompt here..."></textarea>
-    <button id="sendBtn" style="margin-top:10px; width:100%; padding:10px; cursor:pointer;">Generate Output</button>
-
-    <!-- Output Box -->
     <div id="output">Output will appear here...</div>
 
     <script>
         document.getElementById('sendBtn').addEventListener('click', async () => {
-            const engine = document.getElementById('engineSelect').value;
-            const key = document.getElementById('apiKey').value;
-            const prompt = document.getElementById('userInput').value;
+            const key = document.getElementById('apiKey').value.trim();
+            const prompt = document.getElementById('userInput').value.trim();
             const output = document.getElementById('output');
 
-            if (!key || !prompt) return alert("Key aur Prompt dono daal!");
+            if (!key || !prompt) {
+                alert("Bhai, Key aur Prompt dono daal!");
+                return;
+            }
 
             output.innerText = "Thinking...";
 
             try {
-                if (engine === 'openai') {
-                    const res = await fetch("https://api.openai.com/v1/chat/completions", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${key}` },
-                        body: JSON.stringify({ model: "gpt-4o", messages: [{ role: "user", content: prompt }] })
-                    });
-                    const data = await res.json();
-                    output.innerText = data.choices[0].message.content;
+                const res = await fetch("https://api.openai.com/v1/chat/completions", {
+                    method: "POST",
+                    headers: { 
+                        "Content-Type": "application/json", 
+                        "Authorization": `Bearer ${key}` 
+                    },
+                    body: JSON.stringify({ 
+                        model: "gpt-4o-mini", 
+                        messages: [{ role: "user", content: prompt }] 
+                    })
+                });
 
-                } else if (engine === 'gsk') {
-                    // GSK (Gemini) API Call
-                    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
-                    const res = await fetch(url, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                    });
-                    const data = await res.json();
-                    output.innerText = data.candidates[0].content.parts[0].text;
+                const data = await res.json();
+
+                if (data.error) {
+                    output.innerText = "API Error: " + data.error.message;
+                } else if (data.choices && data.choices[0]) {
+                    output.innerText = data.choices[0].message.content;
+                } else {
+                    output.innerText = "Response format error. Check console.";
+                    console.log(data);
                 }
             } catch (err) {
-                output.innerText = "Error: " + err.message;
+                output.innerText = "Network/Fetch Error: " + err.message;
             }
         });
     </script>
