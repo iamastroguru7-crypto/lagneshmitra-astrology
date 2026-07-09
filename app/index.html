@@ -4,31 +4,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astrology Morphing Engine</title>
     <style>
-        body { background: #050505; color: #00ff41; font-family: 'Courier New', monospace; padding: 20px; }
+        body { background: #050505; color: #00ff41; font-family: 'Courier New', monospace; padding: 15px; margin: 0; }
         textarea, input { width: 100%; background: #111; color: #fff; border: 1px solid #333; padding: 12px; margin: 8px 0; box-sizing: border-box; }
         button { width: 100%; padding: 15px; background: #b00; color: white; border: none; font-weight: bold; cursor: pointer; }
-        #output { margin-top: 20px; padding: 15px; border: 1px dashed #444; white-space: pre-wrap; color: #ccc; }
+        #output { margin-top: 20px; padding: 15px; border: 1px dashed #444; white-space: pre-wrap; color: #ccc; max-height: 400px; overflow-y: auto; }
     </style>
 </head>
 <body>
 
-    <h2>Astrology Morphing Engine</h2>
+    <h2>Astrology Engine</h2>
     <input type="password" id="apiKey" placeholder="NVIDIA API Key">
-    <textarea id="promptData" rows="6" placeholder="Enter Kundali details or events..."></textarea>
+    <textarea id="promptData" rows="5" placeholder="Enter Kundali details or events..."></textarea>
     <button onclick="runEngine()">GENERATE VERDICT</button>
 
-    <div id="output">Waiting for command...</div>
+    <div id="output">Waiting for your command...</div>
 
 <script>
 async function runEngine() {
     const out = document.getElementById('output');
     const key = document.getElementById('apiKey').value;
     const prompt = document.getElementById('promptData').value;
-    const url = "https://script.google.com/macros/s/AKfycbyFijx1KKtvlkyPgwrsZ_ILL58zlOY2Ii3Gi0XSNWVgYezlyir22TbZJS8NxTHVPnDItA/exec";
+    
+    // Tera naya deploy hua URL yahan hai
+    const url = "https://script.google.com/macros/s/AKfycbwWrlSHfLznul6rWPbagUR-44s0732QgZBqdQVrXuT4DXQAw3nQWKmX3-Kblxukd9Bn5w/exec";
 
     if(!key || !prompt) { alert("API Key aur Data dono fill kar!"); return; }
 
-    out.innerText = "Connecting to the celestial grid...";
+    out.innerText = "Connecting to the celestial grid... (Please wait)";
 
     try {
         const response = await fetch(url, {
@@ -38,8 +40,8 @@ async function runEngine() {
                 body: {
                     model: "meta/llama3-70b-instruct",
                     messages: [{
-                        role: "system",
-                        content: "You are an old-school, sharp astrologer. Use raw, stream-of-consciousness style. Discuss karmic debts and planetary transits. Be critical, observant, and punchy."
+                        role: "system", 
+                        content: "You are a sharp, cryptic astrologer. Use punchy sentences and ellipses. Focus on karmic patterns."
                     }, { 
                         role: "user", 
                         content: prompt 
