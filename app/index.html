@@ -19,7 +19,7 @@
     <h2>Groq Humanizer Pro</h2>
     <div class="box">
         <input type="password" id="apiKey" placeholder="Paste Groq API Key (gsk_...)">
-        <textarea id="userInput" rows="4" placeholder="Enter text to analyze..."></textarea>
+        <textarea id="userInput" rows="4" placeholder="Enter text to humanize..."></textarea>
         <button id="sendBtn">Generate Analysis</button>
     </div>
 
@@ -41,7 +41,7 @@
             
             if(!key || !prompt) return alert("API Key aur Prompt dono daalo!");
 
-            btn.innerText = "Analyzing...";
+            btn.innerText = "Processing...";
 
             try {
                 const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -50,20 +50,20 @@
                     body: JSON.stringify({ 
                         model: "llama-3.3-70b-versatile",
                         messages: [
-                            { role: "system", content: "You are a humanizer analyzer. Return ONLY raw JSON format: {'answer': 'humanized text here', 'ai_score': 0, 'gpt_score': 0, 'human_score': 0}" },
+                            { role: "system", content: "You are a JSON-only response engine. Respond ONLY with this JSON structure: {'answer': '...', 'ai_score': 0, 'gpt_score': 0, 'human_score': 0}. No markdown, no conversation." },
                             { role: "user", content: prompt }
                         ] 
                     })
                 });
 
                 const data = await res.json();
-                const rawContent = data.choices[0].message.content.trim();
+                let raw = data.choices[0].message.content.trim();
                 
-                // Regex to extract ONLY the JSON part
-                const jsonMatch = rawContent.match(/\{[\s\S]*\}/);
-                if (!jsonMatch) throw new Error("Could not find JSON in response");
+                // Regex for cleaning: Sirf JSON object dhundega
+                const match = raw.match(/\{[\s\S]*\}/);
+                if (!match) throw new Error("Format error");
                 
-                const content = JSON.parse(jsonMatch[0]);
+                const content = JSON.parse(match[0]);
                 
                 document.getElementById('resultText').innerText = content.answer;
                 document.getElementById('aiS').innerText = content.ai_score;
@@ -72,8 +72,8 @@
                 
                 document.getElementById('output').style.display = 'block';
             } catch (e) {
-                alert("Error: Data parse nahi ho paya. Phir se try karo.");
-                console.error(e);
+                alert("Error: AI ne ghalat format diya. Phir se try karo.");
+                console.error("Full AI Response:", data);
             } finally {
                 btn.innerText = "Generate Analysis";
             }
