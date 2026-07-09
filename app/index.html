@@ -9,9 +9,9 @@
         .box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
         input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
         button { width: 100%; padding: 12px; background: #d63384; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        #output { margin-top: 20px; }
+        #output { margin-top: 20px; display: none; }
         .score-row { display: flex; gap: 10px; margin-top: 15px; }
-        .score-card { flex: 1; padding: 10px; border-radius: 8px; text-align: center; color: white; }
+        .score-card { flex: 1; padding: 10px; border-radius: 8px; text-align: center; color: white; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -19,11 +19,11 @@
     <h2>Groq Humanizer Pro</h2>
     <div class="box">
         <input type="password" id="apiKey" placeholder="Paste Groq API Key (gsk_...)">
-        <textarea id="userInput" rows="4" placeholder="Kuch likho..."></textarea>
+        <textarea id="userInput" rows="4" placeholder="Enter text to analyze..."></textarea>
         <button id="sendBtn">Generate Analysis</button>
     </div>
 
-    <div id="output" style="display:none;">
+    <div id="output">
         <div class="box" id="resultText"></div>
         <div class="score-row">
             <div class="score-card" style="background:#6c757d;">AI<br><span id="aiS">0</span>%</div>
@@ -37,10 +37,11 @@
         document.getElementById('sendBtn').addEventListener('click', async () => {
             const key = document.getElementById('apiKey').value.trim();
             const prompt = document.getElementById('userInput').value.trim();
+            const btn = document.getElementById('sendBtn');
             
-            if(!key || !prompt) return alert("Key aur Prompt dono daal!");
+            if(!key || !prompt) return alert("API Key aur Prompt dono daalo!");
 
-            document.getElementById('sendBtn').innerText = "Analyzing...";
+            btn.innerText = "Analyzing...";
 
             try {
                 const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -49,14 +50,20 @@
                     body: JSON.stringify({ 
                         model: "llama-3.3-70b-versatile",
                         messages: [
-                            { role: "system", content: "You are a humanizer. Return JSON format only: {'answer': 'your response', 'ai_score': 0, 'gpt_score': 0, 'human_score': 0}" },
+                            { role: "system", content: "You are a humanizer analyzer. Return ONLY raw JSON format: {'answer': 'humanized text here', 'ai_score': 0, 'gpt_score': 0, 'human_score': 0}" },
                             { role: "user", content: prompt }
                         ] 
                     })
                 });
 
                 const data = await res.json();
-                const content = JSON.parse(data.choices[0].message.content.replace(/```json|```/g, ""));
+                const rawContent = data.choices[0].message.content.trim();
+                
+                // Regex to extract ONLY the JSON part
+                const jsonMatch = rawContent.match(/\{[\s\S]*\}/);
+                if (!jsonMatch) throw new Error("Could not find JSON in response");
+                
+                const content = JSON.parse(jsonMatch[0]);
                 
                 document.getElementById('resultText').innerText = content.answer;
                 document.getElementById('aiS').innerText = content.ai_score;
@@ -64,10 +71,11 @@
                 document.getElementById('humS').innerText = content.human_score;
                 
                 document.getElementById('output').style.display = 'block';
-                document.getElementById('sendBtn').innerText = "Generate Analysis";
             } catch (e) {
-                alert("Error: " + e.message);
-                document.getElementById('sendBtn').innerText = "Generate Analysis";
+                alert("Error: Data parse nahi ho paya. Phir se try karo.");
+                console.error(e);
+            } finally {
+                btn.innerText = "Generate Analysis";
             }
         });
 
