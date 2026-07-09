@@ -8,26 +8,39 @@
     <input type="text" id="userInput" placeholder="Ask something...">
     <button id="sendBtn">Send</button>
 
-    <script type="module">
-        // Hum library ko direct import kar rahe hain (Modern JavaScript)
-        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
-
-        const API_KEY = "AQ.Ab8RN6KDaTb3piWYu-tawwGcLrxKQsPggimr5VW_w4IOrZn7HQ";
+    <script>
+        // Yahan apni 'Aq...' wali key paste kar
+        const API_KEY = "AQ.Ab8RN6Ki08ycrj0iaGHnmBfoYEnG0yFE6wjgEKT0IeU333vIWw";
         
         async function askGemini() {
             const userInput = document.getElementById("userInput").value;
             const chatContainer = document.getElementById("chat-container");
             
+            // Note: Aq keys ke liye URL mein 'key=' ki jagah Authorization header use hoga
+            const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+
             try {
-                const genAI = new GoogleGenerativeAI(API_KEY);
-                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}` // Yahan 'Bearer' format use kiya hai
+                    },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: userInput }] }]
+                    })
+                });
 
-                const result = await model.generateContent(userInput);
-                const text = result.response.text();
+                const data = await response.json();
 
-                chatContainer.innerHTML += `<p><b>Gemini:</b> ${text}</p>`;
+                if (data.error) {
+                    alert("API Error: " + data.error.message);
+                } else {
+                    const text = data.candidates[0].content.parts[0].text;
+                    chatContainer.innerHTML += `<p><b>Gemini:</b> ${text}</p>`;
+                }
             } catch (error) {
-                alert("Error: " + error.message);
+                alert("Network Error: " + error.message);
             }
         }
 
