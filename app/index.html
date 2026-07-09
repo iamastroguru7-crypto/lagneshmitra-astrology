@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Astrology Bypass [Raw Human Mode]</title>
+    <title>Astrology Bypass [Plural Mode]</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background: #000; color: #fff; padding: 20px; font-family: 'Courier New', Courier, monospace; }
@@ -14,10 +14,10 @@
 <body>
 
 <div class="container">
-    <h3 class="text-center">Astrology Raw Humanizer</h3>
+    <h3 class="text-center">Astrology Raw [Plural Mode]</h3>
     <input type="password" id="apiKey" class="form-control mb-2" placeholder="Groq API Key...">
     <textarea id="inputText" rows="8" placeholder="Paste chart data..."></textarea>
-    <button class="btn btn-outline-danger w-100 mt-2" onclick="processText()">Generate Raw Analysis</button>
+    <button class="btn btn-outline-warning w-100 mt-2" onclick="processText()">Generate Messy Analysis</button>
     <div id="result" class="d-none"></div>
 </div>
 
@@ -27,7 +27,7 @@
         const text = document.getElementById('inputText').value;
         const resDiv = document.getElementById('result');
         
-        if(!key || !text) return alert("API Key aur data chahiye bhai!");
+        if(!key || !text) return alert("Key aur data chahiye bhai!");
         
         resDiv.classList.remove('d-none');
         resDiv.innerText = "typing analysis...";
@@ -35,10 +35,11 @@
         const systemPrompt = `You are a human who is bad at typing and hates professional structure.
         RULES:
         1. NO GRAMMAR: Write mostly in lowercase. ignore capitalization. 
-        2. BROKEN THOUGHTS: use random line breaks everywhere. split sentences in half.
-        3. NO FILLERS: NEVER start sentences with 'honestly', 'you know', 'i mean'. stop using these, they are detected as AI.
-        4. MESSY: use short, jagged, incomplete thoughts. 
-        5. NO MARKDOWN: return just the raw, unformatted text.`;
+        2. PLURAL ENDINGS: Force almost every sentence to end with plural nouns or words ending in 's' sounds.
+        3. BROKEN THOUGHTS: use random line breaks everywhere. split sentences in half.
+        4. NO FILLERS: NEVER start sentences with 'honestly', 'you know', 'i mean'. stop using these, they are detected as AI.
+        5. MESSY: use short, jagged, incomplete thoughts. 
+        6. NO MARKDOWN: return just the raw, unformatted text.`;
 
         try {
             const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
