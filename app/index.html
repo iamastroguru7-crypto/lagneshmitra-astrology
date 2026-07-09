@@ -2,63 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Groq Humanizer - Updated</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groq Humanizer Pro</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; background: #f4f4f4; }
-        .box { background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-        input, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #d63384; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        #output { margin-top: 20px; padding: 15px; background: #fff; border: 1px solid #ddd; white-space: pre-wrap; }
+        body { font-family: 'Segoe UI', sans-serif; padding: 20px; max-width: 600px; margin: auto; background: #f8f9fa; }
+        .box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #d63384; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        #output { margin-top: 20px; }
+        .score-row { display: flex; gap: 10px; margin-top: 15px; }
+        .score-card { flex: 1; padding: 10px; border-radius: 8px; text-align: center; color: white; }
     </style>
 </head>
 <body>
 
-    <h2>Groq Server Humanizer</h2>
-
+    <h2>Groq Humanizer Pro</h2>
     <div class="box">
         <input type="password" id="apiKey" placeholder="Paste Groq API Key (gsk_...)">
         <textarea id="userInput" rows="4" placeholder="Kuch likho..."></textarea>
-        <button id="sendBtn">Generate with Groq</button>
+        <button id="sendBtn">Generate Analysis</button>
     </div>
 
-    <div id="output">Result yahan aayega...</div>
+    <div id="output" style="display:none;">
+        <div class="box" id="resultText"></div>
+        <div class="score-row">
+            <div class="score-card" style="background:#6c757d;">AI<br><span id="aiS">0</span>%</div>
+            <div class="score-card" style="background:#0d6efd;">GPT<br><span id="gptS">0</span>%</div>
+            <div class="score-card" style="background:#198754;">Human<br><span id="humS">0</span>%</div>
+        </div>
+        <button id="copyBtn" style="margin-top:15px; background:#333;">Copy Text</button>
+    </div>
 
     <script>
         document.getElementById('sendBtn').addEventListener('click', async () => {
             const key = document.getElementById('apiKey').value.trim();
             const prompt = document.getElementById('userInput').value.trim();
-            const output = document.getElementById('output');
+            
+            if(!key || !prompt) return alert("Key aur Prompt dono daal!");
 
-            output.innerText = "Processing via Llama 3.3...";
+            document.getElementById('sendBtn').innerText = "Analyzing...";
 
             try {
                 const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: "POST",
-                    headers: { 
-                        "Content-Type": "application/json", 
-                        "Authorization": `Bearer ${key}` 
-                    },
+                    headers: { "Content-Type": "application/json", "Authorization": `Bearer ${key}` },
                     body: JSON.stringify({ 
-                        // UPDATED MODEL NAME
-                        model: "llama-3.3-70b-versatile", 
+                        model: "llama-3.3-70b-versatile",
                         messages: [
-                            { role: "system", content: "You are a human-like writing assistant. Respond precisely and provide a 'Humanizer Score' (0-100%) at the end." },
+                            { role: "system", content: "You are a humanizer. Return JSON format only: {'answer': 'your response', 'ai_score': 0, 'gpt_score': 0, 'human_score': 0}" },
                             { role: "user", content: prompt }
                         ] 
                     })
                 });
 
                 const data = await res.json();
+                const content = JSON.parse(data.choices[0].message.content.replace(/```json|```/g, ""));
                 
-                if (data.error) {
-                    output.innerText = "Error: " + data.error.message;
-                } else {
-                    output.innerText = data.choices[0].message.content;
-                }
-            } catch (err) {
-                output.innerText = "Error: " + err.message;
+                document.getElementById('resultText').innerText = content.answer;
+                document.getElementById('aiS').innerText = content.ai_score;
+                document.getElementById('gptS').innerText = content.gpt_score;
+                document.getElementById('humS').innerText = content.human_score;
+                
+                document.getElementById('output').style.display = 'block';
+                document.getElementById('sendBtn').innerText = "Generate Analysis";
+            } catch (e) {
+                alert("Error: " + e.message);
+                document.getElementById('sendBtn').innerText = "Generate Analysis";
             }
         });
+
+        document.getElementById('copyBtn').onclick = () => {
+            navigator.clipboard.writeText(document.getElementById('resultText').innerText);
+            alert("Copied!");
+        };
     </script>
 </body>
 </html>
