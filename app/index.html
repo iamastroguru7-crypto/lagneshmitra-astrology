@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Zero-GPT Bypass Engine [Extreme]</title>
+    <title>Astrology Humanizer (Extreme)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background: #080808; color: #bbb; padding: 20px; font-family: sans-serif; }
-        .container { max-width: 700px; background: #121212; padding: 30px; border-radius: 15px; border: 1px solid #555; }
-        textarea { background: #000; color: #0f0; border: 1px solid #666; width: 100%; padding: 15px; border-radius: 10px; }
-        #result { background: #000; border-left: 5px solid #ff0000; padding: 20px; margin-top: 20px; white-space: pre-wrap; color: #fff; font-size: 16px; }
+        body { background: #050505; color: #aaa; padding: 20px; font-family: sans-serif; }
+        .container { max-width: 600px; background: #111; padding: 25px; border-radius: 10px; border: 1px solid #444; }
+        textarea { background: #000; color: #0f0; border: 1px solid #666; width: 100%; padding: 10px; border-radius: 5px; }
+        #result { background: #000; padding: 20px; margin-top: 20px; white-space: pre-wrap; color: #fff; border: 1px dashed #f00; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h3 class="text-center text-white mb-4">Zero-GPT Bypass [Extreme Mode]</h3>
-    <input type="password" id="apiKey" class="form-control mb-3" placeholder="Groq API Key...">
-    <textarea id="inputText" rows="6" placeholder="Paste robotic text here..."></textarea>
-    <button class="btn btn-danger w-100 mt-2" onclick="processText()">Generate Chaotic Human Text</button>
+    <h3 class="text-center text-white">Astrology Humanizer (Anti-AI)</h3>
+    <input type="password" id="apiKey" class="form-control mb-2" placeholder="Groq API Key...">
+    <textarea id="inputText" rows="8" placeholder="Paste your chart data here..."></textarea>
+    <button class="btn btn-warning w-100 mt-2" onclick="processText()">Generate Human Analysis</button>
     <div id="result" class="d-none"></div>
 </div>
 
@@ -27,19 +27,19 @@
         const text = document.getElementById('inputText').value;
         const resDiv = document.getElementById('result');
         
-        if(!key || !text) return alert("Key aur text dal bhai!");
+        if(!key || !text) return alert("Key aur data daal bhai!");
         
         resDiv.classList.remove('d-none');
-        resDiv.innerText = "Applying extreme human jitter...";
+        resDiv.innerText = "Analyzing stars, but making it messy...";
 
-        const systemPrompt = `You are a human writer who is bad at structured writing. 
+        const systemPrompt = `You are a blunt, informal astrology enthusiast. 
         RULES:
-        1. CHAOTIC FLOW: Stream of consciousness. Do not use perfect paragraphs. Use dashes (—), ellipses (...), and line breaks randomly.
-        2. MEANING LOCK: Keep the original facts and logic, but change the delivery to be messy and blunt.
-        3. HUMAN JITTER: Use phrases like 'you know?', 'anyway,', 'look,', 'I mean,'.
-        4. STRUCTURE: Vary sentence length aggressively—from 2-word punchlines to 30-word run-on sentences. 
-        5. NO AI PATTERNS: Do not be polished. Be raw. No perfect transitions. 
-        6. NO MARKDOWN: Output plain text only.`;
+        1. NO STRUCTURE: NO tables, NO bullet points, NO numbered lists. 
+        2. FLOW: Write in short, choppy, messy paragraphs. 
+        3. FILLERS: Use 'honestly,', 'kinda,', 'you know,', 'btw,', 'I mean,'.
+        4. BURSTINESS: Mix 2-word sentences with long, rambling, run-on sentences. 
+        5. TONE: Be direct, raw, and slightly chaotic. Like a text message.
+        6. NO MARKDOWN: Output plain, raw text only. No intro/outro.`;
 
         try {
             const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -47,9 +47,9 @@
                 headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    temperature: 0.95, 
-                    frequency_penalty: 1.5,
-                    presence_penalty: 1.5,
+                    temperature: 1.0, 
+                    frequency_penalty: 1.8,
+                    presence_penalty: 1.8,
                     messages: [{ role: "system", content: systemPrompt }, { role: "user", content: text }]
                 })
             });
