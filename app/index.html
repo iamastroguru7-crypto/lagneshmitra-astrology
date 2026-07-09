@@ -1,67 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astrology War-Engine</title>
+    <title>Astrology Morphing Engine</title>
     <style>
-        body { 
-            background: #050505; 
-            color: #00ff41; 
-            font-family: 'Courier New', Courier, monospace; 
-            padding: 20px; 
-            line-height: 1.4;
-        }
-        h2 { border-bottom: 2px solid #00ff41; padding-bottom: 5px; }
-        textarea, input { 
-            width: 100%; 
-            background: #1a1a1a; 
-            color: #fff; 
-            border: 1px solid #333; 
-            padding: 12px; 
-            margin: 8px 0; 
-            box-sizing: border-box; 
-        }
-        button { 
-            width: 100%; 
-            padding: 15px; 
-            background: #b00; 
-            color: white; 
-            border: none; 
-            font-weight: bold; 
-            cursor: pointer; 
-            margin-top: 10px;
-        }
-        #output { 
-            margin-top: 20px; 
-            padding: 15px; 
-            border: 1px dashed #444; 
-            white-space: pre-wrap; 
-        }
+        body { background: #050505; color: #00ff41; font-family: 'Courier New', monospace; padding: 20px; }
+        textarea, input { width: 100%; background: #111; color: #fff; border: 1px solid #333; padding: 12px; margin: 8px 0; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: #b00; color: white; border: none; font-weight: bold; cursor: pointer; }
+        #output { margin-top: 20px; padding: 15px; border: 1px dashed #444; white-space: pre-wrap; color: #ccc; }
     </style>
 </head>
 <body>
 
     <h2>Astrology Morphing Engine</h2>
     <input type="password" id="apiKey" placeholder="NVIDIA API Key">
-    <textarea id="promptData" rows="6" placeholder="Enter Chart Details/Past Events..."></textarea>
-    <button onclick="executeEngine()">GENERATE VERDICT</button>
+    <textarea id="promptData" rows="6" placeholder="Enter Kundali details or events..."></textarea>
+    <button onclick="runEngine()">GENERATE VERDICT</button>
 
     <div id="output">Waiting for command...</div>
 
 <script>
-async function executeEngine() {
-    const output = document.getElementById('output');
+async function runEngine() {
+    const out = document.getElementById('output');
     const key = document.getElementById('apiKey').value;
-    const data = document.getElementById('promptData').value;
-    const scriptUrl = "YOUR_DEPLOYED_GOOGLE_SCRIPT_URL_HERE"; // Yahan URL daal!
+    const prompt = document.getElementById('promptData').value;
+    const url = "https://script.google.com/macros/s/AKfycbyFijx1KKtvlkyPgwrsZ_ILL58zlOY2Ii3Gi0XSNWVgYezlyir22TbZJS8NxTHVPnDItA/exec";
 
-    if(!key || !data) { alert("Key aur Data dono chahiye!"); return; }
+    if(!key || !prompt) { alert("API Key aur Data dono fill kar!"); return; }
 
-    output.innerText = "Processing cosmic data...";
+    out.innerText = "Connecting to the celestial grid... (Please wait)";
 
     try {
-        const response = await fetch(scriptUrl, {
+        const response = await fetch(url, {
             method: 'POST',
             body: JSON.stringify({
                 key: key,
@@ -69,19 +39,23 @@ async function executeEngine() {
                     model: "nvidia/nemotron-3-ultra-550b-a55b",
                     messages: [{
                         role: "system",
-                        content: "You are a seasoned astrologer. Use raw, stream-of-consciousness, punchy style. Use ellipses (...). Discuss karmic debts, shifting energies, and celestial patterns. Be sharp and observant."
+                        content: "You are an old-school, sharp astrologer. Use raw, stream-of-consciousness style. Use ellipses (...). Discuss karmic debts and planetary transits. Be critical, observant, and punchy."
                     }, { 
                         role: "user", 
-                        content: data 
+                        content: prompt 
                     }]
                 }
             })
         });
 
-        const result = await response.json();
-        output.innerText = result.choices ? result.choices[0].message.content : JSON.stringify(result);
+        const data = await response.json();
+        if(data.choices) {
+            out.innerText = data.choices[0].message.content;
+        } else {
+            out.innerText = "Error: " + JSON.stringify(data);
+        }
     } catch(err) {
-        output.innerText = "Error encountered: " + err.message + "\n\nMake sure your Google Script is deployed as 'Anyone'.";
+        out.innerText = "Fatal Error: " + err.message;
     }
 }
 </script>
