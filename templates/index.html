@@ -1,22 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a2e; color: #fff; display: flex; justify-content: center; padding: 20px; }
+        .container { width: 100%; max-width: 500px; background: #16213e; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { text-align: center; color: #e94560; }
+        textarea { width: 100%; height: 200px; padding: 10px; border-radius: 8px; border: none; background: #0f3460; color: #fff; resize: none; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; margin-top: 10px; background: #e94560; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        #status { text-align: center; margin: 10px 0; font-style: italic; color: #4ecca3; }
+        #result { white-space: pre-wrap; word-wrap: break-word; background: #0f3460; padding: 15px; border-radius: 8px; margin-top: 20px; border-left: 5px solid #e94560; }
+    </style>
+</head>
 <body>
-    <h2>Astrology Engine</h2>
-    <textarea id="prompt" rows="4" cols="50"></textarea><br>
-    <button onclick="getReport()">Generate Report</button>
-    <pre id="result"></pre>
+<div class="container">
+    <h2>✨ LagneshMitra Engine</h2>
+    <textarea id="prompt" placeholder="Neethu ki details yahan paste karein..."></textarea>
+    <button id="genBtn" onclick="getReport()">Generate Exact Report</button>
+    <div id="status"></div>
+    <div id="result"></div>
+</div>
 
-    <script>
-        async function getReport() {
-            const prompt = document.getElementById('prompt').value;
-            const res = await fetch('/get-report', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({prompt: prompt})
-            });
-            const data = await res.json();
-            document.getElementById('result').innerText = data.report;
-        }
-    </script>
+<script>
+    async function getReport() {
+        const btn = document.getElementById('genBtn');
+        const status = document.getElementById('status');
+        const resDiv = document.getElementById('result');
+        
+        btn.disabled = true;
+        status.innerText = "⏳ Astrology Engine soch raha hai (Thinking)...";
+        resDiv.innerText = "";
+        
+        const prompt = document.getElementById('prompt').value;
+        const res = await fetch('/get-report', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({prompt: prompt})
+        });
+        
+        const data = await res.json();
+        status.innerText = "";
+        resDiv.innerText = data.report;
+        btn.disabled = false;
+    }
+</script>
 </body>
 </html>
