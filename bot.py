@@ -1,55 +1,51 @@
-from flask import Flask, request, jsonify, render_template
 import os
-from openai import OpenAI
+import requests
+from flask import Flask, render_template, request, jsonify
 
-# Flask ko bataya ki templates folder isi directory mein hai
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__)
 
-# NVIDIA API setup
-client = OpenAI(
-    base_url="https://integrate.api.nvidia.com/v1",
-    api_key=os.getenv("NVIDIA_API_KEY")
-)
+NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY")
+NVIDIA_API_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 
 @app.route('/')
-def home():
-    # Root folder ke andar 'templates/index.html' load karega
+def index():
     return render_template('index.html')
 
 @app.route('/get-report', methods=['POST'])
 def get_report():
     data = request.json
-    user_input = data.get("prompt", "")
-    
-    if not user_input:
-        return jsonify({"error": "No prompt provided"}), 400
+    user_prompt = data.get('prompt', '')
 
-    system_prompt = """You are a professional astrologer. 
-    Format the response in this exact style:
-    ### 📜 ASTROLOGY REPORT: NEETHU PHILLIPS
-    ---
-    **1. Astrological Summary:** [Summary here]
-    **2. Second Marriage Window:** [Timing here]
-    **3. Partner Characteristics:** [Traits here]
-    **4. Life Journey:** [Predictions here]
-    **5. Remedial Guidance:** [Tips here]
-    """
+    if not user_prompt:
+        return jsonify({'error': 'Birth details required'}), 400
+
+    # Prompt ko thoda concise kiya taaki output chhota aur fast bane
+    system_prompt = """You are a master Vedic Astrologer. 
+    Provide a highly structured, analytical report.
+    Structure:
+    1. Summary (Brief personality insight).
+    2. Dasha Analysis (Timeline of key events).
+    3. Marriage/Partnership Logic (Key dates).
+    4. Partner Profile (Traits).
+    5. Remedial Guidance (Specific rituals).
+    Keep the response concise and focused (max 350 words). Focus on accuracy."""
+
+    headers = {"Authorization": f"Bearer {NVIDIA_API_KEY}", "Content-Type": "application/json"}
+    
+    # Memory limit ke liye max_tokens kam rakha hai
+    payload = {
+        "model": "nvidia/nemotron-4-340b-instruct",
+        "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
+        "temperature": 0.7,
+        "max_tokens": 800 
+    }
 
     try:
-        completion = client.chat.completions.create(
-            model="nvidia/nemotron-3-nano-omni-30b-a3b-reasoning",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_input}
-            ],
-            temperature=0.6,
-            extra_body={"chat_template_kwargs": {"enable_thinking": True}}
-        )
-        report = completion.choices[0].message.content
-        return jsonify({"report": report})
+        response = requests.post(NVIDIA_API_URL, headers=headers, json=payload, timeout=60)
+        report = response.json()['choices'][0]['message']['content']
+        return jsonify({'report': report})
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({'error': 'Server overload. Try again.'}), 500
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    app.run(host='0.0.0.0', port=port)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
