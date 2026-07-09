@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Astrology Engine</h2>
+    <textarea id="prompt" rows="4" cols="50"></textarea><br>
+    <button onclick="getReport()">Generate Report</button>
+    <pre id="result"></pre>
+
+    <script>
+        async function getReport() {
+            const prompt = document.getElementById('prompt').value;
+            const res = await fetch('/get-report', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({prompt: prompt})
+            });
+            const data = await res.json();
+            document.getElementById('result').innerText = data.report;
+        }
+    </script>
+</body>
+</html>
