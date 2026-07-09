@@ -9,23 +9,20 @@
     <button id="sendBtn">Send</button>
 
     <script>
-        // Yahan apni 'Aq...' wali key paste kar
-        const API_KEY = "AQ.Ab8RN6Ki08ycrj0iaGHnmBfoYEnG0yFE6wjgEKT0IeU333vIWw";
+        // Apni 'Aq...' wali key yahan rakho
+        const API_KEY = "AQ.Ab8RN6KDaTb3piWYu-tawwGcLrxKQsPggimr5VW_w4IOrZn7HQ";
         
         async function askGemini() {
             const userInput = document.getElementById("userInput").value;
             const chatContainer = document.getElementById("chat-container");
-            
-            // Note: Aq keys ke liye URL mein 'key=' ki jagah Authorization header use hoga
-            const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+
+            // URL format mein 'key=' parameter use karo
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
             try {
                 const response = await fetch(url, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${API_KEY}` // Yahan 'Bearer' format use kiya hai
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         contents: [{ parts: [{ text: userInput }] }]
                     })
@@ -34,13 +31,14 @@
                 const data = await response.json();
 
                 if (data.error) {
+                    // Agar abhi bhi error aaya, toh samajh lena ki yeh key browser ke liye nahi bani hai
                     alert("API Error: " + data.error.message);
                 } else {
                     const text = data.candidates[0].content.parts[0].text;
                     chatContainer.innerHTML += `<p><b>Gemini:</b> ${text}</p>`;
                 }
             } catch (error) {
-                alert("Network Error: " + error.message);
+                alert("Connection Error: " + error.message);
             }
         }
 
