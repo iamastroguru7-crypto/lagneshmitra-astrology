@@ -28,7 +28,7 @@ async function runEngine() {
 
     if(!key || !prompt) { alert("API Key aur Data dono fill kar!"); return; }
 
-    out.innerText = "Connecting to the celestial grid... (Please wait)";
+    out.innerText = "Connecting to the celestial grid...";
 
     try {
         const response = await fetch(url, {
@@ -36,10 +36,10 @@ async function runEngine() {
             body: JSON.stringify({
                 key: key,
                 body: {
-                    model: "nvidia/nemotron-3-ultra-550b-a55b",
+                    model: "meta/llama3-70b-instruct",
                     messages: [{
                         role: "system",
-                        content: "You are an old-school, sharp astrologer. Use raw, stream-of-consciousness style. Use ellipses (...). Discuss karmic debts and planetary transits. Be critical, observant, and punchy."
+                        content: "You are an old-school, sharp astrologer. Use raw, stream-of-consciousness style. Discuss karmic debts and planetary transits. Be critical, observant, and punchy."
                     }, { 
                         role: "user", 
                         content: prompt 
