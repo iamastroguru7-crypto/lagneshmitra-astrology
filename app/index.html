@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Gemini Engine</title>
+    <!-- Google ka official SDK load karo -->
     <script src="https://unpkg.com/@google/generative-ai@0.1.0/dist/index.min.js"></script>
 </head>
 <body>
@@ -10,7 +11,6 @@
     <button onclick="askGemini()">Send</button>
 
     <script>
-        // Apni API key yahan daalo
         const API_KEY = "AQ.Ab8RN6KDaTb3piWYu-tawwGcLrxKQsPggimr5VW_w4IOrZn7HQ";
         
         async function askGemini() {
@@ -19,20 +19,22 @@
 
             if (!userInput) return;
 
+            // Check karo ki SDK load hua ya nahi
+            if (typeof google === 'undefined' || !google.generativeAI) {
+                alert("SDK abhi load ho raha hai, 2 second ruk kar wapas dabao!");
+                return;
+            }
+
             try {
-                // SDK ka use karke Gemini initialize karo
-                const genAI = new window.google.generativeAI.GoogleGenerativeAI(API_KEY);
+                const genAI = new google.generativeAI.GoogleGenerativeAI(API_KEY);
                 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-                // Request bhejo
                 const result = await model.generateContent(userInput);
                 const response = await result.response;
                 const text = response.text();
 
-                // UI update karo
                 chatContainer.innerHTML += `<p><b>Gemini:</b> ${text}</p>`;
             } catch (error) {
-                console.error(error);
                 alert("Error: " + error.message);
             }
         }
