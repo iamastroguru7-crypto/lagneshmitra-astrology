@@ -1,8 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import os
 from openai import OpenAI
 
-app = Flask(__name__)
+# Flask ko bataya ki templates folder isi directory mein hai
+app = Flask(__name__, template_folder='templates')
 
 # NVIDIA API setup
 client = OpenAI(
@@ -12,7 +13,8 @@ client = OpenAI(
 
 @app.route('/')
 def home():
-    return "Astrology Engine is Online and Ready!"
+    # Root folder ke andar 'templates/index.html' load karega
+    return render_template('index.html')
 
 @app.route('/get-report', methods=['POST'])
 def get_report():
@@ -22,7 +24,6 @@ def get_report():
     if not user_input:
         return jsonify({"error": "No prompt provided"}), 400
 
-    # Professional formatting logic
     system_prompt = """You are a professional astrologer. 
     Format the response in this exact style:
     ### 📜 ASTROLOGY REPORT: NEETHU PHILLIPS
@@ -50,6 +51,5 @@ def get_report():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    # Render port ko automatically detect karega
     port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port)
