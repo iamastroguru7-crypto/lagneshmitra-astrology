@@ -2,61 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Astrology Bypass [Plural Mode]</title>
+    <title>War-Level Astrology Tool</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background: #000; color: #fff; padding: 20px; font-family: 'Courier New', Courier, monospace; }
-        .container { max-width: 600px; background: #0a0a0a; padding: 25px; border-radius: 5px; border: 1px solid #333; }
-        textarea { background: #0a0a0a; color: #0f0; border: 1px solid #444; width: 100%; padding: 10px; }
-        #result { background: #000; padding: 20px; margin-top: 20px; white-space: pre-wrap; color: #ddd; border: 1px solid #222; }
+        body { background: #000; color: #fff; font-family: monospace; padding: 20px; }
+        .container { max-width: 800px; background: #111; padding: 20px; border: 1px solid #333; }
+        #thinking { color: #888; font-size: 0.8em; margin-bottom: 10px; border-bottom: 1px dashed #333; }
+        #output { color: #0f0; white-space: pre-wrap; font-size: 1.1em; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h3 class="text-center">Astrology Raw [Plural Mode]</h3>
-    <input type="password" id="apiKey" class="form-control mb-2" placeholder="Groq API Key...">
-    <textarea id="inputText" rows="8" placeholder="Paste chart data..."></textarea>
-    <button class="btn btn-outline-warning w-100 mt-2" onclick="processText()">Generate Messy Analysis</button>
-    <div id="result" class="d-none"></div>
+    <h3 class="text-center">NVIDIA Nemotron Engine</h3>
+    <input type="password" id="apiKey" class="form-control mb-2" placeholder="Paste NVIDIA API Key...">
+    <textarea id="inputText" class="form-control mb-2" rows="5" placeholder="Enter chart details..."></textarea>
+    <button class="btn btn-danger w-100" onclick="startGeneration()">GENERATE HUMAN REPORT</button>
+    
+    <div id="thinking" class="mt-3"></div>
+    <div id="output" class="mt-3"></div>
 </div>
 
 <script>
-    async function processText() {
+    async function startGeneration() {
         const key = document.getElementById('apiKey').value;
         const text = document.getElementById('inputText').value;
-        const resDiv = document.getElementById('result');
+        const outDiv = document.getElementById('output');
+        const thinkDiv = document.getElementById('thinking');
         
-        if(!key || !text) return alert("Key aur data chahiye bhai!");
-        
-        resDiv.classList.remove('d-none');
-        resDiv.innerText = "typing analysis...";
-
-        const systemPrompt = `You are a human who is bad at typing and hates professional structure.
-        RULES:
-        1. NO GRAMMAR: Write mostly in lowercase. ignore capitalization. 
-        2. PLURAL ENDINGS: Force almost every sentence to end with plural nouns or words ending in 's' sounds.
-        3. BROKEN THOUGHTS: use random line breaks everywhere. split sentences in half.
-        4. NO FILLERS: NEVER start sentences with 'honestly', 'you know', 'i mean'. stop using these, they are detected as AI.
-        5. MESSY: use short, jagged, incomplete thoughts. 
-        6. NO MARKDOWN: return just the raw, unformatted text.`;
+        outDiv.innerText = ""; thinkDiv.innerText = "Thinking...";
 
         try {
-            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
                 method: 'POST',
-                headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+                headers: { 
+                    'Authorization': 'Bearer ' + key,
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
-                    model: "llama-3.3-70b-versatile",
-                    temperature: 1.0, 
-                    frequency_penalty: 1.9,
-                    presence_penalty: 1.9,
-                    messages: [{ role: "system", content: systemPrompt }, { role: "user", content: text }]
+                    model: "nvidia/nemotron-3-ultra-550b-a55b",
+                    messages: [{
+                        role: "system",
+                        content: "You are a human analyst writing messy, real-time astrology notes. 1. Use lowercase. 2. Use Present Continuous (is evolving, are shifting). 3. Force plural endings (patterns, stars, energies, vibes). 4. Use '...' for flow. 5. NO AI PHRASES. 6. No markdown."
+                    }, { role: "user", content: text }],
+                    temperature: 1.0,
+                    extra_body: { 
+                        "chat_template_kwargs": { "enable_thinking": true }, 
+                        "reasoning_budget": 16384 
+                    },
+                    stream: true
                 })
             });
-            const data = await response.json();
-            resDiv.innerText = data.choices[0].message.content;
-        } catch (e) {
-            resDiv.innerText = "Error: " + e.message;
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                const chunk = decoder.decode(value);
+                const lines = chunk.split('\n');
+                
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        try {
+                            const data = JSON.parse(line.slice(6));
+                            if (data.choices && data.choices[0].delta) {
+                                const delta = data.choices[0].delta;
+                                if (delta.reasoning_content) thinkDiv.innerText += delta.reasoning_content;
+                                if (delta.content) outDiv.innerText += delta.content;
+                            }
+                        } catch(e) {}
+                    }
+                }
+            }
+        } catch (err) {
+            outDiv.innerText = "Error: " + err.message;
         }
     }
 </script>
