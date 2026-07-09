@@ -7,7 +7,7 @@
     <style>
         body {
             margin: 0; padding: 0;
-            background: url('../global/background2.png') no-repeat center center fixed;
+            background: url('../background2.png') no-repeat center center fixed;
             background-size: cover;
             font-family: 'Segoe UI', sans-serif;
             display: flex; justify-content: center; align-items: center;
@@ -28,13 +28,15 @@
             padding: 20px;
             border-radius: 10px;
             border: 1px solid #444;
-            position: relative;
+            display: flex; flex-direction: column;
+            align-items: center; /* Center logo horizontally */
             overflow-y: auto;
         }
         .engine-logo {
-            position: absolute; top: 15px; right: 15px;
-            width: 50px; opacity: 0.7;
+            width: 80px; height: auto;
+            margin-bottom: 20px; opacity: 0.9;
         }
+        #messages { width: 100%; text-align: left; }
         .message { margin-bottom: 15px; line-height: 1.6; }
         .input-area { display: flex; gap: 10px; }
         input { flex: 1; padding: 15px; border-radius: 5px; border: none; background: rgba(255, 255, 255, 0.1); color: white; }
@@ -45,8 +47,10 @@
 
 <div class="container">
     <div id="outputBox">
-        <img src="../global/logo.png" alt="Logo" class="engine-logo">
-        <div class="message"><strong>System:</strong> Welcome. Recharge ₹100 to initialize the Precision Engine.</div>
+        <img src="../logo.png" alt="Logo" class="engine-logo" onerror="this.style.display='none'">
+        <div id="messages">
+            <div class="message"><strong>System:</strong> Welcome. Recharge ₹100 to initialize the Precision Engine.</div>
+        </div>
     </div>
     <div class="input-area">
         <input type="text" id="userInput" placeholder="Ask your query...">
@@ -59,13 +63,12 @@
     let isRecharged = false; 
 
     function appendMessage(text) {
-        const outputBox = document.getElementById('outputBox');
+        const msgContainer = document.getElementById('messages');
         const msgDiv = document.createElement('div');
         msgDiv.className = 'message';
         msgDiv.innerHTML = text;
-        const logo = outputBox.querySelector('.engine-logo');
-        outputBox.insertBefore(msgDiv, logo ? logo.nextSibling : outputBox.firstChild);
-        outputBox.scrollTop = outputBox.scrollHeight;
+        msgContainer.appendChild(msgDiv);
+        document.getElementById('outputBox').scrollTop = document.getElementById('outputBox').scrollHeight;
     }
 
     async function processQuery() {
