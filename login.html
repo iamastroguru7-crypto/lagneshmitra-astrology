@@ -23,20 +23,23 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // PEHLE RESULT CHECK KARO
-    auth.getRedirectResult().then((result) => {
-        if (result.user) {
+    // 1. Check if already logged in
+    auth.onAuthStateChanged((user) => {
+        if (user) {
             window.location.href = 'terms.html';
         } else {
-            // Agar result nahi hai, tab button show karo
             document.getElementById('status').innerHTML = '<button id="btn">Continue with Google</button>';
             document.getElementById('btn').addEventListener('click', () => {
                 const provider = new firebase.auth.GoogleAuthProvider();
-                auth.signInWithRedirect(provider);
+                
+                // POPUP method use karenge - yeh redirect se zyada stable hai
+                auth.signInWithPopup(provider).then((result) => {
+                    window.location.href = 'terms.html';
+                }).catch((error) => {
+                    alert("Popup Error: " + error.message);
+                });
             });
         }
-    }).catch((error) => {
-        document.getElementById('status').innerText = "Error: " + error.message;
     });
 </script>
 </body>
