@@ -4,10 +4,9 @@ from openai import OpenAI
 
 app = Flask(__name__)
 
-# Client setup
 client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
-    api_key=os.getenv("NVIDIA_API_KEY")
+    api_key=os.environ.get("NVIDIA_API_KEY")
 )
 
 @app.route('/')
@@ -22,26 +21,28 @@ def get_report():
     if not user_prompt:
         return jsonify({'error': 'Birth details required'}), 400
 
+    system_prompt = """You are an expert Vedic Astrologer. 
+    Provide a professional, clear, and empathetic astrological report.
+    Structure:
+    1. Core Summary.
+    2. Active Dasha Analysis.
+    3. Marriage & Partnership Outlook (with focus on mature alignment).
+    4. Partner Traits.
+    5. Actionable Remedial Guidance.
+    Keep the tone grounding, optimistic, and structured. Max 400 words."""
+
     try:
         completion = client.chat.completions.create(
             model="nvidia/nemotron-3-nano-omni-30b-a3b-reasoning",
-            messages=[{"role": "user", "content": user_prompt}],
-            temperature=0.6,
-            top_p=0.95,
-            max_tokens=2048, # Max tokens reduce kiye hain kyunki 65k bahut zyada hai render ke liye
-            extra_body={
-                "chat_template_kwargs": {"enable_thinking": True},
-                "reasoning_budget": 1024
-            },
-            stream=False
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            temperature=0.7
         )
         
-        # Reasoning aur Content dono combine kar lo
-        reasoning = getattr(completion.choices[0].message, "reasoning_content", "")
-        content = completion.choices[0].message.content
-        
-        full_response = f"**Thinking Process:**\n{reasoning}\n\n**Report:**\n{content}"
-        return jsonify({'report': full_response})
+        # Sirf main report return hogi
+        return jsonify({'report': completion.choices[0].message.content})
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
