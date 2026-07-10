@@ -2,59 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile | LagneshMitra</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    
     <style>
         body { background: #0a0b10; color: #fff; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .card { background: #15171e; padding: 20px; border-radius: 15px; border: 1px solid #333; width: 350px; position: relative; }
-        .header { display: flex; align-items: center; justify-content: space-between; }
-        .avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #ffb400; cursor: pointer; }
-        .dots { cursor: pointer; font-size: 20px; color: #ffb400; }
-        .panel { display: none; background: #1c1f26; padding: 15px; margin-top: 10px; border-radius: 8px; font-size: 13px; }
-        .btn-logout { background: #ff4444; width: 100%; padding: 8px; border: none; color: white; border-radius: 4px; margin-top: 10px; cursor: pointer; }
+        .card { background: #15171e; padding: 20px; border-radius: 15px; border: 1px solid #333; width: 350px; }
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .avatar { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #ffb400; }
+        .dots { cursor: pointer; font-size: 24px; color: #ffb400; padding: 5px; }
+        .panel { display: none; background: #1c1f26; padding: 15px; border-radius: 8px; font-size: 14px; margin-top: 10px; }
+        .btn-logout { background: #ff4444; width: 100%; padding: 10px; border: none; color: white; border-radius: 5px; cursor: pointer; margin-top: 15px; }
+        h2 { margin: 0; }
+        p { margin: 5px 0; color: #aaa; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <div class="header">
-        <img id="userImg" class="avatar" src="https://via.placeholder.com/50">
+        <img id="userImg" class="avatar" src="https://via.placeholder.com/60">
         <div class="dots" onclick="togglePanel()">⋮</div>
     </div>
-    <h2 id="userName">...</h2>
-    <p>ID: <b id="lmId">Generating...</b></p>
+    <h2 id="userName">Loading...</h2>
+    <p>ID: <b id="lmId" style="color: #ffb400;">Generating...</b></p>
 
     <div id="extraPanel" class="panel">
-        <p>Email: <span id="userEmail"></span></p>
+        <p>Email: <span id="userEmail">...</span></p>
         <p>Phone: <span id="userPhone">Not Linked</span></p>
         <button class="btn-logout" onclick="logout()">Logout</button>
     </div>
 </div>
 
 <script>
-    const firebaseConfig = { /* Wahi same config */ };
+    const firebaseConfig = {
+        apiKey: "AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w",
+        authDomain: "lagneshmitra-astrology-e72fb.firebaseapp.com",
+        projectId: "lagneshmitra-astrology-e72fb",
+        storageBucket: "lagneshmitra-astrology-e72fb.firebasestorage.app",
+        messagingSenderId: "223772639779",
+        appId: "1:223772639779:web:49341578713e2c0c9ae796"
+    };
+
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
     firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
-            document.getElementById('userName').innerText = user.displayName;
-            document.getElementById('userImg').src = user.photoURL;
+            document.getElementById('userName').innerText = user.displayName || "User";
+            document.getElementById('userImg').src = user.photoURL || "https://via.placeholder.com/60";
             document.getElementById('userEmail').innerText = user.email;
-            document.getElementById('userPhone').innerText = user.phoneNumber || "N/A";
+            document.getElementById('userPhone').innerText = user.phoneNumber || "Not Linked";
 
-            // Permanent ID Logic
             const userRef = db.collection('users').doc(user.uid);
-            const doc = await userRef.get();
-            
-            if (!doc.exists) {
-                const newId = "LM-" + Math.floor(10000 + Math.random() * 90000);
-                await userRef.set({ lmId: newId, email: user.email });
-                document.getElementById('lmId').innerText = newId;
-            } else {
-                document.getElementById('lmId').innerText = doc.data().lmId;
+            try {
+                const doc = await userRef.get();
+                if (!doc.exists) {
+                    const newId = "LM-" + Math.floor(10000 + Math.random() * 90000);
+                    await userRef.set({ lmId: newId, email: user.email, name: user.displayName });
+                    document.getElementById('lmId').innerText = newId;
+                } else {
+                    document.getElementById('lmId').innerText = doc.data().lmId;
+                }
+            } catch (e) {
+                document.getElementById('lmId').innerText = "Error loading ID";
+                console.error("Firestore Error:", e);
             }
         } else {
             window.location.href = 'login.html';
@@ -63,10 +78,13 @@
 
     function togglePanel() {
         const p = document.getElementById('extraPanel');
-        p.style.display = p.style.display === 'block' ? 'none' : 'block';
+        p.style.display = (p.style.display === 'block') ? 'none' : 'block';
     }
 
-    function logout() { firebase.auth().signOut().then(() => window.location.href = 'login.html'); }
+    function logout() {
+        firebase.auth().signOut().then(() => window.location.href = 'login.html');
+    }
 </script>
+
 </body>
 </html>
