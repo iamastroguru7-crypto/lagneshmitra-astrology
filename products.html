@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LagneshMitra - Structural Service Catalogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background-color: #0a0b10; color: #d1d1d1; margin: 0; padding: 0; }
+        
+        /* Navigation */
+        .nav-bar { display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .logo img { width: 120px; margin-bottom: 20px; }
+        .nav-bar ul { list-style: none; padding: 0; display: flex; gap: 30px; }
+        .nav-bar a { text-decoration: none; color: #fff; font-weight: 600; transition: 0.3s; }
+        .nav-bar a:hover { color: #ffb400; }
+
+        /* Products Layout */
+        .products { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 40px 20px; }
+        .product-card { background-color: #15171e; border: 1px solid #333; padding: 30px; border-radius: 8px; width: 320px; text-align: center; transition: 0.4s; }
+        
+        h1, h2 { font-family: 'Monotype Corsiva', cursive; color: #ffb400; }
+        h2 { font-size: 2rem; margin-bottom: 10px; }
+        
+        .price { font-size: 1.5rem; color: #fff; font-weight: 600; margin: 15px 0; }
+        .tagline { font-style: italic; color: #a0a0a0; margin-bottom: 20px; }
+
+        ul { text-align: left; padding-left: 20px; margin-bottom: 30px; color: #d1d1d1; }
+        li { margin-bottom: 10px; font-size: 0.95rem; }
+
+        button { background: transparent; border: 1px solid #ffb400; color: #ffb400; padding: 12px 30px; cursor: pointer; transition: 0.3s; font-weight: bold; border-radius: 4px; width: 100%; }
+        button:hover { background-color: #ffb400; color: #0a0b10; }
+
+        .product-card:hover { border-color: #ffb400; transform: translateY(-5px); }
+
+        @media (max-width: 768px) { .product-card { width: 90%; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="nav-bar">
+        <div class="logo"><img src="Logo.png" alt="LagneshMitra Logo"></div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="ideologies.html">Ideologies</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="products">
+        <!-- Tier 1 -->
+        <div class="product-card">
+            <h2>ACD</h2>
+            <div class="tagline">Baseline analysis for karmic structural integrity</div>
+            <div class="price">₹4,999</div>
+            <ul>
+                <li>Geospatial Node Mapping</li>
+                <li>Planetary Resonance Frequency analysis</li>
+                <li>Karmic Stress Index calculation</li>
+            </ul>
+            <button onclick="window.location.href='contact.html'">Select Audit</button>
+        </div>
+
+        <!-- Tier 2 -->
+        <div class="product-card">
+            <h2>KLAS</h2>
+            <div class="tagline">In-depth stress testing for trajectory optimization</div>
+            <div class="price">₹12,999</div>
+            <ul>
+                <li>Personalized Karmic Topology Mapping</li>
+                <li>Trajectory Simulation Modeling</li>
+                <li>Systemic Risk Assessment</li>
+            </ul>
+            <button onclick="window.location.href='contact.html'">Select Stress-Test</button>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="product-card">
+            <h2>AKI</h2>
+            <div class="tagline">Strategic planning for long-term infrastructure</div>
+            <div class="price">₹29,999</div>
+            <ul>
+                <li>Master Karmic Blueprint</li>
+                <li>Annual Karmic Maintenance Scheduling</li>
+                <li>Integrated Karmic Dashboard</li>
+            </ul>
+            <button onclick="window.location.href='contact.html'">Select Architect</button>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>
+
