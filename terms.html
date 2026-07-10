@@ -2,24 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms & Conditions | LagneshMitra</title>
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
     
     <style>
         body { background: #0a0b10; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .terms-box { background: #15171e; padding: 30px; border-radius: 10px; border: 1px solid #333; width: 80%; max-width: 400px; text-align: center; }
+        .terms-box { background: #15171e; padding: 30px; border-radius: 10px; border: 1px solid #333; width: 80%; max-width: 400px; text-align: center; display: none; }
         h2 { color: #ffb400; }
-        .btn { background: #ffb400; color: #000; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        .btn { background: #ffb400; color: #000; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-<div class="terms-box" id="termsDiv" style="display:none;">
+<div id="loading" style="color: #666;">Verifying Session...</div>
+
+<div class="terms-box" id="termsDiv">
     <h2>Terms & Conditions</h2>
-    <p>By proceeding, you agree to our usage policy and terms of service for LagneshMitra Astrology.</p>
+    <p>By proceeding, you agree to our usage policy for LagneshMitra.</p>
     <button class="btn" onclick="window.location.href='profile.html'">I Agree & Proceed</button>
 </div>
 
@@ -35,13 +35,13 @@
 
     firebase.initializeApp(firebaseConfig);
 
-    // Auth Guard: Agar user login nahi hai, login page pe bhej do
+    // Ye logic Auth state ke load hone ka wait karega
     firebase.auth().onAuthStateChanged((user) => {
+        document.getElementById('loading').style.display = 'none';
         if (user) {
-            // User logged in, box dikhao
             document.getElementById('termsDiv').style.display = 'block';
         } else {
-            // User nahi hai, wapas login pe bhej do
+            // Sirf tabhi bhejo agar session confirm null ho
             window.location.href = 'login.html';
         }
     });
