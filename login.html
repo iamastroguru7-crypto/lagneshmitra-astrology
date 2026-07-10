@@ -2,22 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LagneshMitra Auth</title>
+    <title>Login | LagneshMitra</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-    <style>
-        body { background: #0a0b10; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; }
-        .box { background: #15171e; padding: 40px; border-radius: 10px; border: 1px solid #333; text-align: center; }
-        #loginBtn { background: #ffb400; color: #000; border: none; padding: 15px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-    </style>
 </head>
 <body>
 
-<div class="box">
-    <h2 id="status">Auth Gateway</h2>
-    <button id="loginBtn">Continue with Google</button>
-</div>
+<div id="status">Please wait...</div>
 
 <script>
     const firebaseConfig = {
@@ -32,21 +23,20 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // 1. Redirect se wapas aane par result check karo
-    auth.getRedirectResult().then((result) => {
-        if (result.user) {
-            window.location.href = 'terms.html'; // Yahan redirect hoga
+    // PEHLE CHECK KARO KI USER PEHLE SE LOGGED IN HAI YA NAHI
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            // Agar user mil gaya, toh sidha terms pe bhejo
+            window.location.href = 'terms.html';
+        } else {
+            // User nahi hai, button show karo
+            document.getElementById('status').innerHTML = '<button id="btn">Continue with Google</button>';
+            document.getElementById('btn').addEventListener('click', () => {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                auth.signInWithRedirect(provider);
+            });
         }
-    }).catch((error) => {
-        alert("Redirect Error: " + error.message);
-    });
-
-    // 2. Click karne par Google login
-    document.getElementById('loginBtn').addEventListener('click', () => {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithRedirect(provider);
     });
 </script>
-
 </body>
 </html>
