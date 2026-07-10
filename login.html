@@ -7,15 +7,15 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
     <style>
-        body { background: #0a0b10; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        body { background: #0a0b10; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; }
         .box { background: #15171e; padding: 40px; border-radius: 10px; border: 1px solid #333; text-align: center; }
-        #loginBtn { background: #444; color: #fff; border: none; padding: 15px 25px; border-radius: 5px; cursor: pointer; }
+        #loginBtn { background: #ffb400; color: #000; border: none; padding: 15px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="box">
-    <h2 id="status">Loading...</h2>
+    <h2 id="status">Auth Gateway</h2>
     <button id="loginBtn">Continue with Google</button>
 </div>
 
@@ -31,17 +31,20 @@
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const btn = document.getElementById('loginBtn');
-    const status = document.getElementById('status');
 
-    // JS Load hote hi button ka color change hoga
-    btn.style.background = "#ffb400";
-    btn.style.color = "#000";
-    status.innerText = "Auth Gateway";
+    // 1. Redirect se wapas aane par result check karo
+    auth.getRedirectResult().then((result) => {
+        if (result.user) {
+            window.location.href = 'terms.html'; // Yahan redirect hoga
+        }
+    }).catch((error) => {
+        alert("Redirect Error: " + error.message);
+    });
 
-    btn.addEventListener('click', () => {
+    // 2. Click karne par Google login
+    document.getElementById('loginBtn').addEventListener('click', () => {
         const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithRedirect(provider).catch(e => alert(e.message));
+        auth.signInWithRedirect(provider);
     });
 </script>
 
