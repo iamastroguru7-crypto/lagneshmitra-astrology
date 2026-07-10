@@ -2,21 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LagneshMitra | Astrology Engine</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #1a1a2e; color: #fff; display: flex; justify-content: center; padding: 20px; }
-        .container { width: 100%; max-width: 500px; background: #16213e; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { text-align: center; color: #e94560; }
-        textarea { width: 100%; height: 200px; padding: 10px; border-radius: 8px; border: none; background: #0f3460; color: #fff; resize: none; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; margin-top: 10px; background: #e94560; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        #status { text-align: center; margin: 10px 0; font-style: italic; color: #4ecca3; }
-        #result { white-space: pre-wrap; word-wrap: break-word; background: #0f3460; padding: 15px; border-radius: 8px; margin-top: 20px; border-left: 5px solid #e94560; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f3460; color: #fff; display: flex; justify-content: center; padding: 20px; }
+        .container { width: 100%; max-width: 550px; background: #1a1a2e; padding: 30px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); border: 1px solid #16213e; }
+        h2 { text-align: center; color: #e94560; margin-bottom: 20px; letter-spacing: 1px; }
+        textarea { width: 100%; height: 180px; padding: 15px; border-radius: 12px; border: 1px solid #0f3460; background: #16213e; color: #fff; resize: none; box-sizing: border-box; font-size: 14px; }
+        button { width: 100%; padding: 15px; margin-top: 15px; background: #e94560; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: background 0.3s ease; }
+        button:hover { background: #c81d3d; }
+        button:disabled { background: #53344b; cursor: not-allowed; }
+        #status { text-align: center; margin: 15px 0; font-style: italic; color: #4ecca3; font-size: 14px; }
+        #result { white-space: pre-wrap; word-wrap: break-word; background: #16213e; padding: 20px; border-radius: 12px; margin-top: 20px; border-left: 5px solid #e94560; font-size: 15px; line-height: 1.6; }
     </style>
 </head>
 <body>
 <div class="container">
     <h2>✨ LagneshMitra Engine</h2>
-    <textarea id="prompt" placeholder="Neethu ki details yahan paste karein..."></textarea>
-    <button id="genBtn" onclick="getReport()">Generate Exact Report</button>
+    <textarea id="prompt" placeholder="Birth details yahan paste karein..."></textarea>
+    <button id="genBtn" onclick="getReport()">Generate Report</button>
     <div id="status"></div>
     <div id="result"></div>
 </div>
@@ -26,22 +30,37 @@
         const btn = document.getElementById('genBtn');
         const status = document.getElementById('status');
         const resDiv = document.getElementById('result');
+        const promptText = document.getElementById('prompt').value;
+        
+        if(!promptText.trim()) {
+            alert("Please paste birth details first!");
+            return;
+        }
         
         btn.disabled = true;
-        status.innerText = "⏳ Astrology Engine soch raha hai (Thinking)...";
+        status.innerText = "⏳ Astrology Engine processing...";
         resDiv.innerText = "";
         
-        const prompt = document.getElementById('prompt').value;
-        const res = await fetch('/get-report', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({prompt: prompt})
-        });
-        
-        const data = await res.json();
-        status.innerText = "";
-        resDiv.innerText = data.report;
-        btn.disabled = false;
+        try {
+            const res = await fetch('/get-report', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({prompt: promptText})
+            });
+            
+            const data = await res.json();
+            
+            if(data.report) {
+                resDiv.innerText = data.report;
+            } else {
+                resDiv.innerText = "Error: " + (data.error || "Something went wrong.");
+            }
+        } catch (err) {
+            resDiv.innerText = "Connection failed. Please check the server.";
+        } finally {
+            status.innerText = "";
+            btn.disabled = false;
+        }
     }
 </script>
 </body>
