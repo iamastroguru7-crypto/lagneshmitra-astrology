@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LagneshMitra | Auth Gateway</title>
+    <title>LagneshMitra | Secure Auth</title>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    
     <style>
-        body { background: #0a0b10; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-box { background: #15171e; padding: 40px; border-radius: 12px; width: 300px; text-align: center; border: 1px solid #333; }
-        .google-btn { background: #fff; color: #333; border: none; padding: 12px; width: 100%; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        body { background: #0a0b10; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; }
+        .box { background: #15171e; padding: 30px; border-radius: 10px; border: 1px solid #333; text-align: center; }
+        button { background: #ffb400; border: none; padding: 15px 25px; border-radius: 5px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="login-box">
+<div class="box">
     <h2>Auth Gateway</h2>
-    <button id="googleLoginBtn" class="google-btn">Continue with Google</button>
-    <p id="status" style="font-size: 10px; margin-top: 15px; color: #666;"></p>
+    <button id="loginBtn">Continue with Google</button>
 </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getAuth, signInWithRedirect, GoogleAuthProvider, getRedirectResult } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-
+<script>
     const firebaseConfig = {
         apiKey: "AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w",
         authDomain: "lagneshmitra-astrology-e72fb.firebaseapp.com",
@@ -31,22 +31,20 @@
         appId: "1:223772639779:web:49341578713e2c0c9ae796"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
 
-    // 1. Login button click -> Redirect to Google
-    document.getElementById('googleLoginBtn').addEventListener('click', () => {
-        signInWithRedirect(auth, provider);
+    document.getElementById('loginBtn').addEventListener('click', () => {
+        auth.signInWithRedirect(provider);
     });
 
-    // 2. Page load hone par check karein ki kya login ho gaya?
-    getRedirectResult(auth).then((result) => {
-        if (result) {
+    auth.getRedirectResult().then((result) => {
+        if (result.user) {
             window.location.href = 'terms.html';
         }
     }).catch((error) => {
-        document.getElementById('status').innerText = "Error: " + error.message;
+        alert("Error: " + error.message);
     });
 </script>
 
