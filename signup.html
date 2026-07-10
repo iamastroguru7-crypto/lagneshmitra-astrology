@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | LagneshMitra</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    
+    <style>
+        body { margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background: url('background2.png') no-repeat center center fixed; background-size: cover; font-family: sans-serif; }
+        .card { background: rgba(21, 23, 30, 0.85); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); width: 85%; max-width: 320px; color: white; text-align: center; backdrop-filter: blur(12px); }
+        input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 8px; border: none; background: #2a2d35; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #ffb400; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .back-link { font-size: 12px; margin-top: 15px; display: block; color: #ffb400; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Create New ID</h2>
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="email" id="email" placeholder="Email Address">
+    <input type="tel" id="mobile" placeholder="Mobile Number (+91)">
+    <input type="password" id="password" placeholder="Set Password">
+    
+    <button onclick="handleSignup()">Complete Registration</button>
+    <a href="login.html" class="back-link">Back to Login</a>
+</div>
+
+<script>
+    // Wahi config jo login.html mein hai
+    const firebaseConfig = { /* ... wahi config ... */ };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    async function handleSignup() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('mobile').value;
+        const pass = document.getElementById('password').value;
+
+        if(!name || !email || !phone || !pass) return alert("All fields required!");
+
+        try {
+            const userCredential = await auth.createUserWithEmailAndPassword(email, pass);
+            const user = userCredential.user;
+
+            await db.collection('users').doc(user.uid).set({
+                name: name,
+                email: email,
+                phone: phone,
+                lmId: "LM-" + Math.floor(100000 + Math.random() * 900000),
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            window.location.href = 'terms.html';
+        } catch (error) {
+            alert("Error: " + error.message);
+        }
+    }
+</script>
+</body>
+</html>
