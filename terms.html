@@ -1,48 +1,51 @@
-<style>
-    /* Body background full screen rahega */
-    body { 
-        background: #0a0b10; 
-        color: #fff; 
-        font-family: 'Montserrat', sans-serif; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-        height: 100vh; 
-        margin: 0;
-    }
-
-    /* Glass Box - Yeh focus mein rahega */
-    .glass-card {
-        background: rgba(255, 255, 255, 0.03); 
-        backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.1); 
-        padding: 30px; 
-        border-radius: 12px; 
-        width: 350px; /* Small box width */
-        text-align: center;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-    }
-
-    h2 { color: #ffb400; font-size: 1.5rem; margin-bottom: 20px; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions | LagneshMitra</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
     
-    .tc-box { 
-        height: 120px; 
-        overflow-y: scroll; 
-        background: rgba(0, 0, 0, 0.3); 
-        padding: 10px; 
-        font-size: 0.75rem; 
-        text-align: left; 
-        margin: 15px 0; 
-        border: 1px solid #222; 
-        color: #aaa; 
-    }
-    
-    .next-btn { 
-        background: #ffb400; border: none; padding: 10px 20px; 
-        border-radius: 4px; font-weight: bold; cursor: not-allowed; 
-        opacity: 0.4; width: 100%; margin-top: 10px;
-    }
-    
-    .next-btn.active { cursor: pointer; opacity: 1; }
-</style>
+    <style>
+        body { background: #0a0b10; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .terms-box { background: #15171e; padding: 30px; border-radius: 10px; border: 1px solid #333; width: 80%; max-width: 400px; text-align: center; }
+        h2 { color: #ffb400; }
+        .btn { background: #ffb400; color: #000; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+    </style>
+</head>
+<body>
 
+<div class="terms-box" id="termsDiv" style="display:none;">
+    <h2>Terms & Conditions</h2>
+    <p>By proceeding, you agree to our usage policy and terms of service for LagneshMitra Astrology.</p>
+    <button class="btn" onclick="window.location.href='profile.html'">I Agree & Proceed</button>
+</div>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w",
+        authDomain: "lagneshmitra-astrology-e72fb.firebaseapp.com",
+        projectId: "lagneshmitra-astrology-e72fb",
+        storageBucket: "lagneshmitra-astrology-e72fb.firebasestorage.app",
+        messagingSenderId: "223772639779",
+        appId: "1:223772639779:web:49341578713e2c0c9ae796"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    // Auth Guard: Agar user login nahi hai, login page pe bhej do
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            // User logged in, box dikhao
+            document.getElementById('termsDiv').style.display = 'block';
+        } else {
+            // User nahi hai, wapas login pe bhej do
+            window.location.href = 'login.html';
+        }
+    });
+</script>
+
+</body>
+</html>
