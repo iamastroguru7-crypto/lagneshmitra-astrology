@@ -8,12 +8,13 @@
     <style>
         body { font-family: 'Montserrat', sans-serif; background-color: #0a0b10; color: #d1d1d1; margin: 0; padding: 0; }
         
-        /* Navigation */
+        /* Navigation & Status */
         .nav-bar { display: flex; flex-direction: column; align-items: center; padding: 20px; }
         .logo img { width: 120px; margin-bottom: 20px; }
         .nav-bar ul { list-style: none; padding: 0; display: flex; gap: 30px; }
         .nav-bar a { text-decoration: none; color: #fff; font-weight: 600; transition: 0.3s; }
         .nav-bar a:hover { color: #ffb400; }
+        .status-banner { margin-top: 20px; font-size: 0.9rem; font-style: italic; text-align: center; }
 
         /* Products Layout */
         .products { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 40px 20px; }
@@ -28,10 +29,7 @@
         ul { text-align: left; padding-left: 20px; margin-bottom: 30px; color: #d1d1d1; }
         li { margin-bottom: 10px; font-size: 0.95rem; }
 
-        button { background: transparent; border: 1px solid #ffb400; color: #ffb400; padding: 12px 30px; cursor: pointer; transition: 0.3s; font-weight: bold; border-radius: 4px; width: 100%; }
-        button:hover { background-color: #ffb400; color: #0a0b10; }
-
-        .product-card:hover { border-color: #ffb400; transform: translateY(-5px); }
+        button { background-color: #333; color: #888; cursor: not-allowed; border: 1px solid #444; padding: 12px 30px; font-weight: bold; border-radius: 4px; width: 100%; }
 
         @media (max-width: 768px) { .product-card { width: 90%; } }
     </style>
@@ -47,6 +45,9 @@
             <li><a href="products.html">Products</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
+        <div class="status-banner">
+            <span style="border-bottom: 1px solid #ffb400; color: #ffb400; padding-bottom: 2px;">Services Coming Soon</span>
+        </div>
     </nav>
 </header>
 
@@ -56,43 +57,42 @@
         <div class="product-card">
             <h2>ACD</h2>
             <div class="tagline">Baseline analysis for karmic structural integrity</div>
-            <div class="prices coming soon...">₹</div>
+            <div class="price">₹1,499</div>
             <ul>
                 <li>Geospatial Node Mapping</li>
                 <li>Planetary Resonance Frequency analysis</li>
                 <li>Karmic Stress Index calculation</li>
             </ul>
-            <button onclick="window.location.href='contact.html'">Select Audit</button>
+            <button>Coming Soon</button>
         </div>
 
         <!-- Tier 2 -->
         <div class="product-card">
             <h2>KLAS</h2>
             <div class="tagline">In-depth stress testing for trajectory optimization</div>
-            <div class="prices coming soon...">₹</div>
+            <div class="price">₹3,999</div>
             <ul>
                 <li>Personalized Karmic Topology Mapping</li>
                 <li>Trajectory Simulation Modeling</li>
                 <li>Systemic Risk Assessment</li>
             </ul>
-            <button onclick="window.location.href='contact.html'">Select Stress-Test</button>
+            <button>Coming Soon</button>
         </div>
 
         <!-- Tier 3 -->
         <div class="product-card">
             <h2>AKI</h2>
             <div class="tagline">Strategic planning for long-term infrastructure</div>
-            <div class="prices coming soon">₹</div>
+            <div class="price">₹7,999</div>
             <ul>
                 <li>Master Karmic Blueprint</li>
                 <li>Annual Karmic Maintenance Scheduling</li>
                 <li>Integrated Karmic Dashboard</li>
             </ul>
-            <button onclick="window.location.href='contact.html'">Select Architect</button>
+            <button>Coming Soon</button>
         </div>
     </section>
 </main>
 
 </body>
 </html>
-
