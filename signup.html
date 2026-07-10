@@ -13,7 +13,6 @@
         .card { background: rgba(21, 23, 30, 0.85); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); width: 85%; max-width: 320px; color: white; text-align: center; backdrop-filter: blur(12px); }
         input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 8px; border: none; background: #2a2d35; color: white; box-sizing: border-box; }
         button { width: 100%; padding: 12px; background: #ffb400; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-        .back-link { font-size: 12px; margin-top: 15px; display: block; color: #ffb400; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -26,13 +25,23 @@
     <input type="password" id="password" placeholder="Set Password">
     
     <button onclick="handleSignup()">Complete Registration</button>
-    <a href="login.html" class="back-link">Back to Login</a>
 </div>
 
 <script>
-    // Wahi config jo login.html mein hai
-    const firebaseConfig = { /* ... wahi config ... */ };
+    // 1. Configuration
+    const firebaseConfig = { 
+        apiKey: "AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w",
+        authDomain: "lagneshmitra-astrology-e72fb.firebaseapp.com",
+        projectId: "lagneshmitra-astrology-e72fb",
+        storageBucket: "lagneshmitra-astrology-e72fb.firebasestorage.app",
+        messagingSenderId: "223772639779",
+        appId: "1:223772639779:web:49341578713e2c0c9ae796"
+    };
+
+    // 2. Initialize FIRST
     firebase.initializeApp(firebaseConfig);
+
+    // 3. Define variables AFTER initialization
     const auth = firebase.auth();
     const db = firebase.firestore();
 
@@ -45,6 +54,7 @@
         if(!name || !email || !phone || !pass) return alert("All fields required!");
 
         try {
+            // Ab 'auth' initialize ho chuka hai, error nahi aayega
             const userCredential = await auth.createUserWithEmailAndPassword(email, pass);
             const user = userCredential.user;
 
