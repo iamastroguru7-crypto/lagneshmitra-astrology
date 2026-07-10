@@ -14,11 +14,11 @@
             margin: 0;
             padding: 40px 20px;
             line-height: 1.8;
-            text-align: center;
         }
 
         .logo-container {
             margin: 20px auto 40px auto;
+            text-align: center;
         }
         
         .logo-container img {
@@ -36,20 +36,21 @@
             color: #ffb400;
             text-shadow: 0 0 10px rgba(255, 180, 0, 0.3);
             margin-bottom: 20px;
+            text-align: center;
         }
 
         h1 { font-size: 3.5rem; }
-        h2 { font-size: 2.8rem; margin-top: 40px; }
 
         p {
             font-size: 1.2rem;
             margin-bottom: 25px;
-            text-align: justify;
+            text-align: left;
         }
 
         .cta-button {
-            display: inline-block;
-            margin-top: 40px;
+            display: block;
+            margin: 40px auto;
+            width: fit-content;
             padding: 15px 35px;
             background: transparent;
             border: 2px solid #ffb400;
@@ -58,11 +59,18 @@
             font-weight: bold;
             border-radius: 5px;
             transition: 0.3s;
+            text-align: center;
         }
 
         .cta-button:hover {
             background: #ffb400;
             color: black;
+        }
+
+        /* Desktop Optimization */
+        @media (min-width: 768px) {
+            h1 { font-size: 3rem; }
+            p { font-size: 1.25rem; }
         }
     </style>
 </head>
