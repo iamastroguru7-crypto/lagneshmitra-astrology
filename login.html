@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div id="status">Loading...</div>
+<div id="status">Authenticating...</div>
 
 <script>
     const firebaseConfig = {
@@ -23,19 +23,20 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // STEP 1: Check karo kya user pehle se logged in hai
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            // Agar user mil gaya, toh sidha terms pe bhejo
+    // PEHLE RESULT CHECK KARO
+    auth.getRedirectResult().then((result) => {
+        if (result.user) {
             window.location.href = 'terms.html';
         } else {
-            // User nahi hai, toh button dikhao
+            // Agar result nahi hai, tab button show karo
             document.getElementById('status').innerHTML = '<button id="btn">Continue with Google</button>';
             document.getElementById('btn').addEventListener('click', () => {
                 const provider = new firebase.auth.GoogleAuthProvider();
                 auth.signInWithRedirect(provider);
             });
         }
+    }).catch((error) => {
+        document.getElementById('status').innerText = "Error: " + error.message;
     });
 </script>
 </body>
