@@ -10,25 +10,26 @@
     
     <style>
         body { background: #0a0b10; color: #fff; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .card { background: #15171e; padding: 20px; border-radius: 15px; border: 1px solid #333; width: 350px; }
+        .card { background: #15171e; padding: 25px; border-radius: 20px; border: 1px solid #333; width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .avatar { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #ffb400; }
-        .dots { cursor: pointer; font-size: 24px; color: #ffb400; padding: 5px; }
-        .panel { display: none; background: #1c1f26; padding: 15px; border-radius: 8px; font-size: 14px; margin-top: 10px; }
-        .btn-logout { background: #ff4444; width: 100%; padding: 10px; border: none; color: white; border-radius: 5px; cursor: pointer; margin-top: 15px; }
-        h2 { margin: 0; }
-        p { margin: 5px 0; color: #aaa; }
+        .avatar { width: 65px; height: 65px; border-radius: 50%; border: 3px solid #ffb400; object-fit: cover; }
+        .dots { cursor: pointer; font-size: 28px; color: #ffb400; padding: 0 10px; }
+        .panel { display: none; background: #1c1f26; padding: 15px; border-radius: 12px; font-size: 14px; margin-top: 15px; border: 1px solid #2a2d35; }
+        .btn-logout { background: #ff4444; width: 100%; padding: 12px; border: none; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 15px; }
+        h2 { margin: 0; font-size: 22px; }
+        p { margin: 5px 0; color: #aaa; font-size: 14px; }
+        b { color: #fff; }
     </style>
 </head>
 <body>
 
 <div class="card">
     <div class="header">
-        <img id="userImg" class="avatar" src="https://via.placeholder.com/60">
+        <img id="userImg" class="avatar" src="https://via.placeholder.com/65" alt="Profile">
         <div class="dots" onclick="togglePanel()">⋮</div>
     </div>
     <h2 id="userName">Loading...</h2>
-    <p>ID: <b id="lmId" style="color: #ffb400;">Generating...</b></p>
+    <p>Unique ID: <b id="lmId" style="color: #ffb400;">Generating...</b></p>
 
     <div id="extraPanel" class="panel">
         <p>Email: <span id="userEmail">...</span></p>
@@ -52,11 +53,13 @@
 
     firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
+            // Set UI Data
             document.getElementById('userName').innerText = user.displayName || "User";
-            document.getElementById('userImg').src = user.photoURL || "https://via.placeholder.com/60";
+            document.getElementById('userImg').src = user.photoURL || "https://via.placeholder.com/65";
             document.getElementById('userEmail').innerText = user.email;
             document.getElementById('userPhone').innerText = user.phoneNumber || "Not Linked";
 
+            // ID Generation/Fetch logic
             const userRef = db.collection('users').doc(user.uid);
             try {
                 const doc = await userRef.get();
@@ -68,8 +71,8 @@
                     document.getElementById('lmId').innerText = doc.data().lmId;
                 }
             } catch (e) {
-                document.getElementById('lmId').innerText = "Error loading ID";
-                console.error("Firestore Error:", e);
+                document.getElementById('lmId').innerText = "Error";
+                console.error("Database Error:", e);
             }
         } else {
             window.location.href = 'login.html';
@@ -82,7 +85,10 @@
     }
 
     function logout() {
-        firebase.auth().signOut().then(() => window.location.href = 'login.html');
+        firebase.auth().signOut().then(() => {
+            // Logout ke baad seedha index.html par bhejenge
+            window.location.href = 'index.html';
+        }).catch((e) => alert("Logout failed: " + e.message));
     }
 </script>
 
