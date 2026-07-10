@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div id="status">Please wait...</div>
+<div id="status">Loading...</div>
 
 <script>
     const firebaseConfig = {
@@ -23,13 +23,13 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // PEHLE CHECK KARO KI USER PEHLE SE LOGGED IN HAI YA NAHI
+    // STEP 1: Check karo kya user pehle se logged in hai
     auth.onAuthStateChanged((user) => {
         if (user) {
             // Agar user mil gaya, toh sidha terms pe bhejo
             window.location.href = 'terms.html';
         } else {
-            // User nahi hai, button show karo
+            // User nahi hai, toh button dikhao
             document.getElementById('status').innerHTML = '<button id="btn">Continue with Google</button>';
             document.getElementById('btn').addEventListener('click', () => {
                 const provider = new firebase.auth.GoogleAuthProvider();
