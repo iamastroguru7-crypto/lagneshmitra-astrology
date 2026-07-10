@@ -4,75 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Architecture of Fate | LagneshMitra</title>
-    <!-- High Calligraphy Font for Headings -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-    <!-- Low Calligraphy/Elegant Font for Body -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
     
     <style>
         body {
             background-color: #0a0b10;
             color: #d1d1d1;
+            font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 40px 20px;
             line-height: 1.8;
-            position: relative;
+            text-align: center;
         }
 
-        .watermark {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            opacity: 0.03;
-            z-index: -1;
-            pointer-events: none;
+        /* Logo embedded in center */
+        .logo-container {
+            margin: 20px auto 40px auto;
+        }
+        .logo-container img {
+            width: 200px;
+            height: auto;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
-            text-align: center;
         }
 
-        /* High Calligraphy Headings */
+        /* Headings with Monotype Corsiva */
         h1, h2 {
-            font-family: 'Great Vibes', cursive;
+            font-family: 'Monotype Corsiva', 'Dancing Script', cursive;
             color: #ffb400;
-            text-shadow: 0 0 15px rgba(255, 180, 0, 0.4);
+            text-shadow: 0 0 10px rgba(255, 180, 0, 0.3);
             margin-bottom: 20px;
         }
 
-        h1 { font-size: 4rem; }
-        h2 { font-size: 3rem; margin-top: 50px; }
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.8rem; margin-top: 40px; }
 
-        /* Low Calligraphy Body Text */
-        p, .philosophy-text, .pillars {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.6rem;
-            color: #b0b0b0;
+        p {
+            font-size: 1.2rem;
             margin-bottom: 25px;
-        }
-
-        .philosophy-text {
-            text-align: center;
-            border-top: 1px solid #ffb400;
-            border-bottom: 1px solid #ffb400;
-            padding: 20px 0;
-            margin: 40px 0;
         }
 
         .cta-button {
             display: inline-block;
-            margin-top: 50px;
-            padding: 15px 40px;
+            margin-top: 40px;
+            padding: 15px 35px;
             background: transparent;
             border: 2px solid #ffb400;
             color: #ffb400;
             text-decoration: none;
             font-weight: bold;
-            font-size: 1.2rem;
             border-radius: 5px;
             transition: 0.3s;
         }
@@ -85,25 +68,24 @@
 </head>
 <body>
 
-    <img src="logo.png" alt="Logo" class="watermark">
+    <!-- Logo in the center -->
+    <div class="logo-container">
+        <img src="logo.png" alt="LagneshMitra Logo">
+    </div>
 
     <div class="container">
         <h1>The Architecture of Human Fate</h1>
         
         <p>At LagneshMitra, we do not view Astrology as a collection of mystical predictions, but as the Structural Engineering of Karma. We believe that life is not a sequence of random events, but a highly complex, computational infrastructure governed by celestial mechanics.</p>
 
-        <div class="philosophy-text">
-            "To understand one's life, one must first dismantle the illusion of chance, by mapping the planetary intersections with mathematical precision, we reveal the blueprint of your existence, the rigid, indestructible ground upon which your destiny is built."
-        </div>
+        <p>To understand one's life, one must first dismantle the illusion of chance, by mapping the planetary intersections with mathematical precision, we reveal the blueprint of your existence—the rigid, indestructible ground upon which your destiny is built.</p>
 
         <h2>The Pillars of Structural Logic</h2>
-        <p class="pillars">
-            Computational Rigor, Non-Linear Analysis, Karmic Data Mapping
-        </p>
+        <p>Computational Rigor, Non-Linear Analysis, Karmic Data Mapping.</p>
 
         <p>We are not here to offer comfort through hollow promises. We are here to provide the Structural Reality—the data points, the cycles, and the undeniable truth of your chart's internal mechanics. This is the new era of Vedic Engineering, where logic replaces dogma, and precision replaces mystery.</p>
 
-        <a href="intake_form.html" class="cta-button">Engage with the Structural Blueprint</a>
+        <a href="products.html" class="cta-button">Engage with the Structural Blueprint</a>
     </div>
 
 </body>
