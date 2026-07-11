@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile | LagneshMitra</title>
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
     
     <style>
-        body { background: #0a0b10; color: #fff; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .card { background: #15171e; padding: 25px; border-radius: 20px; border: 1px solid #333; width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        body { background: #0a0b10; color: #fff; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; margin: 0; }
+        .card { background: #15171e; padding: 25px; border-radius: 20px; border: 1px solid #333; width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; }
         .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
         .avatar { width: 65px; height: 65px; border-radius: 50%; border: 3px solid #ffb400; object-fit: cover; }
         .dots { cursor: pointer; font-size: 28px; color: #ffb400; padding: 0 10px; }
         .panel { display: none; background: #1c1f26; padding: 15px; border-radius: 12px; font-size: 14px; margin-top: 15px; border: 1px solid #2a2d35; }
         .btn-logout { background: #ff4444; width: 100%; padding: 12px; border: none; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 15px; }
+        .btn-link { background: #00ff41; color: #000; width: 100%; padding: 8px; border: none; border-radius: 5px; cursor: pointer; margin-top: 5px; font-weight: bold; }
         h2 { margin: 0; font-size: 22px; }
         p { margin: 5px 0; color: #aaa; font-size: 14px; }
         b { color: #fff; }
@@ -34,6 +36,8 @@
     <div id="extraPanel" class="panel">
         <p>Email: <span id="userEmail">...</span></p>
         <p>Phone: <span id="userPhone">Not Linked</span></p>
+        <!-- Mobile Link Action -->
+        <button class="btn-link" onclick="linkMobile()">Link Mobile Number</button>
         <button class="btn-logout" onclick="logout()">Logout</button>
     </div>
 </div>
@@ -53,26 +57,20 @@
 
     firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
-            // Set UI Data
             document.getElementById('userName').innerText = user.displayName || "User";
             document.getElementById('userImg').src = user.photoURL || "https://via.placeholder.com/65";
             document.getElementById('userEmail').innerText = user.email;
             document.getElementById('userPhone').innerText = user.phoneNumber || "Not Linked";
 
-            // ID Generation/Fetch logic
             const userRef = db.collection('users').doc(user.uid);
-            try {
-                const doc = await userRef.get();
-                if (!doc.exists) {
-                    const newId = "LM-" + Math.floor(10000 + Math.random() * 90000);
-                    await userRef.set({ lmId: newId, email: user.email, name: user.displayName });
-                    document.getElementById('lmId').innerText = newId;
-                } else {
-                    document.getElementById('lmId').innerText = doc.data().lmId;
-                }
-            } catch (e) {
-                document.getElementById('lmId').innerText = "Error";
-                console.error("Database Error:", e);
+            const doc = await userRef.get();
+            
+            if (!doc.exists) {
+                const newId = "LM-" + Math.floor(10000 + Math.random() * 90000);
+                await userRef.set({ lmId: newId, email: user.email, name: user.displayName });
+                document.getElementById('lmId').innerText = newId;
+            } else {
+                document.getElementById('lmId').innerText = doc.data().lmId;
             }
         } else {
             window.location.href = 'login.html';
@@ -84,9 +82,13 @@
         p.style.display = (p.style.display === 'block') ? 'none' : 'block';
     }
 
+    function linkMobile() {
+        alert("Mobile Linkage Module: Triggering OTP flow...");
+        // Yahan Firebase Phone Auth integration logic aayegi
+    }
+
     function logout() {
         firebase.auth().signOut().then(() => {
-            // Logout ke baad seedha index.html par bhejenge
             window.location.href = 'index.html';
         }).catch((e) => alert("Logout failed: " + e.message));
     }
