@@ -1,17 +1,24 @@
-// /core/humanizer.js
+// core/humanizer.js
+const lexicon = require('./lexicon');
 
 class Humanizer {
-    // Ye method response ko "Authoritative" aur "Lethal" banata hai
     applyTone(rawText, tier) {
+        let refined = rawText;
+
+        // 1. Tier-based Prefixing (Identity)
         const prefix = tier === 'INSTITUTIONAL' ? 
             "[WHOLESALE_ORACLE]: " : "[RETAIL_STRATEGY]: ";
-            
-        const refined = rawText
-            .replace(/I think/g, "Calculated probability dictates")
-            .replace(/maybe/g, "High-confidence path")
-            .replace(/could/g, "Will");
 
-        return `${prefix}${refined}\n\n[STATUS]: EXECUTION_READY`;
+        // 2. Automated Replacement using Lexicon logic
+        for (const [key, value] of Object.entries(lexicon.replacements)) {
+            const regex = new RegExp(`\\b${key}\\b`, 'gi');
+            refined = refined.replace(regex, value);
+        }
+
+        // 3. Injecting "Lethal" signature for authority
+        const randomInjection = lexicon.injections[Math.floor(Math.random() * lexicon.injections.length)];
+        
+        return `${prefix}${refined}\n\n[STATUS]: ${randomInjection} - EXECUTION_READY`;
     }
 }
 
