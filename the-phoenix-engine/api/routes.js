@@ -7,32 +7,30 @@ const NLPEngine = require('../core/nlp-engine');
 
 router.post('/execute', async (req, res) => {
     try {
-        const { query, tier } = req.body;
+        // API key bhi destructure kar
+        const { query, tier, apiKey } = req.body;
 
-        // Validation: Query khali nahi honi chahiye
-        if (!query) {
-            return res.status(400).json({ result: "Error: Input required." });
+        if (!query || !apiKey) {
+            return res.status(400).json({ result: "Error: Query and API Key are required." });
         }
         
-        console.log(`[EXECUTION_START] Tier: ${tier} | Query: ${query}`);
+        console.log(`[EXECUTION_START] Tier: ${tier}`);
 
-        // 1. Process Input via NLP Engine
+        // 1. NLP Processing
         const nlpData = NLPEngine.process(query);
         
-        // 2. Get AI Response via Orchestrator
-        const rawResponse = await Orchestrator.execute(nlpData.original || query);
+        // 2. Orchestrator ko apiKey pass kar
+        const rawResponse = await Orchestrator.execute(nlpData.original || query, apiKey);
         
-        // 3. Humanize Response via Humanizer
+        // 3. Humanizer
         const finalResponse = Humanizer.applyTone(rawResponse, tier || 'INSTITUTIONAL');
-        
-        console.log(`[EXECUTION_SUCCESS]`);
         
         res.json({ result: finalResponse });
 
     } catch (error) {
         console.error("[CRITICAL_FAILURE]:", error.message);
         res.status(500).json({ 
-            result: "System Failure: The Phoenix Engine encountered a critical error during execution." 
+            result: "System Failure: Authentication or Engine connection error." 
         });
     }
 });
