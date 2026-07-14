@@ -1,5 +1,6 @@
 // core/humanizer.js
 const lexicon = require('./lexicon');
+const Detector = require('./detector-check');
 
 class Humanizer {
     applyTone(rawText, tier) {
@@ -15,10 +16,18 @@ class Humanizer {
             refined = refined.replace(regex, value);
         }
 
-        // 3. Injecting "Lethal" signature for authority
-        const randomInjection = lexicon.injections[Math.floor(Math.random() * lexicon.injections.length)];
-        
-        return `${prefix}${refined}\n\n[STATUS]: ${randomInjection} - EXECUTION_READY`;
+        // 3. Detection Evasion: Check if the text needs more entropy
+        const check = Detector.evaluate(refined);
+        let statusTag = lexicon.injections[Math.floor(Math.random() * lexicon.injections.length)];
+
+        if (check.isFlagged) {
+            // Add a "Force-Lethal" injection if flagged
+            statusTag = "EVASION_ACTIVE_CORE_LETHAL_MODE";
+            refined += "\n\n[SYSTEM_NOTE]: Entropy increased to ensure authority.";
+        }
+
+        // 4. Returning finalized authoritative output
+        return `${prefix}${refined}\n\n[STATUS]: ${statusTag} - EXECUTION_READY`;
     }
 }
 
