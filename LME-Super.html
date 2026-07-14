@@ -3,47 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Engine 9.0</title>
+    <title>The Phoenix Engine 9.0</title>
     <style>
-    body, html { height: 100%; margin: 0; padding: 0; overflow: hidden; background: #000; }
-    
-    .main-container { 
-        width: 100vw; height: 100vh; display: flex; flex-direction: column; padding: 15px; box-sizing: border-box;
-    }
+        body, html { height: 100%; margin: 0; padding: 0; overflow: hidden; background: #000; font-family: 'Courier New', Courier, monospace; }
+        
+        .main-container { 
+            width: 100vw; height: 100vh; display: flex; flex-direction: column; padding: 10px; box-sizing: border-box;
+        }
 
-    /* Output box styling */
-    #output { 
-        flex: 1; /* Dynamic height le lega */
-        background: rgba(0,0,0,0.85);
-        color: #00ff00; border: 2px solid #ffd700; border-radius: 10px; 
-        padding: 15px; font-family: monospace; overflow-y: auto; margin-bottom: 15px;
-        box-sizing: border-box;
-    }
+        #menu-icon { color: #ffd700; cursor: pointer; font-size: 20px; margin-bottom: 5px; }
 
-    /* Input Container (Button inside box) */
-    .input-wrapper { 
-        position: relative; width: 100%; height: 60px;
-    }
+        /* Output box - Chat History Style */
+        #output { 
+            flex: 1; background: rgba(0,0,0,0.85);
+            color: #00ff00; border: 2px solid #ffd700; border-radius: 10px; 
+            padding: 15px; overflow-y: auto; margin-bottom: 10px;
+            box-sizing: border-box; line-height: 1.5;
+        }
 
-    textarea { 
-        width: 100%; height: 100%; background: rgba(0,0,0,0.7); color: #fff; 
-        border: 2px solid #ffd700; padding: 10px; border-radius: 10px; 
-        box-sizing: border-box; font-size: 16px; padding-right: 70px; /* Button ke liye space */
-        resize: none;
-    }
-    
-    #sendBtn { 
-        position: absolute; right: 5px; top: 5px; bottom: 5px;
-        width: 60px; background: #ffd700; border: none; 
-        font-weight: bold; border-radius: 7px; cursor: pointer;
-    }
-</style>
+        .input-wrapper { position: relative; width: 100%; height: 60px; }
+
+        textarea { 
+            width: 100%; height: 100%; background: rgba(0,0,0,0.7); color: #fff; 
+            border: 2px solid #ffd700; padding: 10px; border-radius: 10px; 
+            box-sizing: border-box; font-size: 16px; padding-right: 70px; resize: none;
+        }
+        
+        #sendBtn { 
+            position: absolute; right: 5px; top: 5px; bottom: 5px;
+            width: 60px; background: #ffd700; border: none; 
+            font-weight: bold; border-radius: 7px; cursor: pointer; color: #000;
+        }
+    </style>
 </head>
 <body>
 
 <div class="main-container">
-    <div id="menu-icon" onclick="setKey()" style="color: #ffd700; cursor:pointer;">⚙️</div>
-    <div id="output">System Ready. Awaiting Input...</div>
+    <div id="menu-icon" onclick="setKey()">⚙️ CONFIG</div>
+    <div id="output">System Ready. Establishing connection...</div>
     
     <div class="input-wrapper">
         <textarea id="query" placeholder="Enter Analysis Query..."></textarea>
@@ -53,28 +50,56 @@
 
 <script>
     let apiKey = localStorage.getItem('engineKey') || "";
+    let chatHistory = [{ role: "system", content: "Ruthless data analysis only. No fluff." }];
+
     function setKey() {
         const key = prompt("Enter API Key:", apiKey);
         if (key) { apiKey = key; localStorage.setItem('engineKey', key); }
     }
+
     async function runEngine() {
         const out = document.getElementById('output');
-        const q = document.getElementById('query').value;
+        const qField = document.getElementById('query');
+        const q = qField.value;
+
+        if (!q.trim()) return;
         if (!apiKey) { alert("API Key missing!"); return; }
-        out.innerText = "Processing...";
+
+        // Update history with User Input
+        chatHistory.push({ role: "user", content: q });
+        renderHistory();
+        qField.value = ""; 
+        out.innerHTML += "<div><i>Processing...</i></div>";
+
         try {
             const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    messages: [{ role: "system", content: "Ruthless data analysis only. No fluff." },
-                               { role: "user", content: q }]
+                    messages: chatHistory
                 })
             });
             const data = await res.json();
-            out.innerText = data.choices[0].message.content;
-        } catch (e) { out.innerText = "Error: " + e.message; }
+            const responseText = data.choices[0].message.content;
+            
+            chatHistory.push({ role: "assistant", content: responseText });
+            renderHistory();
+        } catch (e) {
+            out.innerHTML += `<div style="color:red;">Error: ${e.message}</div>`;
+        }
+    }
+
+    function renderHistory() {
+        const out = document.getElementById('output');
+        // Filter out system prompt for display
+        out.innerHTML = chatHistory.filter(m => m.role !== 'system').map(m => 
+            `<div style="margin-bottom: 10px;">
+                <strong>${m.role === 'user' ? 'YOU:' : 'PHOENIX:'}</strong><br>${m.content}
+             </div>`
+        ).join('<hr style="border:0.1px solid #ffd700;">');
+        
+        out.scrollTop = out.scrollHeight; // Auto-scroll to latest
     }
 </script>
 </body>
