@@ -5,15 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Phoenix Engine 9.0</title>
     <style>
-        body, html { height: 100%; margin: 0; padding: 0; overflow: hidden; background: #000; font-family: 'Courier New', Courier, monospace; }
-        .main-container { width: 100vw; height: 100vh; display: flex; flex-direction: column; padding: 10px; box-sizing: border-box; }
-        #menu-icon { color: #ffd700; cursor: pointer; font-size: 20px; margin-bottom: 5px; }
-        #output { flex: 1; background: rgba(0,0,0,0.85); color: #00ff00; border: 2px solid #ffd700; border-radius: 10px; padding: 15px; overflow-y: auto; margin-bottom: 10px; box-sizing: border-box; line-height: 1.5; }
+        body, html { 
+            height: 100%; margin: 0; padding: 0; overflow: hidden; 
+            background: #000; font-family: 'Courier New', Courier, monospace; 
+        }
         
-        .input-wrapper { position: relative; width: 100%; height: 60px; display: flex; align-items: center; }
-        textarea { width: 100%; height: 100%; background: rgba(0,0,0,0.7); color: #fff; border: 2px solid #ffd700; padding: 10px; border-radius: 10px; box-sizing: border-box; font-size: 16px; padding-right: 130px; resize: none; }
+        .main-container { 
+            display: flex; flex-direction: column; 
+            height: 100vh; padding: 10px; box-sizing: border-box;
+        }
+
+        #menu-icon { color: #ffd700; cursor: pointer; font-size: 20px; margin-bottom: 5px; flex-shrink: 0; }
+
+        #output { 
+            flex-grow: 1; 
+            background: rgba(0,0,0,0.85);
+            color: #00ff00; border: 2px solid #ffd700; border-radius: 10px; 
+            padding: 15px; 
+            overflow-y: auto; /* Scroll functionality yahan handle hoga */
+            margin-bottom: 10px;
+            box-sizing: border-box; 
+            line-height: 1.5;
+            min-height: 100px;
+        }
+
+        .input-wrapper { 
+            flex-shrink: 0; 
+            position: relative; width: 100%; height: 60px; display: flex; 
+        }
         
-        .btn-group { position: absolute; right: 5px; display: flex; gap: 5px; }
+        textarea { 
+            width: 100%; height: 100%; background: rgba(0,0,0,0.7); color: #fff; 
+            border: 2px solid #ffd700; padding: 10px; border-radius: 10px; 
+            box-sizing: border-box; font-size: 16px; padding-right: 130px; resize: none;
+        }
+        
+        .btn-group { position: absolute; right: 5px; top: 5px; bottom: 5px; display: flex; gap: 5px; }
         .btn { width: 60px; height: 50px; background: #ffd700; border: none; font-weight: bold; border-radius: 7px; cursor: pointer; color: #000; font-size: 18px; }
         #fileInput { display: none; }
     </style>
@@ -36,7 +63,7 @@
 
 <script>
     let apiKey = localStorage.getItem('engineKey') || "";
-    let chatHistory = [{ role: "system", content: "Ruthless data analysis only. Use input data to parse DOB, TOB, POB and analyze professionally." }];
+    let chatHistory = [{ role: "system", content: "You are a precision Astrological Data Engine. First, extract Name, DOB, TOB, and POB. Confirm data clearly. Then provide ruthless analysis. No fluff." }];
 
     function setKey() {
         const key = prompt("Enter API Key:", apiKey);
@@ -48,9 +75,9 @@
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                // Image ko base64 mein convert kiya
-                chatHistory.push({ role: "user", content: `Image attached: ${e.target.result.substring(0, 50)}...` });
-                document.getElementById('output').innerHTML += `<div style="color:yellow;">Image uploaded successfully.</div>`;
+                chatHistory.push({ role: "user", content: "User uploaded an image for analysis." });
+                document.getElementById('output').innerHTML += `<div style="color:yellow; margin: 10px 0;">📎 Image attached for analysis.</div>`;
+                document.getElementById('output').scrollTop = document.getElementById('output').scrollHeight;
             };
             reader.readAsDataURL(file);
         }
@@ -75,21 +102,25 @@
                 body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: chatHistory })
             });
             const data = await res.json();
-            chatHistory.push({ role: "assistant", content: data.choices[0].message.content });
+            const responseText = data.choices[0].message.content;
+            
+            chatHistory.push({ role: "assistant", content: responseText });
             renderHistory();
         } catch (e) {
-            out.innerHTML += `<div style="color:red;">Error: ${e.message}</div>`;
+            out.innerHTML += `<div style="color:red; margin: 10px 0;">Error: ${e.message}</div>`;
         }
     }
 
     function renderHistory() {
         const out = document.getElementById('output');
         out.innerHTML = chatHistory.filter(m => m.role !== 'system').map(m => 
-            `<div style="margin-bottom: 10px;"><strong>${m.role === 'user' ? 'YOU:' : 'PHOENIX:'}</strong><br>${m.content}</div>`
+            `<div style="margin-bottom: 10px;">
+                <strong>${m.role === 'user' ? 'YOU:' : 'PHOENIX:'}</strong><br>${m.content}
+             </div>`
         ).join('<hr style="border:0.1px solid #ffd700;">');
-        out.scrollTop = out.scrollHeight;
+        
+        out.scrollTop = out.scrollHeight; // Auto-scroll
     }
 </script>
 </body>
 </html>
-
