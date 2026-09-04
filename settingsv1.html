@@ -1,115 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>LM Pre-Recon Console</title>
-
+<title>LM Pre-Recon Console v6 - Self + Repeat Fixed</title>
 <style>
-
-body{
-background:#0b0f17;
-color:white;
-font-family:Arial,sans-serif;
-padding:20px;
-margin:0;
-}
-
-h1{
-color:#f59e0b;
-margin-bottom:20px;
-}
-
-.card{
-background:#111827;
-padding:20px;
-border-radius:10px;
-margin-bottom:20px;
-}
-
-button{
-background:#f59e0b;
-color:black;
-border:none;
-padding:12px 20px;
-border-radius:8px;
-font-weight:bold;
-cursor:pointer;
-}
-
-button:hover{
-opacity:0.9;
-}
-
-.table-wrapper{
-overflow-x:auto;
-}
-
-table{
-width:100%;
-min-width:900px;
-border-collapse:collapse;
-background:#111827;
-}
-
-th,td{
-padding:12px;
-border:1px solid #374151;
-text-align:left;
-font-size:14px;
-white-space:nowrap;
-}
-
-th{
-background:#1f2937;
-color:#f59e0b;
-}
-
-.status{
-color:#22c55e;
-font-weight:bold;
-}
-
+body{background:#0b0f17;color:white;font-family:Arial,sans-serif;padding:20px;margin:0;}
+h1{color:#f59e0b;margin-bottom:10px;}
+.sub{color:#9ca3af;font-size:13px;margin-bottom:20px;}
+.card{background:#111827;padding:20px;border-radius:10px;margin-bottom:20px;border:1px solid #1f2937;}
+button{background:#f59e0b;color:black;border:none;padding:12px 20px;border-radius:8px;font-weight:bold;cursor:pointer;margin-right:10px;}
+button:hover{opacity:0.9;}
+button.sec{background:#1f2937;color:#f59e0b;border:1px solid #374151;}
+.table-wrapper{overflow-x:auto;}
+table{width:100%;min-width:1100px;border-collapse:collapse;background:#111827;}
+th,td{padding:12px;border:1px solid #374151;text-align:left;font-size:13px;white-space:nowrap;}
+th{background:#1f2937;color:#f59e0b;position:sticky;top:0;}
+.status{color:#22c55e;font-weight:bold;}
+.badge{padding:3px 8px;border-radius:12px;font-size:11px;font-weight:bold;margin-left:6px;}
+.badge-self{background:#ef4444;color:white;}
+.badge-repeat{background:#3b82f6;color:white;}
+.badge-new{background:#22c55e;color:black;}
+.link{color:#60a5fa;cursor:pointer;text-decoration:underline;}
+.history-box{display:none;background:#0b0f17;padding:10px;border-radius:6px;margin-top:8px;max-height:150px;overflow-y:auto;border:1px solid #374151;}
+.history-box div{padding:4px 0;border-bottom:1px dashed #1f2937;font-size:12px;}
+.small{color:#9ca3af;font-size:11px;}
 </style>
-
 </head>
-
 <body>
 
-<h1>📡 LM Pre-Recon Console</h1>
+<h1>📡 LM Pre-Recon Console v6</h1>
+<p class="sub">Fixed: Self-Detection + Repeat Visit Grouping + Link History</p>
 
 <div class="card">
-
-<p>
-<strong>Database Status:</strong>
-<span id="dbStatus">Connecting...</span>
-</p>
-
+<p><strong>Database Status:</strong> <span id="dbStatus">Connecting...</span> | <span class="small">My Local ID: <span id="myId">-</span></span></p>
 <br>
-
-<p>
-<strong>Total Records:</strong>
-<span id="totalRecords">0</span>
-</p>
-
+<p><strong>Total Raw Docs:</strong> <span id="totalRecords">0</span> | <strong>Unique Visitors:</strong> <span id="uniqueCount">0</span> | <strong>Self Visits:</strong> <span id="selfCount">0</span></p>
 <br>
-
-<button onclick="loadVisitors()">
-Refresh Visitors
-</button>
-
+<button onclick="loadVisitors()">Refresh Visitors</button>
+<button class="sec" onclick="clearSelf()">Clear My Local ID (Test Repeat)</button>
 </div>
 
 <div class="table-wrapper">
-
 <table>
-
 <thead>
 <tr>
 <th>Visitor ID</th>
+<th>Type</th>
+<th>Visits</th>
 <th>Device</th>
 <th>Language</th>
 <th>Country</th>
@@ -117,31 +55,20 @@ Refresh Visitors
 <th>City</th>
 <th>Source</th>
 <th>Timezone</th>
-<th>Visit Time</th>
+<th>First Visit</th>
+<th>Last Visit</th>
+<th>History</th>
 </tr>
 </thead>
-
-<tbody id="visitorTable">
-</tbody>
-
+<tbody id="visitorTable"></tbody>
 </table>
-
 </div>
 
 <script type="module">
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-
-import {
-getFirestore,
-collection,
-getDocs
-}
-from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
-
 apiKey: "AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w",
 authDomain: "lagneshmitra-astrology-e72fb.firebaseapp.com",
 projectId: "lagneshmitra-astrology-e72fb",
@@ -149,71 +76,114 @@ storageBucket: "lagneshmitra-astrology-e72fb.firebasestorage.app",
 messagingSenderId: "223772639779",
 appId: "1:223772639779:web:49341578713e2c0c9ae796",
 measurementId: "G-KN4F9HFQPD"
-
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+document.getElementById("dbStatus").innerHTML = '<span class="status">Connected</span>';
 
-document.getElementById("dbStatus").innerHTML =
-'<span class="status">Connected</span>';
+let myVisitorId = localStorage.getItem('lm_visitor_id');
+if(!myVisitorId){
+  myVisitorId = 'SELF-' + Math.random().toString(36).substring(2,9);
+}
+document.getElementById('myId').innerText = myVisitorId + ' ( + browser stored)';
+const storedMyId = localStorage.getItem('lm_visitor_id');
+if(storedMyId){
+  document.getElementById('myId').innerText = storedMyId + ' [REAL SELF]';
+  myVisitorId = storedMyId;
+}
+
+window.clearSelf = function(){
+  localStorage.removeItem('lm_visitor_id');
+  alert('Local ID cleared! Ab next site visit pe naya ID banega');
+  location.reload();
+}
+
+window.toggleHistory = function(id){
+  const el = document.getElementById('hist-'+id);
+  el.style.display = el.style.display==='block'? 'none' : 'block';
+}
 
 window.loadVisitors = async function(){
-
-const tbody =
-document.getElementById("visitorTable");
-
+const tbody = document.getElementById("visitorTable");
 tbody.innerHTML = "";
+const snapshot = await getDocs(collection(db,"visitors"));
+document.getElementById("totalRecords").innerText = snapshot.size;
 
-const snapshot =
-await getDocs(collection(db,"visitors"));
-
-document.getElementById("totalRecords").innerText =
-snapshot.size;
-
-snapshot.forEach((doc)=>{
-
-const data = doc.data();
-
-let visitTime = "";
-
-if(data.first_visit){
-
-try{
-
-visitTime = new Date(
-data.first_visit.seconds * 1000
-).toLocaleString();
-
-}catch(error){
-
-visitTime = "";
-
-}
-
-}
-
-tbody.innerHTML += `
-<tr>
-<td>${data.visitor_id || ""}</td>
-<td>${data.device_type || ""}</td>
-<td>${data.language || ""}</td>
-<td>${data.country || "Unknown"}</td>
-<td>${data.state || ""}</td>
-<td>${data.city || ""}</td>
-<td>${data.source || ""}</td>
-<td>${data.timezone || ""}</td>
-<td>${visitTime}</td>
-</tr>
-`;
-
+const groups = {};
+snapshot.forEach((docSnap)=>{
+  const data = docSnap.data();
+  const vid = data.visitor_id || 'UNKNOWN-'+docSnap.id;
+  if(!groups[vid]) groups[vid]=[];
+  groups[vid].push(data);
 });
 
+document.getElementById("uniqueCount").innerText = Object.keys(groups).length;
+let selfVisits = 0;
+
+const sortedGroups = Object.entries(groups).map(([vid, docs])=>{
+  docs.sort((a,b)=>{
+    const at = a.last_visit?.seconds || a.first_visit?.seconds || 0;
+    const bt = b.last_visit?.seconds || b.first_visit?.seconds || 0;
+    return bt - at;
+  });
+  const first = docs[docs.length-1];
+  const last = docs[0];
+  const lastTime = last.last_visit?.seconds || last.first_visit?.seconds || 0;
+  return {vid, docs, first, last, lastTime, count: docs.length};
+}).sort((a,b)=> b.lastTime - a.lastTime);
+
+sortedGroups.forEach(({vid, docs, first, last, count})=>{
+  const isSelf = (localStorage.getItem('lm_visitor_id') && vid === localStorage.getItem('lm_visitor_id')) ||
+                 (vid.includes('SELF')) ||
+                 (last.city==='Varanasi' && last.timezone==='America/Los_Angeles') ||
+                 (vid === 'VIS-yli1gddm');
+
+  const isDirectVaranasi = last.city==='Varanasi' && last.source==='direct';
+  const selfBadge = isSelf? `<span class="badge badge-self">SELF - TERA LAPTOP</span>` : (isDirectVaranasi? `<span class="badge" style="background:#fbbf24;color:black;">MAYBE SELF</span>` : '');
+
+  if(isSelf) selfVisits++;
+
+  let typeBadge = '';
+  if(count>1) typeBadge = `<span class="badge badge-repeat">REPEAT x${count}</span>`;
+  else typeBadge = `<span class="badge badge-new">NEW</span>`;
+  if(isSelf) typeBadge += `<span class="badge badge-self">SELF</span>`;
+
+  function fmt(ts){
+    if(!ts) return '';
+    try{ return new Date(ts.seconds*1000).toLocaleString(); }catch(e){return '';}
+  }
+  const firstTimeStr = fmt(first.first_visit || first.last_visit);
+  const lastTimeStr = fmt(last.last_visit || last.first_visit);
+  const historyTimes = docs.map(d=> fmt(d.last_visit || d.first_visit)).filter(Boolean);
+  const d = last;
+
+  tbody.innerHTML += `
+<tr style="${isSelf? 'background:#1f1a1a;' : ''}">
+<td><span class="link" onclick="toggleHistory('${vid}')">${vid}</span> ${selfBadge}</td>
+<td>${typeBadge}</td>
+<td><strong>${count}</strong></td>
+<td>${d.device_type||''}</td>
+<td>${d.language||''}</td>
+<td>${d.country||'Unknown'}</td>
+<td>${d.state||''}</td>
+<td>${d.city||''}</td>
+<td>${d.source||''}</td>
+<td>${d.timezone||''}</td>
+<td>${firstTimeStr}</td>
+<td>${lastTimeStr}</td>
+<td>
+  ${count>1? `<span class="link" onclick="toggleHistory('${vid}')">View ${count} times ▼</span>` : '<span class="small">single</span>'}
+  <div id="hist-${vid}" class="history-box">
+    ${historyTimes.map((t,i)=>`<div>#${i+1} - ${t} - IP:${docs[i].ip||'N/A'}</div>`).join('')}
+  </div>
+</td>
+</tr>
+`;
+});
+document.getElementById("selfCount").innerText = selfVisits;
 }
-
 loadVisitors();
-
 </script>
-
 </body>
 </html>
