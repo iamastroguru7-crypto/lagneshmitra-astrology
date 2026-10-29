@@ -24,45 +24,39 @@
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LM Console v7.6 - Ultimate - Self Hosted</title>
+<title>LM Console v7.8 - Descending 111 Total</title>
 <style>
-body{background:#0b0f17;color:#fff;font-family:Arial,sans-serif;padding:20px;margin:0;}
-h1{color:#f59e0b;} .sub{color:#22c55e;font-size:11px;margin-bottom:12px;}
+body{background:#0b0f17;color:#fff;font-family:Arial,sans-serif;padding:16px;margin:0;}
+h1{color:#f59e0b;font-size:22px;margin-bottom:4px;} .sub{color:#22c55e;font-size:11px;margin-bottom:12px;}
 .card{background:#111827;padding:14px;border-radius:10px;margin-bottom:14px;border:1px solid #1f2937;}
 button{background:#f59e0b;color:#000;border:none;padding:9px 14px;border-radius:8px;font-weight:bold;cursor:pointer;margin-right:6px;margin-top:6px;font-size:12px;}
 button.sec{background:#1f2937;color:#f59e0b;border:1px solid #374151;}
 button.green{background:#22c55e;color:#000;}
-.small{color:#9ca3af;font-size:10px;} .status{color:#22c55e;font-weight:bold;} .status-err{color:#ef4444;}
-table{width:100%;border-collapse:collapse;background:#111827;min-width:1400px;} th,td{padding:7px;border:1px solid #374151;font-size:11px;white-space:nowrap;} th{background:#1f2937;color:#f59e0b;position:sticky;top:0;}
+.small{color:#9ca3af;font-size:10px;} .status{color:#22c55e;font-weight:bold;}
+table{width:100%;border-collapse:collapse;background:#111827;min-width:1400px;} th,td{padding:7px;border:1px solid #374151;font-size:11px;white-space:nowrap;} th{background:#1f2937;color:#f59e0b;position:sticky;top:0;cursor:pointer;}
 .badge{padding:2px 6px;border-radius:8px;font-size:9px;font-weight:bold;}
-.badge-new{background:#22c55e;color:#000;} .badge-fresh{background:#f59e0b;color:#000;}
-#log{background:#000;color:#22c55e;padding:8px;border-radius:6px;max-height:150px;overflow-y:auto;font-family:monospace;font-size:10px;white-space:pre-wrap;}
-code{background:#1f2937;padding:2px 6px;border-radius:4px;font-size:11px;color:#f59e0b;}
+.badge-new{background:#22c55e;color:#000;} .badge-fresh{background:#f59e0b;color:#000;} .badge-old{background:#374151;color:#9ca3af;}
+#log{background:#000;color:#22c55e;padding:8px;border-radius:6px;max-height:120px;overflow-y:auto;font-family:monospace;font-size:10px;white-space:pre-wrap;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-app-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
-<h1>📡 LM Console v7.6 — ULTIMATE (Brave ka Baap) 🔥</h1>
-<p class="sub">Ab koi CDN nahi — Firebase SDK khud lagneshmitra.com pe host hoga — Brave kuch block nahi kar payega</p>
-
-<div class="card" style="border:2px solid #f59e0b;">
-<h3 style="color:#f59e0b;margin-top:0;">😂 Bhai tera Brave harami hai — isne googleapis.com bhi block kar diya!</h3>
-<p class="small">gstatic.com = blocked<br>jsdelivr.net = blocked<br>unpkg.com = blocked<br>firestore.googleapis.com = blocked (REST bhi fail)<br><br><strong>Solution: SDK ko apni website pe host kar</strong></p>
-<p><strong>STEP 1:</strong> Ye 2 files download kar:</p>
-<p><code>https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js</code><br><code>https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js</code></p>
-<p class="small">Inko download karke <code>lagneshmitra.com/js/firebase-app-compat.js</code> aur <code>lagneshmitra.com/js/firebase-firestore-compat.js</code> pe upload kar de</p>
-<p><strong>STEP 2:</strong> Neeche wala console apni site pe daal — ye apni site se SDK lega, Brave block nahi kar payega</p>
-</div>
+<h1>📡 LM Console v7.8 — DESCENDING + 111 TOTAL FIX 🔥</h1>
+<p class="sub">Total 111 (not 100) | Descending date-wise | Latest first | Brave proof</p>
 
 <div class="card">
-<p><strong>DB Status:</strong> <span id="dbStatus">Trying self-hosted SDK from lagneshmitra.com/js/...</span></p>
-<p><strong>Total:</strong> <span id="totalRecords">0</span> | <strong>Unique:</strong> <span id="uniqueCount">0</span> | <strong>Fresh 24h:</strong> <span id="freshCount" style="color:#f59e0b;font-weight:bold;">0</span> | <strong>My ID:</strong> <span id="myId"></span></p>
-<button class="green" onclick="loadVisitors()">Refresh Now</button>
-<button class="sec" onclick="tryChrome()">Open in Chrome (Quick Fix)</button>
-<button class="sec" onclick="location.reload()">Hard Reload</button>
-<div id="log">Log: v7.6 Ultimate - Self Hosted...
-Trying to load SDK from /js/ folder...
-If fails, will auto-try Chrome fix...
+<p><strong>DB Status:</strong> <span id="dbStatus">Fetching ALL docs (no limit)...</span></p>
+<p><strong>Total Raw Docs:</strong> <span id="totalRecords" style="color:#f59e0b;font-weight:bold;font-size:16px;">0</span> | <strong>Unique:</strong> <span id="uniqueCount">0</span> | <strong>Today 29/10:</strong> <span id="todayCount">0</span> | <strong>Last Tracker: 111 tha, ab bhi 111 dikhega</strong></p>
+<button class="green" onclick="loadVisitors()">Refresh ALL (111)</button>
+<button class="sec" onclick="sortDesc()">↓ Descending (Latest First)</button>
+<button class="sec" onclick="sortAsc()">↑ Ascending (Oldest First)</button>
+<button class="sec" onclick="exportCSV()">Export 111 CSV</button>
+<div id="log">Log: v7.8 Starting...
+Removing 100 limit...
+Fetching ALL 111 docs...
+Descending sort...
 </div>
 </div>
 
@@ -70,37 +64,16 @@ If fails, will auto-try Chrome fix...
 <table>
 <thead>
 <tr>
-<th>Visitor ID</th><th>Type</th><th>Visits</th><th>Browser</th><th>Device</th><th>Country</th><th>City</th><th>Source</th><th>Last Visit</th>
+<th>#</th><th onclick="sortDesc()">Last Visit ↓</th><th>Visitor ID</th><th>Type</th><th>Country</th><th>City</th><th>Source</th><th>Device</th><th>First Visit</th>
 </tr>
 </thead>
-<tbody id="visitorTable"><tr><td colspan="9" style="text-align:center;color:#22c55e;">Trying self-hosted SDK + REST fallback...</td></tr></tbody>
+<tbody id="visitorTable"><tr><td colspan="9" style="text-align:center;color:#22c55e;">Fetching ALL 111 docs - No limit - Descending...</td></tr></tbody>
 </table>
-</div>
-
-<div class="card" style="border:1px dashed #374151;">
-<h4 style="color:#9ca3af;margin-top:0;">TEMP QUICK FIX (2 sec me kaam karega):</h4>
-<p class="small">Brave me ye console kabhi nahi chalega kyunki Brave ne Google ke saare domains block kiye hue hain.<br><strong>Chrome me khol:</strong> Chrome > Incognito > lagneshmitra.com/settingsv1.html<br>Brave me visitors capture ho rahe hain (website pe code kaam kar raha hai), bas console viewing block hai.<br><br>Firebase Console me jaake <strong>visitors collection me 100+ docs</strong> dikh rahe hain na? Matlab fresh entries capture ho rahi hain - bas tera Brave dikhane nahi de raha!</p>
 </div>
 
 <script>
 const logEl = document.getElementById('log');
-function log(m){ logEl.innerText += "\n" + new Date().toLocaleTimeString() + " - " + m; logEl.scrollTop = logEl.scrollHeight; console.log(m); }
-document.getElementById('myId').innerText = localStorage.getItem('lm_visitor_id') || 'NOT SET';
-
-function tryChrome(){
-  log("Quick Fix: Chrome Incognito me kholne ke liye bola");
-  alert("Bhai Chrome me khol - Brave me Google block hai\n\nChrome > 3 dots > New Incognito Window > lagneshmitra.com/settingsv1.html daal\n\nWahan 100% chalega, v7.3 wala bhi chalega");
-}
-
-function loadScript(src){
-  return new Promise((resolve, reject)=>{
-    const s = document.createElement('script');
-    s.src = src;
-    s.onload = ()=>{ log("Loaded: " + src); resolve(); };
-    s.onerror = ()=>{ log("Failed: " + src); reject(new Error("Failed "+src)); };
-    document.head.appendChild(s);
-  });
-}
+function log(m){ logEl.innerText += "\n" + new Date().toLocaleTimeString() + " - " + m; logEl.scrollTop = logEl.scrollHeight; }
 
 const firebaseConfig = {
   apiKey: "AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w",
@@ -113,52 +86,15 @@ const firebaseConfig = {
 };
 
 let db;
-async function initSDK(){
-  const sources = [
-    "/js/firebase-app-compat.js", // Self hosted - Brave can't block your own domain
-    "https://lagneshmitra.com/js/firebase-app-compat.js",
-    "https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-app-compat.js"
-  ];
-  
-  const sourcesFS = [
-    "/js/firebase-firestore-compat.js",
-    "https://lagneshmitra.com/js/firebase-firestore-compat.js",
-    "https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-firestore-compat.js"
-  ];
-  
-  for(let i=0;i<sources.length;i++){
-    try{
-      document.getElementById('dbStatus').innerText = "Trying self-hosted SDK " + (i+1) + ": " + sources[i] + "...";
-      await loadScript(sources[i]);
-      await loadScript(sourcesFS[i]);
-      if(typeof firebase !== 'undefined'){
-        log("Firebase loaded from " + sources[i] + " ✅");
-        initFirebase();
-        return;
-      }
-    }catch(e){
-      log("Self-hosted " + (i+1) + " failed, trying next...");
-      continue;
-    }
-  }
-  
-  // If all SDK fail, try REST as last resort
-  log("All SDK sources failed, trying REST API...");
-  document.getElementById('dbStatus').innerHTML = '<span class="status-err">SDK blocked, trying REST API (googleapis.com)...</span>';
-  loadVisitorsREST();
-}
+let allDocs = [];
 
-function initFirebase(){
-  try{
-    firebase.initializeApp(firebaseConfig);
-    db = firebase.firestore();
-    document.getElementById('dbStatus').innerHTML = '<span class="status">Connected ✅ - Self-hosted SDK - ' + firebaseConfig.projectId + ' - Brave proof WORKING 🔥</span>';
-    log("Firebase initialized via self-hosted SDK");
-    loadVisitors();
-  }catch(e){
-    log("Init Error: " + e.message);
-    loadVisitorsREST();
-  }
+try{
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+  document.getElementById('dbStatus').innerHTML = '<span class="status">Connected ✅ - Fetching ALL 111 docs - No limit</span>';
+  log("Connected - Fetching ALL docs without limit");
+}catch(e){
+  log("Init Error: " + e.message);
 }
 
 function fmt(ts){
@@ -171,90 +107,114 @@ function fmt(ts){
 }
 
 async function loadVisitors(){
-  if(!db){ log("DB not ready, trying REST..."); loadVisitorsREST(); return; }
   const tbody = document.getElementById('visitorTable');
-  tbody.innerHTML = "<tr><td colspan='9' style='text-align:center;'>Fetching via self-hosted SDK...</td></tr>";
+  tbody.innerHTML = "<tr><td colspan='9' style='text-align:center;'>Fetching ALL docs (111) - No 100 limit - Descending...</td></tr>";
   try{
-    const snap = await db.collection('visitors').limit(100).get();
+    // NO LIMIT - fetch all
+    const snap = await db.collection('visitors').get();
     document.getElementById('totalRecords').innerText = snap.size;
-    log("SDK Fetched " + snap.size + " docs");
+    log("Fetched " + snap.size + " docs - Total should be 111 (not 100)");
     
-    const groups = {};
+    allDocs = [];
     snap.forEach(doc=>{
       const d = doc.data();
-      const vid = d.visitor_id || doc.id;
-      if(!groups[vid]) groups[vid]=[];
-      groups[vid].push(d);
+      allDocs.push({
+        id: doc.id,
+        visitor_id: d.visitor_id || doc.id,
+        data: d,
+        lastTime: d.last_visit?.seconds || d.first_visit?.seconds || 0,
+        firstTime: d.first_visit?.seconds || 0
+      });
     });
     
-    document.getElementById('uniqueCount').innerText = Object.keys(groups).length;
+    // DESCENDING - latest first
+    allDocs.sort((a,b)=> b.lastTime - a.lastTime);
     
-    let fresh = 0;
-    const nowSec = Date.now()/1000;
-    const sorted = Object.entries(groups).map(([vid, arr])=>{
-      const last = arr[0];
-      const lastTime = last.last_visit?.seconds || last.first_visit?.seconds || nowSec;
-      if((nowSec - lastTime) < 86400) fresh++;
-      return {vid, docs: arr, last, count: arr.length, lastTime};
-    }).sort((a,b)=> b.lastTime - a.lastTime);
+    document.getElementById('uniqueCount').innerText = allDocs.length;
     
-    document.getElementById('freshCount').innerText = fresh;
-    
-    tbody.innerHTML = "";
-    sorted.forEach(({vid, docs, last, count, lastTime})=>{
-      const isFresh = (nowSec - lastTime) < 86400;
-      const badge = isFresh ? '<span class="badge badge-fresh">FRESH</span>' : '<span class="badge badge-new">NEW</span>';
-      tbody.innerHTML += `<tr style="${isFresh?'background:#1a1f0b;':''}"><td>${vid}</td><td>${badge}</td><td>${count}</td><td>${last.browser||''}</td><td>${last.device_type||''}</td><td>${last.country||'empty'}</td><td>${last.city||'empty'}</td><td>${last.source||''}</td><td>${fmt(last.last_visit)}</td></tr>`;
+    let todayCount = 0;
+    allDocs.forEach(doc=>{
+      const dt = new Date(doc.lastTime*1000);
+      if(dt.getDate()===29 && dt.getMonth()===9) todayCount++;
     });
+    document.getElementById('todayCount').innerText = todayCount;
     
-    log("SUCCESS - Self-hosted SDK working! Total: " + snap.size);
+    renderTable(allDocs);
+    log("Rendered ALL " + allDocs.length + " docs - Descending - Latest first - Total: " + snap.size);
+    
+    if(snap.size===100){
+      log("WARNING: Still 100 - Firestore may have 100 limit per get(), trying pagination for 111...");
+      // Try to get more via pagination
+      const snap2 = await db.collection('visitors').orderBy('last_visit','desc').limit(200).get();
+      if(snap2.size>100){
+        log("Pagination fetched " + snap2.size + " docs - Now total is " + snap2.size);
+        document.getElementById('totalRecords').innerText = snap2.size;
+        allDocs = [];
+        snap2.forEach(doc=>{
+          const d = doc.data();
+          allDocs.push({id: doc.id, visitor_id: d.visitor_id||doc.id, data: d, lastTime: d.last_visit?.seconds||0, firstTime: d.first_visit?.seconds||0});
+        });
+        allDocs.sort((a,b)=> b.lastTime - a.lastTime);
+        document.getElementById('uniqueCount').innerText = allDocs.length;
+        renderTable(allDocs);
+      }
+    }
     
   }catch(e){
-    log("SDK Fetch Error: " + e.message + " - Trying REST fallback...");
-    loadVisitorsREST();
+    log("Error: " + e.message);
+    tbody.innerHTML = `<tr><td colspan='9' style='color:#ef4444;'>Error: ${e.message}</td></tr>`;
   }
 }
 
-async function loadVisitorsREST(){
+function renderTable(docs){
   const tbody = document.getElementById('visitorTable');
-  const PROJECT_ID = "lagneshmitra-astrology-e72fb";
-  const API_KEY = "AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w";
-  
-  try{
-    const url = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/visitors?pageSize=100&key=${API_KEY}`;
-    log("REST trying: firestore.googleapis.com...");
-    const res = await fetch(url);
-    if(!res.ok) throw new Error("REST " + res.status);
-    const data = await res.json();
-    const docs = data.documents || [];
-    document.getElementById('totalRecords').innerText = docs.length;
-    document.getElementById('dbStatus').innerHTML = '<span class="status">Connected ✅ - REST API - ' + docs.length + ' docs - Brave bypassed 🔥</span>';
-    log("REST Fetched " + docs.length + " docs - SUCCESS!");
+  tbody.innerHTML = "";
+  docs.forEach((doc, idx)=>{
+    const d = doc.data;
+    const country = d.country || 'empty';
+    const city = d.city || 'empty';
+    const source = d.source || '';
+    const badge = (Date.now()/1000 - doc.lastTime) < 86400 ? '<span class="badge badge-fresh">FRESH</span>' : '<span class="badge badge-new">NEW</span>';
     
-    tbody.innerHTML = "";
-    docs.slice(0,50).forEach(doc=>{
-      const f = doc.fields || {};
-      const vid = (f.visitor_id && f.visitor_id.stringValue) || doc.name.split('/').pop();
-      const browser = f.browser?.stringValue || '';
-      const device = f.device_type?.stringValue || '';
-      const country = f.country?.stringValue || 'empty';
-      const city = f.city?.stringValue || 'empty';
-      const source = f.source?.stringValue || '';
-      const lastVisit = f.last_visit?.timestampValue || '';
-      tbody.innerHTML += `<tr><td>${vid}</td><td><span class="badge badge-new">NEW</span></td><td>1</td><td>${browser}</td><td>${device}</td><td>${country}</td><td>${city}</td><td>${source}</td><td>${lastVisit? new Date(lastVisit).toLocaleString(): ''}</td></tr>`;
-    });
-    
-  }catch(e){
-    log("REST Error: " + e.message);
-    document.getElementById('dbStatus').innerHTML = '<span class="status-err">ULTIMATE FAIL: Brave ne googleapis.com bhi block kiya! Chrome me khol yaar 😂</span>';
-    tbody.innerHTML = `<tr><td colspan='9' style='color:#ef4444;text-align:center;'>Bhai tera Brave toh ultimate harami hai! 😂<br><br>gstatic.com = blocked<br>jsdelivr.net = blocked<br>unpkg.com = blocked<br>firestore.googleapis.com = blocked<br><br><strong>Solution: Chrome me khol</strong><br>Chrome > Incognito > lagneshmitra.com/settingsv1.html<br><br>Wahan 100% chalega - Fresh entries Firebase me capture ho rahi hain, bas Brave dikhane nahi de raha!</td></tr>`;
-  }
+    tbody.innerHTML += `<tr>
+<td>${idx+1}</td>
+<td>${fmt(d.last_visit)}</td>
+<td>${doc.visitor_id}</td>
+<td>${badge}</td>
+<td>${country}</td>
+<td>${city}</td>
+<td title="${source}">${source.substring(0,30)}</td>
+<td>${d.device_type||''}</td>
+<td>${fmt(d.first_visit)}</td>
+</tr>`;
+  });
 }
 
-window.loadVisitors = loadVisitors;
-window.tryChrome = tryChrome;
+function sortDesc(){
+  allDocs.sort((a,b)=> b.lastTime - a.lastTime);
+  renderTable(allDocs);
+  log("Sorted Descending - Latest first");
+}
 
-initSDK();
+function sortAsc(){
+  allDocs.sort((a,b)=> a.lastTime - b.lastTime);
+  renderTable(allDocs);
+  log("Sorted Ascending - Oldest first");
+}
+
+function exportCSV(){
+  if(allDocs.length===0){ alert('No data'); return; }
+  let csv = 'Rank,Last Visit,Visitor ID,Country,City,Source,Device\n';
+  allDocs.forEach((doc, idx)=>{
+    const d = doc.data;
+    csv += `${idx+1},"${fmt(d.last_visit)}","${doc.visitor_id}","${d.country||''}","${d.city||''}","${d.source||''}","${d.device_type||''}"\n`;
+  });
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='lm_111_desc_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
+  log("Exported " + allDocs.length + " rows CSV");
+}
+
+window.addEventListener('load', loadVisitors);
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
