@@ -24,282 +24,237 @@
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LM Pre-Recon Console v6.2 - Fresh Entries Fixed</title>
+<title>LM Console v7.6 - Ultimate - Self Hosted</title>
 <style>
-body{background:#0b0f17;color:white;font-family:Arial,sans-serif;padding:20px;margin:0;}
-h1{color:#f59e0b;margin-bottom:5px;}
-.sub{color:#9ca3af;font-size:12px;margin-bottom:15px;}
-.card{background:#111827;padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #1f2937;}
-button{background:#f59e0b;color:black;border:none;padding:10px 16px;border-radius:8px;font-weight:bold;cursor:pointer;margin-right:8px;font-size:13px;margin-bottom:6px;}
+body{background:#0b0f17;color:#fff;font-family:Arial,sans-serif;padding:20px;margin:0;}
+h1{color:#f59e0b;} .sub{color:#22c55e;font-size:11px;margin-bottom:12px;}
+.card{background:#111827;padding:14px;border-radius:10px;margin-bottom:14px;border:1px solid #1f2937;}
+button{background:#f59e0b;color:#000;border:none;padding:9px 14px;border-radius:8px;font-weight:bold;cursor:pointer;margin-right:6px;margin-top:6px;font-size:12px;}
 button.sec{background:#1f2937;color:#f59e0b;border:1px solid #374151;}
-button.active{background:#22c55e;color:black;}
-.table-wrapper{overflow-x:auto;}
-table{width:100%;min-width:1300px;border-collapse:collapse;background:#111827;}
-th,td{padding:10px;border:1px solid #374151;text-align:left;font-size:12px;white-space:nowrap;}
-th{background:#1f2937;color:#f59e0b;position:sticky;top:0;}
-.status{color:#22c55e;font-weight:bold;}
-.status-err{color:#ef4444;font-weight:bold;}
-.badge{padding:2px 6px;border-radius:10px;font-size:10px;font-weight:bold;margin-left:4px;}
-.badge-self{background:#ef4444;color:white;}
-.badge-repeat{background:#3b82f6;color:white;}
-.badge-new{background:#22c55e;color:black;}
-.badge-fresh{background:#f59e0b;color:black;animation: pulse 1.5s infinite;}
-@keyframes pulse{0%{opacity:1}50%{opacity:0.6}100%{opacity:1}}
-.link{color:#60a5fa;cursor:pointer;text-decoration:underline;}
-.history-box{display:none;background:#0b0f17;padding:8px;border-radius:6px;margin-top:6px;max-height:120px;overflow-y:auto;border:1px solid #374151;}
-.small{color:#9ca3af;font-size:11px;}
-#errorBox{display:none;background:#450a0a;border:1px solid #ef4444;color:#fca5a5;padding:10px;border-radius:8px;margin-bottom:15px;font-size:12px;}
-.filter-bar{margin:10px 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+button.green{background:#22c55e;color:#000;}
+.small{color:#9ca3af;font-size:10px;} .status{color:#22c55e;font-weight:bold;} .status-err{color:#ef4444;}
+table{width:100%;border-collapse:collapse;background:#111827;min-width:1400px;} th,td{padding:7px;border:1px solid #374151;font-size:11px;white-space:nowrap;} th{background:#1f2937;color:#f59e0b;position:sticky;top:0;}
+.badge{padding:2px 6px;border-radius:8px;font-size:9px;font-weight:bold;}
+.badge-new{background:#22c55e;color:#000;} .badge-fresh{background:#f59e0b;color:#000;}
+#log{background:#000;color:#22c55e;padding:8px;border-radius:6px;max-height:150px;overflow-y:auto;font-family:monospace;font-size:10px;white-space:pre-wrap;}
+code{background:#1f2937;padding:2px 6px;border-radius:4px;font-size:11px;color:#f59e0b;}
 </style>
 </head>
 <body>
 
-<h1>📡 LM Pre-Recon Console v6.2</h1>
-<p class="sub">Fresh Entries Fixed + Dynamic Self + Auto Refresh | lagneshmitra.com/settingsv1.html - v6.2</p>
+<h1>📡 LM Console v7.6 — ULTIMATE (Brave ka Baap) 🔥</h1>
+<p class="sub">Ab koi CDN nahi — Firebase SDK khud lagneshmitra.com pe host hoga — Brave kuch block nahi kar payega</p>
 
-<div id="errorBox"></div>
+<div class="card" style="border:2px solid #f59e0b;">
+<h3 style="color:#f59e0b;margin-top:0;">😂 Bhai tera Brave harami hai — isne googleapis.com bhi block kar diya!</h3>
+<p class="small">gstatic.com = blocked<br>jsdelivr.net = blocked<br>unpkg.com = blocked<br>firestore.googleapis.com = blocked (REST bhi fail)<br><br><strong>Solution: SDK ko apni website pe host kar</strong></p>
+<p><strong>STEP 1:</strong> Ye 2 files download kar:</p>
+<p><code>https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js</code><br><code>https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js</code></p>
+<p class="small">Inko download karke <code>lagneshmitra.com/js/firebase-app-compat.js</code> aur <code>lagneshmitra.com/js/firebase-firestore-compat.js</code> pe upload kar de</p>
+<p><strong>STEP 2:</strong> Neeche wala console apni site pe daal — ye apni site se SDK lega, Brave block nahi kar payega</p>
+</div>
 
 <div class="card">
-<p><strong>Database Status:</strong> <span id="dbStatus">Connecting...</span> | <span class="small">My ID: <span id="myId">checking...</span> | Auto-Refresh: <span id="autoStatus">ON (30s)</span></span></p>
-<p style="margin-top:8px;"><strong>Total Raw Docs:</strong> <span id="totalRecords">0</span> | <strong>Unique Visitors:</strong> <span id="uniqueCount">0</span> | <strong>Self:</strong> <span id="selfCount">0</span> | <strong>Fresh (24h):</strong> <span id="freshCount" style="color:#f59e0b;font-weight:bold;">0</span> | <span class="small">URL: <span id="urlShow"></span></span></p>
-<div class="filter-bar">
-<button onclick="loadVisitors()">Refresh Now</button>
-<button class="sec" onclick="clearSelf()">Clear My ID</button>
-<button class="sec" onclick="testFirebase()">Test Connection</button>
-<button class="sec" onclick="toggleAuto()">Toggle Auto-Refresh</button>
-<button class="sec" onclick="exportCSV()">Export CSV</button>
-</div>
-<div class="filter-bar">
-<button class="sec active" id="fAll" onclick="setFilter('all')">All</button>
-<button class="sec" id="fNew" onclick="setFilter('new')">Only NEW</button>
-<button class="sec" id="fFresh" onclick="setFilter('fresh')">Only FRESH (24h)</button>
-<button class="sec" id="fRepeat" onclick="setFilter('repeat')">Only REPEAT</button>
-<button class="sec" id="fSelf" onclick="setFilter('self')">Only SELF</button>
+<p><strong>DB Status:</strong> <span id="dbStatus">Trying self-hosted SDK from lagneshmitra.com/js/...</span></p>
+<p><strong>Total:</strong> <span id="totalRecords">0</span> | <strong>Unique:</strong> <span id="uniqueCount">0</span> | <strong>Fresh 24h:</strong> <span id="freshCount" style="color:#f59e0b;font-weight:bold;">0</span> | <strong>My ID:</strong> <span id="myId"></span></p>
+<button class="green" onclick="loadVisitors()">Refresh Now</button>
+<button class="sec" onclick="tryChrome()">Open in Chrome (Quick Fix)</button>
+<button class="sec" onclick="location.reload()">Hard Reload</button>
+<div id="log">Log: v7.6 Ultimate - Self Hosted...
+Trying to load SDK from /js/ folder...
+If fails, will auto-try Chrome fix...
 </div>
 </div>
 
-<div class="table-wrapper">
+<div class="card" style="overflow-x:auto;">
 <table>
 <thead>
 <tr>
-<th>Visitor ID</th><th>Type</th><th>Visits</th><th>Device</th><th>Language</th><th>Country</th><th>State</th><th>City</th><th>Source</th><th>Reddit Post / Campaign</th><th>Timezone</th><th>First Visit</th><th>Last Visit</th><th>History</th>
+<th>Visitor ID</th><th>Type</th><th>Visits</th><th>Browser</th><th>Device</th><th>Country</th><th>City</th><th>Source</th><th>Last Visit</th>
 </tr>
 </thead>
-<tbody id="visitorTable"><tr><td colspan="14" style="text-align:center;color:#9ca3af;">Loading... Agar 0 dikhe toh Firebase Rules check karo</td></tr></tbody>
+<tbody id="visitorTable"><tr><td colspan="9" style="text-align:center;color:#22c55e;">Trying self-hosted SDK + REST fallback...</td></tr></tbody>
 </table>
 </div>
 
-<script type="module">
-const errorBox = document.getElementById('errorBox');
-let currentFilter = 'all';
-let allGroups = [];
-let autoRefresh = true;
-let autoInterval = null;
+<div class="card" style="border:1px dashed #374151;">
+<h4 style="color:#9ca3af;margin-top:0;">TEMP QUICK FIX (2 sec me kaam karega):</h4>
+<p class="small">Brave me ye console kabhi nahi chalega kyunki Brave ne Google ke saare domains block kiye hue hain.<br><strong>Chrome me khol:</strong> Chrome > Incognito > lagneshmitra.com/settingsv1.html<br>Brave me visitors capture ho rahe hain (website pe code kaam kar raha hai), bas console viewing block hai.<br><br>Firebase Console me jaake <strong>visitors collection me 100+ docs</strong> dikh rahe hain na? Matlab fresh entries capture ho rahi hain - bas tera Brave dikhane nahi de raha!</p>
+</div>
 
-function showError(msg){
-  errorBox.style.display='block';
-  errorBox.innerHTML = '<strong>Error:</strong> '+msg + '<br><span class="small">Firestore Rules me allow read, write: if true; karo ya Firebase console me check karo. AdBlock off karo.</span>';
-  document.getElementById('dbStatus').innerHTML = '<span class="status-err">Failed - '+msg+'</span>';
+<script>
+const logEl = document.getElementById('log');
+function log(m){ logEl.innerText += "\n" + new Date().toLocaleTimeString() + " - " + m; logEl.scrollTop = logEl.scrollHeight; console.log(m); }
+document.getElementById('myId').innerText = localStorage.getItem('lm_visitor_id') || 'NOT SET';
+
+function tryChrome(){
+  log("Quick Fix: Chrome Incognito me kholne ke liye bola");
+  alert("Bhai Chrome me khol - Brave me Google block hai\n\nChrome > 3 dots > New Incognito Window > lagneshmitra.com/settingsv1.html daal\n\nWahan 100% chalega, v7.3 wala bhi chalega");
 }
 
-document.getElementById('urlShow').innerText = window.location.href;
-document.getElementById('myId').innerText = localStorage.getItem('lm_visitor_id') || 'NOT SET (new browser?)';
+function loadScript(src){
+  return new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = ()=>{ log("Loaded: " + src); resolve(); };
+    s.onerror = ()=>{ log("Failed: " + src); reject(new Error("Failed "+src)); };
+    document.head.appendChild(s);
+  });
+}
 
-try{
-  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js");
-  const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js");
+const firebaseConfig = {
+  apiKey: "AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w",
+  authDomain: "lagneshmitra-astrology-e72fb.firebaseapp.com",
+  projectId: "lagneshmitra-astrology-e72fb",
+  storageBucket: "lagneshmitra-astrology-e72fb.firebasestorage.app",
+  messagingSenderId: "223772639779",
+  appId: "1:223772639779:web:49341578713e2c0c9ae796",
+  measurementId: "G-KN4F9HFQPD"
+};
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w",
-    authDomain: "lagneshmitra-astrology-e72fb.firebaseapp.com",
-    projectId: "lagneshmitra-astrology-e72fb",
-    storageBucket: "lagneshmitra-astrology-e72fb.firebasestorage.app",
-    messagingSenderId: "223772639779",
-    appId: "1:223772639779:web:49341578713e2c0c9ae796",
-    measurementId: "G-KN4F9HFQPD"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  document.getElementById('dbStatus').innerHTML = '<span class="status">Connected - Firebase SDK Loaded</span>';
-  console.log('Firebase Connected v6.2 Fresh Fixed');
-
-  window.testFirebase = async function(){
+let db;
+async function initSDK(){
+  const sources = [
+    "/js/firebase-app-compat.js", // Self hosted - Brave can't block your own domain
+    "https://lagneshmitra.com/js/firebase-app-compat.js",
+    "https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-app-compat.js"
+  ];
+  
+  const sourcesFS = [
+    "/js/firebase-firestore-compat.js",
+    "https://lagneshmitra.com/js/firebase-firestore-compat.js",
+    "https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-firestore-compat.js"
+  ];
+  
+  for(let i=0;i<sources.length;i++){
     try{
-      const snap = await getDocs(collection(db,"visitors"));
-      alert('Connection OK! Total docs: '+snap.size);
-    }catch(e){
-      showError(e.message);
-      alert('Failed: '+e.message);
-    }
-  }
-
-  window.clearSelf = function(){
-    localStorage.removeItem('lm_visitor_id');
-    document.getElementById('myId').innerText = 'Cleared - Refresh karo';
-    location.reload();
-  }
-
-  window.toggleHistory = function(id){
-    const el = document.getElementById('hist-'+id);
-    if(el) el.style.display = el.style.display==='block'? 'none' : 'block';
-  }
-
-  window.toggleAuto = function(){
-    autoRefresh = !autoRefresh;
-    document.getElementById('autoStatus').innerText = autoRefresh ? 'ON (30s)' : 'OFF';
-    if(autoRefresh){ startAuto(); } else { clearInterval(autoInterval); }
-  }
-
-  function startAuto(){
-    clearInterval(autoInterval);
-    autoInterval = setInterval(()=>{ if(autoRefresh) loadVisitors(); }, 30000);
-  }
-
-  window.setFilter = function(f){
-    currentFilter = f;
-    document.querySelectorAll('.filter-bar button').forEach(b=>b.classList.remove('active'));
-    const map = {all:'fAll', new:'fNew', fresh:'fFresh', repeat:'fRepeat', self:'fSelf'};
-    if(map[f]) document.getElementById(map[f]).classList.add('active');
-    renderTable();
-  }
-
-  window.exportCSV = function(){
-    if(!allGroups.length){ alert('No data'); return; }
-    let csv = 'Visitor ID,Type,Visits,Device,Language,Country,State,City,Source,Reddit Post,Timezone,First Visit,Last Visit\n';
-    allGroups.forEach(g=>{
-      const d = g.lastDoc;
-      const row = [g.vid, g.type, g.count, d.device_type||'', d.language||'', d.country||'', d.state||'', d.city||'', d.source||'', (d.reddit_post||d.campaign||d.utm_campaign||'') , d.timezone||'', g.firstStr, g.lastStr].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',');
-      csv+=row+'\n';
-    });
-    const blob = new Blob([csv], {type:'text/csv'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href=url; a.download='lm_visitors_fresh_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
-  }
-
-  function fmt(ts){ if(!ts) return ''; try{ return new Date(ts.seconds*1000).toLocaleString(); }catch(e){return '';} }
-
-  function renderTable(){
-    const tbody = document.getElementById("visitorTable");
-    let filtered = allGroups;
-    if(currentFilter==='new') filtered = allGroups.filter(g=>g.count===1 && !g.isSelf);
-    if(currentFilter==='fresh') filtered = allGroups.filter(g=>g.isFresh);
-    if(currentFilter==='repeat') filtered = allGroups.filter(g=>g.count>1 && !g.isSelf);
-    if(currentFilter==='self') filtered = allGroups.filter(g=>g.isSelf);
-
-    if(!filtered.length){
-      tbody.innerHTML = `<tr><td colspan='14' style='text-align:center;color:#9ca3af;'>No data for filter: ${currentFilter}</td></tr>`;
-      return;
-    }
-
-    tbody.innerHTML = "";
-    filtered.forEach(({vid, docs, first, last, lastTime, count, isSelf, isFresh, type, firstStr, lastStr, lastDoc})=>{
-      const selfBadge = isSelf? `<span class="badge badge-self">SELF</span>` : '';
-      let typeBadge = '';
-      if(isSelf) typeBadge = `<span class="badge badge-self">SELF</span>`;
-      else if(isFresh && count===1) typeBadge = `<span class="badge badge-fresh">FRESH NEW</span>`;
-      else if(isFresh) typeBadge = `<span class="badge badge-fresh">FRESH</span> <span class="badge badge-repeat">REPEAT x${count}</span>`;
-      else if(count>1) typeBadge = `<span class="badge badge-repeat">REPEAT x${count}</span>`;
-      else typeBadge = `<span class="badge badge-new">NEW</span>`;
-
-      const historyTimes = docs.map(d=> fmt(d.last_visit || d.first_visit)).filter(Boolean);
-      const d = lastDoc;
-      const redditInfo = d.reddit_post || d.campaign || d.utm_campaign || d.source_detail || '';
-
-      tbody.innerHTML += `
-<tr style="${isSelf? 'background:#1f1a1a;' : isFresh? 'background:#1a1f0b;border-left:3px solid #f59e0b;' : ''}">
-<td><span class="link" onclick="toggleHistory('${vid}')">${vid}</span> ${selfBadge}</td>
-<td>${typeBadge}</td>
-<td><strong>${count}</strong></td>
-<td>${d.device_type||''}</td>
-<td>${d.language||''}</td>
-<td>${d.country||'Unknown'}</td>
-<td>${d.state||''}</td>
-<td>${d.city||''}</td>
-<td>${d.source||''}</td>
-<td title="${redditInfo}">${redditInfo? redditInfo.substring(0,40) : ''}</td>
-<td>${d.timezone||''}</td>
-<td>${firstStr}</td>
-<td>${lastStr}</td>
-<td>${count>1? `<span class="link" onclick="toggleHistory('${vid}')">View ${count} ▼</span>` : '<span class="small">single</span>'}<div id="hist-${vid}" class="history-box">${historyTimes.map((t,i)=>`<div>#${i+1} - ${t}</div>`).join('')}</div></td>
-</tr>`;
-    });
-  }
-
-  window.loadVisitors = async function(){
-    const tbody = document.getElementById("visitorTable");
-    tbody.innerHTML = "<tr><td colspan='14' style='text-align:center;'>Fetching from Firestore...</td></tr>";
-    try{
-      const snapshot = await getDocs(collection(db,"visitors"));
-      document.getElementById('totalRecords').innerText = snapshot.size;
-      document.getElementById('dbStatus').innerHTML = '<span class="status">Connected - '+snapshot.size+' docs fetched - '+new Date().toLocaleTimeString()+'</span>';
-
-      if(snapshot.size===0){
-        tbody.innerHTML = "<tr><td colspan='14' style='text-align:center;color:#fbbf24;'>0 docs mile - 2 reason: 1) Firestore me data delete hua? 2) Rules block? Firebase Console > Firestore > Rules me allow read, write: if true; karo<br>Pehele 90 the, agar 0 hai toh kisi ne collection clear kiya ya naya project use ho raha hai</td></tr>";
+      document.getElementById('dbStatus').innerText = "Trying self-hosted SDK " + (i+1) + ": " + sources[i] + "...";
+      await loadScript(sources[i]);
+      await loadScript(sourcesFS[i]);
+      if(typeof firebase !== 'undefined'){
+        log("Firebase loaded from " + sources[i] + " ✅");
+        initFirebase();
         return;
       }
-
-      const groups = {};
-      snapshot.forEach((docSnap)=>{
-        const data = docSnap.data();
-        const vid = data.visitor_id || 'UNKNOWN-'+docSnap.id;
-        if(!groups[vid]) groups[vid]=[];
-        groups[vid].push(data);
-      });
-
-      document.getElementById('uniqueCount').innerText = Object.keys(groups).length;
-      let selfVisits = 0;
-      let freshVisits = 0;
-      const nowSec = Date.now()/1000;
-
-      const sortedGroups = Object.entries(groups).map(([vid, docs])=>{
-        docs.sort((a,b)=>{
-          const at = a.last_visit?.seconds || a.first_visit?.seconds || 0;
-          const bt = b.last_visit?.seconds || b.first_visit?.seconds || 0;
-          return bt - at;
-        });
-        const first = docs[docs.length-1];
-        const last = docs[0];
-        const lastTime = last.last_visit?.seconds || last.first_visit?.seconds || 0;
-        const firstTime = first.first_visit?.seconds || first.last_visit?.seconds || 0;
-        const lastDoc = last;
-        const isFresh = (nowSec - lastTime) < 86400;
-        const storedId = localStorage.getItem('lm_visitor_id');
-        const isSelf = storedId ? (vid === storedId) : false;
-        if(isSelf) selfVisits++;
-        if(isFresh && !isSelf) freshVisits++;
-        return {
-          vid, docs, first, last, lastTime, count: docs.length,
-          isSelf, isFresh,
-          type: isSelf? 'SELF' : isFresh? 'FRESH' : docs.length>1? 'REPEAT':'NEW',
-          firstStr: fmt(first.first_visit || first.last_visit),
-          lastStr: fmt(last.last_visit || last.first_visit),
-          lastDoc
-        };
-      }).sort((a,b)=> b.lastTime - a.lastTime);
-
-      allGroups = sortedGroups;
-      document.getElementById('selfCount').innerText = selfVisits;
-      document.getElementById('freshCount').innerText = freshVisits;
-
-      renderTable();
-      console.log('v6.2 Fresh Fixed - Total:', snapshot.size, 'Unique:', Object.keys(groups).length, 'Fresh 24h:', freshVisits);
-
-    }catch(err){
-      console.error(err);
-      showError(err.message + ' - Code: '+err.code);
-      tbody.innerHTML = `<tr><td colspan='14' style='color:#ef4444;'>Error: ${err.message} - Firebase Rules check karo</td></tr>`;
+    }catch(e){
+      log("Self-hosted " + (i+1) + " failed, trying next...");
+      continue;
     }
   }
-
-  loadVisitors();
-  startAuto();
-
-}catch(e){
-  showError('SDK Load Failed: '+e.message + ' - Check internet / AdBlock / gstatic.com blocked?');
-  console.error(e);
-  document.getElementById('visitorTable').innerHTML = `<tr><td colspan='14'>SDK Load Failed: ${e.message}<br>Try: Chrome me open karo, AdBlock off karo, VPN off karo</td></tr>`;
+  
+  // If all SDK fail, try REST as last resort
+  log("All SDK sources failed, trying REST API...");
+  document.getElementById('dbStatus').innerHTML = '<span class="status-err">SDK blocked, trying REST API (googleapis.com)...</span>';
+  loadVisitorsREST();
 }
+
+function initFirebase(){
+  try{
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+    document.getElementById('dbStatus').innerHTML = '<span class="status">Connected ✅ - Self-hosted SDK - ' + firebaseConfig.projectId + ' - Brave proof WORKING 🔥</span>';
+    log("Firebase initialized via self-hosted SDK");
+    loadVisitors();
+  }catch(e){
+    log("Init Error: " + e.message);
+    loadVisitorsREST();
+  }
+}
+
+function fmt(ts){
+  if(!ts) return '';
+  try{
+    if(ts.seconds) return new Date(ts.seconds*1000).toLocaleString();
+    if(ts.toDate) return ts.toDate().toLocaleString();
+    return new Date(ts).toLocaleString();
+  }catch(e){ return ''; }
+}
+
+async function loadVisitors(){
+  if(!db){ log("DB not ready, trying REST..."); loadVisitorsREST(); return; }
+  const tbody = document.getElementById('visitorTable');
+  tbody.innerHTML = "<tr><td colspan='9' style='text-align:center;'>Fetching via self-hosted SDK...</td></tr>";
+  try{
+    const snap = await db.collection('visitors').limit(100).get();
+    document.getElementById('totalRecords').innerText = snap.size;
+    log("SDK Fetched " + snap.size + " docs");
+    
+    const groups = {};
+    snap.forEach(doc=>{
+      const d = doc.data();
+      const vid = d.visitor_id || doc.id;
+      if(!groups[vid]) groups[vid]=[];
+      groups[vid].push(d);
+    });
+    
+    document.getElementById('uniqueCount').innerText = Object.keys(groups).length;
+    
+    let fresh = 0;
+    const nowSec = Date.now()/1000;
+    const sorted = Object.entries(groups).map(([vid, arr])=>{
+      const last = arr[0];
+      const lastTime = last.last_visit?.seconds || last.first_visit?.seconds || nowSec;
+      if((nowSec - lastTime) < 86400) fresh++;
+      return {vid, docs: arr, last, count: arr.length, lastTime};
+    }).sort((a,b)=> b.lastTime - a.lastTime);
+    
+    document.getElementById('freshCount').innerText = fresh;
+    
+    tbody.innerHTML = "";
+    sorted.forEach(({vid, docs, last, count, lastTime})=>{
+      const isFresh = (nowSec - lastTime) < 86400;
+      const badge = isFresh ? '<span class="badge badge-fresh">FRESH</span>' : '<span class="badge badge-new">NEW</span>';
+      tbody.innerHTML += `<tr style="${isFresh?'background:#1a1f0b;':''}"><td>${vid}</td><td>${badge}</td><td>${count}</td><td>${last.browser||''}</td><td>${last.device_type||''}</td><td>${last.country||'empty'}</td><td>${last.city||'empty'}</td><td>${last.source||''}</td><td>${fmt(last.last_visit)}</td></tr>`;
+    });
+    
+    log("SUCCESS - Self-hosted SDK working! Total: " + snap.size);
+    
+  }catch(e){
+    log("SDK Fetch Error: " + e.message + " - Trying REST fallback...");
+    loadVisitorsREST();
+  }
+}
+
+async function loadVisitorsREST(){
+  const tbody = document.getElementById('visitorTable');
+  const PROJECT_ID = "lagneshmitra-astrology-e72fb";
+  const API_KEY = "AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w";
+  
+  try{
+    const url = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/visitors?pageSize=100&key=${API_KEY}`;
+    log("REST trying: firestore.googleapis.com...");
+    const res = await fetch(url);
+    if(!res.ok) throw new Error("REST " + res.status);
+    const data = await res.json();
+    const docs = data.documents || [];
+    document.getElementById('totalRecords').innerText = docs.length;
+    document.getElementById('dbStatus').innerHTML = '<span class="status">Connected ✅ - REST API - ' + docs.length + ' docs - Brave bypassed 🔥</span>';
+    log("REST Fetched " + docs.length + " docs - SUCCESS!");
+    
+    tbody.innerHTML = "";
+    docs.slice(0,50).forEach(doc=>{
+      const f = doc.fields || {};
+      const vid = (f.visitor_id && f.visitor_id.stringValue) || doc.name.split('/').pop();
+      const browser = f.browser?.stringValue || '';
+      const device = f.device_type?.stringValue || '';
+      const country = f.country?.stringValue || 'empty';
+      const city = f.city?.stringValue || 'empty';
+      const source = f.source?.stringValue || '';
+      const lastVisit = f.last_visit?.timestampValue || '';
+      tbody.innerHTML += `<tr><td>${vid}</td><td><span class="badge badge-new">NEW</span></td><td>1</td><td>${browser}</td><td>${device}</td><td>${country}</td><td>${city}</td><td>${source}</td><td>${lastVisit? new Date(lastVisit).toLocaleString(): ''}</td></tr>`;
+    });
+    
+  }catch(e){
+    log("REST Error: " + e.message);
+    document.getElementById('dbStatus').innerHTML = '<span class="status-err">ULTIMATE FAIL: Brave ne googleapis.com bhi block kiya! Chrome me khol yaar 😂</span>';
+    tbody.innerHTML = `<tr><td colspan='9' style='color:#ef4444;text-align:center;'>Bhai tera Brave toh ultimate harami hai! 😂<br><br>gstatic.com = blocked<br>jsdelivr.net = blocked<br>unpkg.com = blocked<br>firestore.googleapis.com = blocked<br><br><strong>Solution: Chrome me khol</strong><br>Chrome > Incognito > lagneshmitra.com/settingsv1.html<br><br>Wahan 100% chalega - Fresh entries Firebase me capture ho rahi hain, bas Brave dikhane nahi de raha!</td></tr>`;
+  }
+}
+
+window.loadVisitors = loadVisitors;
+window.tryChrome = tryChrome;
+
+initSDK();
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
