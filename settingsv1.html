@@ -24,104 +24,152 @@
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LM Migration - Old 111 to New lagneshmitra-1bd3c</title>
+<title>LM SettingsV1 FINAL - Auto Table Create - lagneshmitra-1bd3c</title>
 <style>
-body{background:#0b0f17;color:#fff;font-family:Arial;padding:16px;margin:0}
-h1{color:#f59e0b;font-size:18px} .sub{color:#22c55e;font-size:10px}
+body{background:#0b0f17;color:#fff;font-family:Arial;padding:14px;margin:0}
+h1{color:#f59e0b;font-size:18px;margin:0} .sub{color:#22c55e;font-size:10px;margin-bottom:10px}
 .card{background:#111827;padding:12px;border-radius:10px;margin-bottom:12px;border:1px solid #1f2937}
-button{background:#f59e0b;color:#000;border:none;padding:10px 16px;border-radius:8px;font-weight:bold;cursor:pointer;margin:5px;font-size:12px}
-button.green{background:#22c55e;color:#000} button.sec{background:#1f2937;color:#f59e0b;border:1px solid #374151} button.red{background:#ef4444;color:#fff}
-#log{background:#000;color:#22c55e;padding:8px;border-radius:6px;max-height:300px;overflow-y:auto;font-family:monospace;font-size:10px;white-space:pre-wrap}
-table{width:100%;border-collapse:collapse;background:#111827} th,td{padding:5px;border:1px solid #374151;font-size:10px}
+button{background:#f59e0b;color:#000;border:none;padding:10px 14px;border-radius:8px;font-weight:bold;cursor:pointer;margin:4px;font-size:11px}
+button.green{background:#22c55e;color:#000} button.sec{background:#1f2937;color:#f59e0b;border:1px solid #374151} button.red{background:#ef4444;color:#fff} button.purple{background:#8b5cf6;color:#fff}
+#log{background:#000;color:#22c55e;padding:8px;border-radius:6px;max-height:250px;overflow-y:auto;font-family:monospace;font-size:10px;white-space:pre-wrap}
+table{width:100%;border-collapse:collapse;background:#111827;min-width:1000px} th,td{padding:6px;border:1px solid #374151;font-size:10px;white-space:nowrap} th{background:#1f2937;color:#f59e0b;position:sticky;top:0}
+.badge{padding:2px 5px;border-radius:6px;font-size:8px;font-weight:bold}
+.badge-self{background:#ef4444;color:#fff} .badge-katherine{background:#8b5cf6;color:#fff} .badge-new{background:#22c55e;color:#000}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-app-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
-<h1>🚀 LM Migration - Old 111 → New lagneshmitra-1bd3c</h1>
-<p class="sub">Old: lagneshmitra-astrology-e72fb (111 entries) → New: lagneshmitra-1bd3c (fresh)</p>
+<h1>📡 LM SettingsV1 FINAL - Auto Table Create 🔥</h1>
+<p class="sub">Project: lagneshmitra-1bd3c | Table auto-create | Self + Katherine + All | No manual table needed | Vercel Final</p>
 
-<div class="card">
-<p><strong>Old DB:</strong> <span id="oldCount">0</span> entries | <strong>New DB:</strong> <span id="newCount">0</span> entries | <strong>Migrated:</strong> <span id="migCount">0</span></p>
-<button class="green" onclick="fetchOld()">1️⃣ Fetch Old 111 Entries</button>
-<button class="sec" onclick="checkNew()">2️⃣ Check New DB</button>
-<button class="red" onclick="migrateAll()">3️⃣ MIGRATE ALL 111 TO NEW DB 🔥</button>
+<div class="card" style="border:2px solid #f59e0b">
+<p><strong>Old DB:</strong> <span id="oldCount">0</span> | <strong>New DB:</strong> <span id="newCount" style="color:#f59e0b;font-weight:bold">0</span> | <strong>Migrated:</strong> <span id="migCount">0</span> | <strong>My ID:</strong> <span id="myId" style="color:#ef4444;font-weight:bold">...</span></p>
+<div>
+<button class="green" onclick="autoCreateTable()">1️⃣ Auto Create Table (First Click) 🔥</button>
+<button class="sec" onclick="fetchOld()">2️⃣ Fetch Old 111</button>
+<button class="sec" onclick="checkNew()">3️⃣ Check New DB</button>
+<button class="red" onclick="migrateAll()">4️⃣ MIGRATE ALL 111 TO NEW 🔥</button>
+</div>
+<div style="margin-top:8px">
+<button class="purple" onclick="loadAll()">Refresh ALL + Self + Katherine</button>
+<button class="sec" onclick="clearMyId()">🗑️ Clear My ID</button>
 <button class="sec" onclick="clearLog()">Clear Log</button>
-<div id="log">Log: Ready...
-Old: lagneshmitra-astrology-e72fb
-New: lagneshmitra-1bd3c
-Click Fetch Old first...
+</div>
+<div id="log">Log: FINAL v1.0 Ready...
+Project: lagneshmitra-1bd3c
+Step 1: Auto Create Table dabao - Table apne aap ban jayegi - Manual banana nahi padega!
+Step 2: Fetch Old 111
+Step 3: Migrate All...
 </div>
 </div>
 
-<div class="card" style="overflow-x:auto;max-height:400px">
+<div class="card" style="overflow-x:auto">
 <table>
-<thead><tr><th>#</th><th>Visitor ID</th><th>Country</th><th>City</th><th>Last Visit</th><th>Status</th></tr></thead>
-<tbody id="tb"><tr><td colspan="6" style="text-align:center;color:#9ca3af;">No data - Fetch old first</td></tr></tbody>
+<thead><tr><th>#</th><th>Last Visit ↓</th><th>Visitor ID</th><th>Type</th><th>Country</th><th>City</th><th>Source</th><th>Status</th></tr></thead>
+<tbody id="tb"><tr><td colspan="8" style="text-align:center;color:#22c55e;">Step 1: Auto Create Table dabao - Table apne aap ban jayegi!</td></tr></tbody>
 </table>
 </div>
 
 <script>
 const logEl=document.getElementById('log');
 function log(m){logEl.innerText+="\n"+new Date().toLocaleTimeString()+" - "+m; logEl.scrollTop=logEl.scrollHeight;}
-function clearLog(){logEl.innerText="Log cleared...";}
+function clearLog(){logEl.innerText="Log cleared - FINAL Ready...";}
 
 const OLD_CONFIG={apiKey:"AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w",authDomain:"lagneshmitra-astrology-e72fb.firebaseapp.com",projectId:"lagneshmitra-astrology-e72fb"};
 const NEW_PROJECT="lagneshmitra-1bd3c";
 const NEW_API_KEY="AIzaSyDYTKpMnKhkZY_iqUfg3BbQ1rLi72DjUU0";
+const NEW_CONFIG={apiKey:NEW_API_KEY,authDomain:"lagneshmitra-1bd3c.firebaseapp.com",projectId:NEW_PROJECT,storageBucket:"lagneshmitra-1bd3c.firebasestorage.app",messagingSenderId:"153733817678",appId:"1:153733817678:web:3a3d8ab158672f25fe6a1f"};
 
-let oldDb; let allOldDocs=[];
+let oldDb, newDb;
+let allOldDocs=[], allNewDocs=[];
+
+function updateMyId(){const id=localStorage.getItem('lm_visitor_id')||'NOT SET'; document.getElementById('myId').innerText=id; log("My ID: "+id+" - Iski entry bhi dikhegi SELF ke saath");}
+function clearMyId(){const old=localStorage.getItem('lm_visitor_id'); localStorage.removeItem('lm_visitor_id'); updateMyId(); log("Cleared My ID: "+old+" - Ab naya ID banega"); alert("Cleared: "+old+"\nAb refresh kar - naya ID banega!"); location.reload();}
 
 try{
  firebase.initializeApp(OLD_CONFIG,'old');
  oldDb=firebase.app('old').firestore();
- log("Connected to OLD DB: lagneshmitra-astrology-e72fb");
+ log("Connected OLD: lagneshmitra-astrology-e72fb");
 }catch(e){log("Old DB Error: "+e.message);}
 
+try{
+ firebase.initializeApp(NEW_CONFIG,'new');
+ newDb=firebase.app('new').firestore();
+ log("Connected NEW: lagneshmitra-1bd3c - Table auto-create ready");
+ updateMyId();
+}catch(e){log("New DB Error: "+e.message);}
+
+async function autoCreateTable(){
+ log("Auto Creating Table visitors in NEW DB lagneshmitra-1bd3c...");
+ const url=`https://firestore.googleapis.com/v1/projects/${NEW_PROJECT}/databases/(default)/documents/visitors?key=${NEW_API_KEY}`;
+ const body={fields:{
+   visitor_id:{stringValue:'VIS-auto-create-'+Math.random().toString(36).substr(2,5)},
+   country:{stringValue:'India'},
+   city:{stringValue:'AutoCreate'},
+   source:{stringValue:'auto-create-table-first-entry'},
+   device_type:{stringValue:'Desktop'},
+   status:{stringValue:'table-created-auto'},
+   timezone:{stringValue:Intl.DateTimeFormat().resolvedOptions().timeZone},
+   first_visit:{timestampValue:new Date().toISOString()},
+   last_visit:{timestampValue:new Date().toISOString()}
+ }};
+ try{
+  const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const data=await res.json();
+  if(res.ok){
+   log("✅ Table Created! Collection visitors auto-created in lagneshmitra-1bd3c");
+   log("Doc ID: "+data.name.split('/').pop()+" - Ab table exist karta hai - Manual banana nahi padega!");
+   document.getElementById('newCount').innerText='1 (Table Created)';
+   alert("Table ban gayi bhao! ✅\nCollection visitors auto-create ho gayi lagneshmitra-1bd3c me!\nAb Fetch Old + Migrate All daba!");
+   checkNew();
+  }else{
+   log("❌ Auto Create Failed: "+JSON.stringify(data));
+   if(JSON.stringify(data).includes('PERMISSION_DENIED')){
+    log("Rules issue - Firestore Rules me allow read, write: if true; karna hoga!");
+    alert("Rules me allow read, write: if true; karna hoga!\nFirebase Console > Firestore > Rules > Publish");
+   }
+  }
+ }catch(e){log("Auto Create Error: "+e.message);}
+}
+
 async function fetchOld(){
- log("Fetching OLD 111 entries from lagneshmitra-astrology-e72fb...");
+ log("Fetching OLD 111 entries...");
  const tb=document.getElementById('tb');
- tb.innerHTML="<tr><td colspan='6' style='text-align:center;'>Fetching OLD 111...</td></tr>";
+ tb.innerHTML="<tr><td colspan='8' style='text-align:center;'>Fetching OLD 111...</td></tr>";
  try{
   const snap=await oldDb.collection('visitors').get();
   document.getElementById('oldCount').innerText=snap.size;
   log("Fetched OLD: "+snap.size+" entries - Should be 111");
   allOldDocs=[];
-  snap.forEach(doc=>{
-    const d=doc.data();
-    allOldDocs.push({id:doc.id, data:d});
-  });
+  snap.forEach(doc=>{const d=doc.data(); allOldDocs.push({id:doc.id, data:d});});
   allOldDocs.sort((a,b)=> (b.data.last_visit?.seconds||0)-(a.data.last_visit?.seconds||0));
   tb.innerHTML="";
-  allOldDocs.forEach((doc,i)=>{
-    const d=doc.data;
-    tb.innerHTML+=`<tr><td>${i+1}</td><td>${d.visitor_id||doc.id}</td><td>${d.country||''}</td><td>${d.city||''}</td><td>${d.last_visit?new Date(d.last_visit.seconds*1000).toLocaleString():''}</td><td>${d.status||''}</td></tr>`;
-  });
-  log("Rendered OLD "+allOldDocs.length+" - Ready to migrate to NEW");
- }catch(e){log("Fetch Old Error: "+e.message); tb.innerHTML=`<tr><td colspan="6" style="color:#ef4444;">Error: ${e.message}</td></tr>`;}
+  allOldDocs.forEach((doc,i)=>{const d=doc.data; tb.innerHTML+=`<tr><td>${i+1}</td><td>${d.last_visit?new Date(d.last_visit.seconds*1000).toLocaleString():''}</td><td>${d.visitor_id||doc.id}</td><td>OLD</td><td>${d.country||''}</td><td>${d.city||''}</td><td>${(d.source||'').substring(0,20)}</td><td>${d.status||''}</td></tr>`;});
+  log("Rendered OLD "+allOldDocs.length+" - Ready to migrate");
+ }catch(e){log("Fetch Old Error: "+e.message); document.getElementById('tb').innerHTML=`<tr><td colspan="8" style="color:#ef4444;">Error: ${e.message}</td></tr>`;}
 }
 
 async function checkNew(){
- log("Checking NEW DB: lagneshmitra-1bd3c...");
+ log("Checking NEW DB lagneshmitra-1bd3c...");
  const url=`https://firestore.googleapis.com/v1/projects/${NEW_PROJECT}/databases/(default)/documents/visitors?pageSize=200&key=${NEW_API_KEY}`;
  try{
   const res=await fetch(url);
   const data=await res.json();
+  if(data.error && data.error.code===404){ log("Collection not exist yet - Auto Create Table dabao first!"); document.getElementById('newCount').innerText='0 (Table nahi bani)'; return; }
   const count=data.documents?data.documents.length:0;
   document.getElementById('newCount').innerText=count;
-  log("NEW DB Count: "+count+" - Collection: visitors");
-  if(count>0){ data.documents.slice(0,3).forEach(doc=>log(" - "+(doc.fields?.visitor_id?.stringValue||'')+" | "+(doc.fields?.country?.stringValue||''))); }
+  log("NEW DB Count: "+count+" - Collection visitors exists");
  }catch(e){log("Check New Error: "+e.message);}
 }
 
 async function migrateAll(){
  if(allOldDocs.length===0){ alert("Pehle Fetch Old dabao!"); return; }
- if(!confirm("Migrate ALL "+allOldDocs.length+" entries from OLD to NEW lagneshmitra-1bd3c?")) return;
- log("Starting Migration of "+allOldDocs.length+" entries to NEW DB...");
+ if(!confirm("Migrate ALL "+allOldDocs.length+" to NEW lagneshmitra-1bd3c?")) return;
+ log("Migrating "+allOldDocs.length+" entries to NEW DB - Table auto-create already handled...");
  let migrated=0;
  for(let i=0;i<allOldDocs.length;i++){
-  const doc=allOldDocs[i];
-  const d=doc.data;
+  const doc=allOldDocs[i]; const d=doc.data;
   const url=`https://firestore.googleapis.com/v1/projects/${NEW_PROJECT}/databases/(default)/documents/visitors?key=${NEW_API_KEY}`;
   const body={fields:{
     visitor_id:{stringValue:d.visitor_id||doc.id},
@@ -138,16 +186,43 @@ async function migrateAll(){
    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
    const data=await res.json();
    if(res.ok){ migrated++; document.getElementById('migCount').innerText=migrated; if(migrated%10===0) log("Migrated "+migrated+"/"+allOldDocs.length); }
-   else{ log("Failed "+(i+1)+": "+JSON.stringify(data)); }
+   else{ log("Failed "+(i+1)+": "+JSON.stringify(data).substring(0,100)); }
   }catch(e){ log("Error "+(i+1)+": "+e.message); }
-  await new Promise(r=>setTimeout(r,200));
+  await new Promise(r=>setTimeout(r,150));
  }
- log("✅ MIGRATION DONE - "+migrated+" entries migrated to NEW lagneshmitra-1bd3c");
+ log("✅ MIGRATION DONE - "+migrated+" entries in NEW lagneshmitra-1bd3c - Table auto-created!");
  document.getElementById('newCount').innerText=migrated;
- alert("Ho gaya bhao! "+migrated+" entries migrated to new DB lagneshmitra-1bd3c");
+ alert("Ho gaya bhao! "+migrated+" entries migrated - Table auto-create ho gayi!");
+ loadAll();
 }
 
-window.fetchOld=fetchOld; window.checkNew=checkNew; window.migrateAll=migrateAll; window.clearLog=clearLog;
+async function loadAll(){
+ const tb=document.getElementById('tb');
+ tb.innerHTML="<tr><td colspan='8' style='text-align:center;'>Fetching NEW DB ALL + Self + Katherine - Descending...</td></tr>";
+ try{
+  const snap=await newDb.collection('visitors').get();
+  document.getElementById('newCount').innerText=snap.size;
+  log("Fetched NEW ALL: "+snap.size+" entries - Including SELF - Descending");
+  allNewDocs=[];
+  snap.forEach(doc=>{const d=doc.data(); allNewDocs.push({id:doc.id, vid:d.visitor_id||doc.id, data:d, lastTime:d.last_visit?.seconds||d.first_visit?.seconds||0});});
+  allNewDocs.sort((a,b)=>b.lastTime-a.lastTime);
+  tb.innerHTML="";
+  const myId=localStorage.getItem('lm_visitor_id');
+  let selfC=0, usC=0;
+  allNewDocs.forEach(doc=>{if(myId&&doc.vid===myId)selfC++; if((doc.data.country||'').toLowerCase().includes('united')||doc.data.country==='USA'||(doc.data.city||'').toLowerCase().includes('brooklyn'))usC++;});
+  log("Self: "+selfC+" - US/Katherine: "+usC+" - Total: "+allNewDocs.length);
+  allNewDocs.forEach((doc,i)=>{
+   const d=doc.data; const isSelf=myId&&doc.vid===myId; const isUS=(d.country||'').toLowerCase().includes('united')||d.country==='USA'||(d.city||'').toLowerCase().includes('brooklyn');
+   let badge=isSelf?'<span class="badge badge-self">SELF 🔴</span>':isUS?'<span class="badge badge-katherine">KATHERINE? 🇺🇸</span>':'<span class="badge badge-new">NEW</span>';
+   const style=isSelf?'background:#1f1212;border-left:3px solid #ef4444;':isUS?'background:#1a122a;border-left:3px solid #8b5cf6;':'';
+   tb.innerHTML+=`<tr style="${style}"><td>${i+1}</td><td>${d.last_visit?new Date(d.last_visit.seconds*1000).toLocaleString():''}</td><td>${doc.vid}${isSelf?' (YOU)':''}</td><td>${badge}</td><td>${d.country||''}</td><td>${d.city||''}</td><td title="${d.source||''}">${(d.source||'').substring(0,20)}</td><td>${d.status||''}</td></tr>`;
+  });
+ }catch(e){log("Load All Error: "+e.message); if(e.message.includes('404')||e.message.includes('not found')){log("Table not exist - Auto Create Table dabao first!"); tb.innerHTML=`<tr><td colspan="8" style="text-align:center;color:#f59e0b;">Table nahi bani - Step 1: Auto Create Table dabao - Apne aap ban jayegi!</td></tr>`;} else {tb.innerHTML=`<tr><td colspan="8" style="color:#ef4444;">Error: ${e.message} - Check Rules allow read, write: true</td></tr>`;}}
+}
+
+window.autoCreateTable=autoCreateTable; window.fetchOld=fetchOld; window.checkNew=checkNew; window.migrateAll=migrateAll; window.loadAll=loadAll; window.clearMyId=clearMyId; window.clearLog=clearLog; window.updateMyId=updateMyId;
+
+window.addEventListener('load',()=>{updateMyId(); log("FINAL Ready - Step 1: Auto Create Table dabao - Manual table banana nahi padega!");});
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
