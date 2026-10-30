@@ -24,141 +24,66 @@
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LM Console - lagneshmitra-1bd3c</title>
+<title>LM Console Detailed - lagneshmitra-1bd3c</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}body{background:#0b0f17;color:#fff;font-family:system-ui;padding:12px}
-.top{display:flex;justify-content:space-between;align-items:center;background:#111827;border:1px solid #1f2937;padding:12px;border-radius:10px;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+*{margin:0;padding:0;box-sizing:border-box}body{background:#0b0f17;color:#fff;font-family:system-ui;padding:10px}
+.top{background:#111827;border:1px solid #1f2937;padding:12px;border-radius:12px;margin-bottom:12px}
 .badge{background:#f59e0b;color:#000;font-weight:800;padding:4px 10px;border-radius:999px;font-size:11px}
-.btn{padding:8px 14px;border-radius:8px;font-weight:700;font-size:12px;border:none;cursor:pointer;margin:2px}
+.btn{padding:8px 14px;border-radius:8px;font-weight:700;font-size:11px;border:none;cursor:pointer;margin:2px}
 .btn-gold{background:#f59e0b;color:#000}.btn-dark{background:#1f2937;color:#f59e0b;border:1px solid #374151}
-.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:12px}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:12px}
 .stat-box{background:#111827;border:1px solid #1f2937;border-radius:10px;padding:10px;text-align:center}
-.stat-box b{color:#f59e0b;font-size:20px;display:block}.stat-box span{font-size:10px;color:#9ca3af}
-.table-wrap{background:#111827;border:1px solid #1f2937;border-radius:10px;overflow:auto;max-height:70vh}
-table{width:100%;border-collapse:collapse;font-size:11px}th{position:sticky;top:0;background:#1f2937;color:#f59e0b;padding:8px;text-align:left;white-space:nowrap}
-td{padding:7px 8px;border-bottom:1px solid #1f2937;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis}
-tr:hover{background:#1f293733}.self{background:rgba(245,158,11,0.12);border-left:3px solid #f59e0b}
-.kath{background:rgba(96,165,250,0.12);border-left:3px solid #60a5fa}
-.filter-bar{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
-.filter-bar input{padding:8px 10px;border-radius:8px;border:1px solid #374151;background:#0b0f17;color:#fff;font-size:11px;min-width:180px}
-#log{margin-top:8px;font-size:10px;color:#6b7280;white-space:pre-wrap}
+.stat-box b{color:#f59e0b;font-size:18px;display:block}.stat-box span{font-size:9px;color:#9ca3af}
+.table-wrap{background:#111827;border:1px solid #1f2937;border-radius:12px;overflow:auto;max-height:75vh}
+table{width:100%;border-collapse:collapse;font-size:10px}th{position:sticky;top:0;background:#1f2937;color:#f59e0b;padding:8px 6px;text-align:left;white-space:nowrap;font-size:10px}
+td{padding:7px 6px;border-bottom:1px solid #1f2937;white-space:nowrap;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+tr:hover{background:#1f293733}.self{background:rgba(245,158,11,0.12);border-left:3px solid #f59e0b}.us{background:rgba(96,165,250,0.12);border-left:3px solid #60a5fa}
+#log{margin-top:8px;font-size:9px;color:#6b7280;white-space:pre-wrap}
+.search{width:100%;padding:10px;border-radius:10px;border:1px solid #374151;background:#0b0f17;color:#fff;font-size:11px;margin-bottom:10px}
 </style>
 </head>
 <body>
 <div class="top">
-<div><b style="color:#f59e0b">LagneshMitra Console</b> <span class="badge">lagneshmitra-1bd3c</span> <span id="countBadge" class="badge" style="background:#1f2937;color:#f59e0b;border:1px solid #374151">Loading...</span></div>
-<div><button class="btn btn-gold" onclick="loadAll()">🔄 Refresh</button> <button class="btn btn-dark" onclick="clearMyId()">Clear My ID</button> <button class="btn btn-dark" onclick="filterKath()">🇺🇸 Katherine/Brooklyn</button> <button class="btn btn-dark" onclick="filterSelf()">SELF</button> <button class="btn btn-dark" onclick="showAll()">All</button></div>
+<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:center">
+<div><b style="color:#f59e0b">LagneshMitra Console Detailed</b> <span class="badge">lagneshmitra-1bd3c</span> <span id="countBadge" class="badge" style="background:#1f2937;color:#f59e0b;border:1px solid #374151">Loading...</span></div>
+<div><button class="btn btn-gold" onclick="loadAll()">🔄 Refresh</button> <button class="btn btn-dark" onclick="clearMyId()">Clear My ID</button> <button class="btn btn-dark" onclick="filterUS()">🇺🇸 US/Brooklyn/EDT</button> <button class="btn btn-dark" onclick="filterSelf()">SELF</button> <button class="btn btn-dark" onclick="showAll()">All</button></div>
+</div>
 </div>
 
 <div class="stat">
-<div class="stat-box"><b id="total">0</b><span>Total Visitors</span></div>
+<div class="stat-box"><b id="total">0</b><span>Total</span></div>
 <div class="stat-box"><b id="today">0</b><span>Today</span></div>
 <div class="stat-box"><b id="selfCount">0</b><span>SELF</span></div>
-<div class="stat-box"><b id="usCount">0</b><span>US/Brooklyn</span></div>
+<div class="stat-box"><b id="usCount">0</b><span>US/EDT</span></div>
+<div class="stat-box"><b id="googleCount">0</b><span>Google</span></div>
+<div class="stat-box"><b id="directCount">0</b><span>Direct</span></div>
 </div>
 
-<div class="filter-bar"><input id="search" placeholder="Search visitor_id, city, country, source..." oninput="doSearch()"></div>
+<input id="search" class="search" placeholder="Search visitor_id, city, country, timezone, source... (e.g. America/New_York, Brooklyn, google.com)" oninput="doSearch()">
 
 <div class="table-wrap">
 <table>
-<thead><tr><th>Date ↓</th><th>Visitor ID</th><th>Type</th><th>Country/City</th><th>Source</th><th>Status</th></tr></thead>
-<tbody id="tbody"><tr><td colspan="6" style="text-align:center;padding:20px;color:#6b7280">Loading visitors... Table auto-creates on first hit, no manual creation needed</td></tr></tbody>
+<thead><tr><th>Last Visit ↓ IST</th><th>Visitor ID</th><th>Device</th><th>Country</th><th>City</th><th>Timezone (Real)</th><th>Source</th><th>First Visit</th><th>Status</th></tr></thead>
+<tbody id="tbody"><tr><td colspan="9" style="text-align:center;padding:20px;color:#6b7280">Loading detailed visitors... No fake, only real fields from DB - Table auto-creates</td></tr></tbody>
 </table>
 </div>
 
 <div id="log"></div>
 
 <script>
-const PROJECT = 'lagneshmitra-1bd3c';
-const API_KEY = 'AIzaSyDYTKpMnKhkZY_iqUfg3BbQ1rLi72DjUU0';
-const BASE = `https://firestore.googleapis.com/v1/projects/${PROJECT}/databases/(default)/documents`;
-let allDocs = [];
-let myId = localStorage.getItem('lm_visitor_id') || '';
-
-function log(m){ document.getElementById('log').textContent += m + '\n'; console.log(m); }
-
-async function fetchPage(pageToken=''){
-  let url = `${BASE}/visitors?pageSize=300&key=${API_KEY}`;
-  if(pageToken) url += `&pageToken=${encodeURIComponent(pageToken)}`;
-  // order by last_visit desc if index exists, else we sort client side
-  const res = await fetch(url);
-  const data = await res.json();
-  if(data.error){ log('Error: ' + JSON.stringify(data.error)); return {docs:[], next:''}; }
-  return {docs: data.documents || [], next: data.nextPageToken || ''};
-}
-
-async function loadAll(){
-  document.getElementById('tbody').innerHTML = '<tr><td colspan=6 style="text-align:center;padding:20px">Fetching all... (auto table create enabled)</td></tr>';
-  allDocs = [];
-  let token = '';
-  let pages = 0;
-  do{
-    pages++;
-    log(`Fetching page ${pages}...`);
-    const {docs, next} = await fetchPage(token);
-    allDocs = allDocs.concat(docs);
-    token = next;
-    document.getElementById('countBadge').textContent = `${allDocs.length} loaded...`;
-  } while(token && pages < 10);
-  
-  // sort descending by last_visit
-  allDocs.sort((a,b)=>{
-    const at = a.fields?.last_visit?.timestampValue || a.fields?.first_visit?.timestampValue || '';
-    const bt = b.fields?.last_visit?.timestampValue || b.fields?.first_visit?.timestampValue || '';
-    return new Date(bt) - new Date(at);
-  });
-  
-  log(`✅ Total ${allDocs.length} docs loaded - Descending sorted - SELF included`);
-  render(allDocs);
-  updateStats(allDocs);
-}
-
-function parseDoc(d){
-  const f = d.fields || {};
-  return {
-    id: f.visitor_id?.stringValue || d.name?.split('/').pop() || '',
-    type: f.device_type?.stringValue || '',
-    country: f.country?.stringValue || '',
-    city: f.city?.stringValue || '',
-    source: f.source?.stringValue || '',
-    status: f.status?.stringValue || 'active',
-    last: f.last_visit?.timestampValue || f.first_visit?.timestampValue || '',
-    raw: d
-  };
-}
-
-function render(docs){
-  const tbody = document.getElementById('tbody');
-  if(!docs.length){ tbody.innerHTML = '<tr><td colspan=6 style="text-align:center;padding:20px">No visitors yet - Table will auto-create on first website visit - Visit lagneshmitra.com once</td></tr>'; return; }
-  tbody.innerHTML = docs.map(d=>{
-    const p = parseDoc(d);
-    const isSelf = myId && p.id === myId;
-    const isKath = /katherine|brooklyn|us|united states/i.test(p.country + ' ' + p.city + ' ' + p.source);
-    let cls = '';
-    if(isSelf) cls='self';
-    else if(isKath) cls='kath';
-    const dateStr = p.last ? new Date(p.last).toLocaleString('en-IN', {timeZone:'Asia/Kolkata'}) : '';
-    return `<tr class="${cls}"><td>${dateStr}</td><td>${p.id} ${isSelf?'<span style="background:#f59e0b;color:#000;font-size:9px;padding:2px 6px;border-radius:999px;font-weight:800">SELF</span>':''} ${isKath?'<span style="background:#60a5fa;color:#000;font-size:9px;padding:2px 6px;border-radius:999px;font-weight:800">KATH</span>':''}</td><td>${p.type}</td><td>${p.country} ${p.city?'/ '+p.city:''}</td><td title="${p.source}">${(p.source||'').substring(0,40)}</td><td>${p.status}</td></tr>`;
-  }).join('');
-}
-
-function updateStats(docs){
-  const parsed = docs.map(parseDoc);
-  document.getElementById('total').textContent = docs.length;
-  const todayStr = new Date().toISOString().split('T')[0];
-  document.getElementById('today').textContent = parsed.filter(p=>p.last && p.last.includes(todayStr)).length;
-  document.getElementById('selfCount').textContent = parsed.filter(p=>myId && p.id===myId).length;
-  document.getElementById('usCount').textContent = parsed.filter(p=>/katherine|brooklyn|us|united states/i.test(p.country+' '+p.city+' '+p.source)).length;
-  document.getElementById('countBadge').textContent = `Total: ${docs.length} | Descending | No 100 limit | SELF visible`;
-}
-
-function clearMyId(){ localStorage.removeItem('lm_visitor_id'); myId=''; alert('My ID cleared - Refresh page - New VIS- will generate on next website visit'); loadAll(); }
-function filterKath(){ const f = allDocs.filter(d=>{const p=parseDoc(d); return /katherine|brooklyn|us|united states/i.test(p.country+' '+p.city+' '+p.source)}); render(f); }
-function filterSelf(){ const f = allDocs.filter(d=>{const p=parseDoc(d); return myId && p.id===myId}); render(f); }
-function showAll(){ render(allDocs); }
-function doSearch(){ const q=document.getElementById('search').value.toLowerCase(); if(!q){ render(allDocs); return; } const f=allDocs.filter(d=>{const p=parseDoc(d); return JSON.stringify(p).toLowerCase().includes(q)}); render(f); }
-
-// Auto load
+const PROJECT='lagneshmitra-1bd3c';const API_KEY='AIzaSyDYTKpMnKhkZY_iqUfg3BbQ1rLi72DjUU0';const BASE=`https://firestore.googleapis.com/v1/projects/${PROJECT}/databases/(default)/documents`;
+let allDocs=[];let myId=localStorage.getItem('lm_visitor_id')||'';
+function log(m){document.getElementById('log').textContent+=m+'\n';}
+async function fetchPage(token=''){let url=`${BASE}/visitors?pageSize=300&key=${API_KEY}`;if(token)url+=`&pageToken=${encodeURIComponent(token)}`;const r=await fetch(url);const d=await r.json();if(d.error){log('Error:'+JSON.stringify(d.error));return{docs:[],next:''};}return{docs:d.documents||[],next:d.nextPageToken||''};}
+async function loadAll(){document.getElementById('tbody').innerHTML='<tr><td colspan=9 style="text-align:center;padding:20px">Fetching detailed... No fake data, only real DB fields</td></tr>';allDocs=[];let token='';let pages=0;do{pages++;log(`Fetching page ${pages}...`);const{docs,next}=await fetchPage(token);allDocs=allDocs.concat(docs);token=next;document.getElementById('countBadge').textContent=`${allDocs.length} loaded...`;}while(token&&pages<10);allDocs.sort((a,b)=>{const at=a.fields?.last_visit?.timestampValue||'';const bt=b.fields?.last_visit?.timestampValue||'';return new Date(bt)-new Date(at);});log(`✅ Total ${allDocs.length} docs - Detailed fields - No deception - Same coding`);render(allDocs);stats(allDocs);}
+function parseDoc(d){const f=d.fields||{};return{id:f.visitor_id?.stringValue||d.name?.split('/').pop()||'',device:f.device_type?.stringValue||'',country:f.country?.stringValue||'',city:f.city?.stringValue||'',timezone:f.timezone?.stringValue||'',source:f.source?.stringValue||'',first:f.first_visit?.timestampValue||'',last:f.last_visit?.timestampValue||'',status:f.status?.stringValue||''};}
+function render(docs){const tb=document.getElementById('tbody');if(!docs.length){tb.innerHTML='<tr><td colspan=9 style="text-align:center;padding:20px">No visitors - Visit lagneshmitra.com once - Table auto-creates - No manual creation</td></tr>';return;}tb.innerHTML=docs.map(d=>{const p=parseDoc(d);const isSelf=myId&&p.id===myId;const isUS=/us|united states|brooklyn|america\/new_york|edt|est/i.test(p.country+' '+p.city+' '+p.timezone+' '+p.source);let cls=isSelf?'self':isUS?'us':'';const lastStr=p.last?new Date(p.last).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',hour12:true}):'';const firstStr=p.first?new Date(p.first).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',hour12:true}):'';return `<tr class="${cls}"><td>${lastStr}</td><td>${p.id} ${isSelf?'<span style="background:#f59e0b;color:#000;font-size:8px;padding:1px 5px;border-radius:999px;font-weight:800">SELF</span>':''} ${isUS?'<span style="background:#60a5fa;color:#000;font-size:8px;padding:1px 5px;border-radius:999px;font-weight:800">US/EDT</span>':''}</td><td>${p.device}</td><td>${p.country||'<span style="color:#4b5563">blank</span>'}</td><td>${p.city||'<span style="color:#4b5563">blank (deception if India hardcoded)</span>'}</td><td title="${p.timezone}">${p.timezone||'<span style="color:#4b5563">blank</span>'} ${p.timezone&&p.timezone.includes('America/New_York')?'<b style="color:#60a5fa">EDT</b>':''} ${p.timezone&&p.timezone.includes('Asia/Kolkata')?'<b style="color:#f59e0b">IST</b>':''}</td><td title="${p.source}">${(p.source||'').substring(0,50)}</td><td>${firstStr}</td><td>${p.status}</td></tr>`;}).join('');}
+function stats(docs){const ps=docs.map(parseDoc);document.getElementById('total').textContent=docs.length;const today=new Date().toISOString().split('T')[0];document.getElementById('today').textContent=ps.filter(p=>p.last&&p.last.includes(today)).length;document.getElementById('selfCount').textContent=ps.filter(p=>myId&&p.id===myId).length;document.getElementById('usCount').textContent=ps.filter(p=>/us|united states|brooklyn|america\/new_york|edt|est/i.test(p.country+' '+p.city+' '+p.timezone)).length;document.getElementById('googleCount').textContent=ps.filter(p=>/google\.com/i.test(p.source)).length;document.getElementById('directCount').textContent=ps.filter(p=>/direct/i.test(p.source)).length;document.getElementById('countBadge').textContent=`Total: ${docs.length} | Detailed | Timezone Real | No Fake | No Deception`;}
+function clearMyId(){localStorage.removeItem('lm_visitor_id');myId='';alert('My ID cleared');loadAll();}
+function filterUS(){const f=allDocs.filter(d=>{const p=parseDoc(d);return /us|united states|brooklyn|america\/new_york|edt|est/i.test(p.country+' '+p.city+' '+p.timezone)});render(f);}
+function filterSelf(){const f=allDocs.filter(d=>{const p=parseDoc(d);return myId&&p.id===myId});render(f);}
+function showAll(){render(allDocs);}
+function doSearch(){const q=document.getElementById('search').value.toLowerCase();if(!q){render(allDocs);return;}const f=allDocs.filter(d=>JSON.stringify(parseDoc(d)).toLowerCase().includes(q));render(f);}
 loadAll();
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
