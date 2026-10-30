@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head><style>
 @font-face {
   font-family: "Optimistic";
@@ -24,205 +24,142 @@
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LM SettingsV1 FINAL - Auto Table Create - lagneshmitra-1bd3c</title>
+<title>LM Console - lagneshmitra-1bd3c</title>
 <style>
-body{background:#0b0f17;color:#fff;font-family:Arial;padding:14px;margin:0}
-h1{color:#f59e0b;font-size:18px;margin:0} .sub{color:#22c55e;font-size:10px;margin-bottom:10px}
-.card{background:#111827;padding:12px;border-radius:10px;margin-bottom:12px;border:1px solid #1f2937}
-button{background:#f59e0b;color:#000;border:none;padding:10px 14px;border-radius:8px;font-weight:bold;cursor:pointer;margin:4px;font-size:11px}
-button.green{background:#22c55e;color:#000} button.sec{background:#1f2937;color:#f59e0b;border:1px solid #374151} button.red{background:#ef4444;color:#fff} button.purple{background:#8b5cf6;color:#fff}
-#log{background:#000;color:#22c55e;padding:8px;border-radius:6px;max-height:250px;overflow-y:auto;font-family:monospace;font-size:10px;white-space:pre-wrap}
-table{width:100%;border-collapse:collapse;background:#111827;min-width:1000px} th,td{padding:6px;border:1px solid #374151;font-size:10px;white-space:nowrap} th{background:#1f2937;color:#f59e0b;position:sticky;top:0}
-.badge{padding:2px 5px;border-radius:6px;font-size:8px;font-weight:bold}
-.badge-self{background:#ef4444;color:#fff} .badge-katherine{background:#8b5cf6;color:#fff} .badge-new{background:#22c55e;color:#000}
+*{margin:0;padding:0;box-sizing:border-box}body{background:#0b0f17;color:#fff;font-family:system-ui;padding:12px}
+.top{display:flex;justify-content:space-between;align-items:center;background:#111827;border:1px solid #1f2937;padding:12px;border-radius:10px;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.badge{background:#f59e0b;color:#000;font-weight:800;padding:4px 10px;border-radius:999px;font-size:11px}
+.btn{padding:8px 14px;border-radius:8px;font-weight:700;font-size:12px;border:none;cursor:pointer;margin:2px}
+.btn-gold{background:#f59e0b;color:#000}.btn-dark{background:#1f2937;color:#f59e0b;border:1px solid #374151}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:12px}
+.stat-box{background:#111827;border:1px solid #1f2937;border-radius:10px;padding:10px;text-align:center}
+.stat-box b{color:#f59e0b;font-size:20px;display:block}.stat-box span{font-size:10px;color:#9ca3af}
+.table-wrap{background:#111827;border:1px solid #1f2937;border-radius:10px;overflow:auto;max-height:70vh}
+table{width:100%;border-collapse:collapse;font-size:11px}th{position:sticky;top:0;background:#1f2937;color:#f59e0b;padding:8px;text-align:left;white-space:nowrap}
+td{padding:7px 8px;border-bottom:1px solid #1f2937;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis}
+tr:hover{background:#1f293733}.self{background:rgba(245,158,11,0.12);border-left:3px solid #f59e0b}
+.kath{background:rgba(96,165,250,0.12);border-left:3px solid #60a5fa}
+.filter-bar{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.filter-bar input{padding:8px 10px;border-radius:8px;border:1px solid #374151;background:#0b0f17;color:#fff;font-size:11px;min-width:180px}
+#log{margin-top:8px;font-size:10px;color:#6b7280;white-space:pre-wrap}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-app-compat.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
-<h1>📡 LM SettingsV1 FINAL - Auto Table Create 🔥</h1>
-<p class="sub">Project: lagneshmitra-1bd3c | Table auto-create | Self + Katherine + All | No manual table needed | Vercel Final</p>
-
-<div class="card" style="border:2px solid #f59e0b">
-<p><strong>Old DB:</strong> <span id="oldCount">0</span> | <strong>New DB:</strong> <span id="newCount" style="color:#f59e0b;font-weight:bold">0</span> | <strong>Migrated:</strong> <span id="migCount">0</span> | <strong>My ID:</strong> <span id="myId" style="color:#ef4444;font-weight:bold">...</span></p>
-<div>
-<button class="green" onclick="autoCreateTable()">1️⃣ Auto Create Table (First Click) 🔥</button>
-<button class="sec" onclick="fetchOld()">2️⃣ Fetch Old 111</button>
-<button class="sec" onclick="checkNew()">3️⃣ Check New DB</button>
-<button class="red" onclick="migrateAll()">4️⃣ MIGRATE ALL 111 TO NEW 🔥</button>
-</div>
-<div style="margin-top:8px">
-<button class="purple" onclick="loadAll()">Refresh ALL + Self + Katherine</button>
-<button class="sec" onclick="clearMyId()">🗑️ Clear My ID</button>
-<button class="sec" onclick="clearLog()">Clear Log</button>
-</div>
-<div id="log">Log: FINAL v1.0 Ready...
-Project: lagneshmitra-1bd3c
-Step 1: Auto Create Table dabao - Table apne aap ban jayegi - Manual banana nahi padega!
-Step 2: Fetch Old 111
-Step 3: Migrate All...
-</div>
+<div class="top">
+<div><b style="color:#f59e0b">LagneshMitra Console</b> <span class="badge">lagneshmitra-1bd3c</span> <span id="countBadge" class="badge" style="background:#1f2937;color:#f59e0b;border:1px solid #374151">Loading...</span></div>
+<div><button class="btn btn-gold" onclick="loadAll()">🔄 Refresh</button> <button class="btn btn-dark" onclick="clearMyId()">Clear My ID</button> <button class="btn btn-dark" onclick="filterKath()">🇺🇸 Katherine/Brooklyn</button> <button class="btn btn-dark" onclick="filterSelf()">SELF</button> <button class="btn btn-dark" onclick="showAll()">All</button></div>
 </div>
 
-<div class="card" style="overflow-x:auto">
+<div class="stat">
+<div class="stat-box"><b id="total">0</b><span>Total Visitors</span></div>
+<div class="stat-box"><b id="today">0</b><span>Today</span></div>
+<div class="stat-box"><b id="selfCount">0</b><span>SELF</span></div>
+<div class="stat-box"><b id="usCount">0</b><span>US/Brooklyn</span></div>
+</div>
+
+<div class="filter-bar"><input id="search" placeholder="Search visitor_id, city, country, source..." oninput="doSearch()"></div>
+
+<div class="table-wrap">
 <table>
-<thead><tr><th>#</th><th>Last Visit ↓</th><th>Visitor ID</th><th>Type</th><th>Country</th><th>City</th><th>Source</th><th>Status</th></tr></thead>
-<tbody id="tb"><tr><td colspan="8" style="text-align:center;color:#22c55e;">Step 1: Auto Create Table dabao - Table apne aap ban jayegi!</td></tr></tbody>
+<thead><tr><th>Date ↓</th><th>Visitor ID</th><th>Type</th><th>Country/City</th><th>Source</th><th>Status</th></tr></thead>
+<tbody id="tbody"><tr><td colspan="6" style="text-align:center;padding:20px;color:#6b7280">Loading visitors... Table auto-creates on first hit, no manual creation needed</td></tr></tbody>
 </table>
 </div>
 
+<div id="log"></div>
+
 <script>
-const logEl=document.getElementById('log');
-function log(m){logEl.innerText+="\n"+new Date().toLocaleTimeString()+" - "+m; logEl.scrollTop=logEl.scrollHeight;}
-function clearLog(){logEl.innerText="Log cleared - FINAL Ready...";}
+const PROJECT = 'lagneshmitra-1bd3c';
+const API_KEY = 'AIzaSyDYTKpMnKhkZY_iqUfg3BbQ1rLi72DjUU0';
+const BASE = `https://firestore.googleapis.com/v1/projects/${PROJECT}/databases/(default)/documents`;
+let allDocs = [];
+let myId = localStorage.getItem('lm_visitor_id') || '';
 
-const OLD_CONFIG={apiKey:"AIzaSyBzLT95nrwLDu-bYGVJdstUKQ6tEL2GM2w",authDomain:"lagneshmitra-astrology-e72fb.firebaseapp.com",projectId:"lagneshmitra-astrology-e72fb"};
-const NEW_PROJECT="lagneshmitra-1bd3c";
-const NEW_API_KEY="AIzaSyDYTKpMnKhkZY_iqUfg3BbQ1rLi72DjUU0";
-const NEW_CONFIG={apiKey:NEW_API_KEY,authDomain:"lagneshmitra-1bd3c.firebaseapp.com",projectId:NEW_PROJECT,storageBucket:"lagneshmitra-1bd3c.firebasestorage.app",messagingSenderId:"153733817678",appId:"1:153733817678:web:3a3d8ab158672f25fe6a1f"};
+function log(m){ document.getElementById('log').textContent += m + '\n'; console.log(m); }
 
-let oldDb, newDb;
-let allOldDocs=[], allNewDocs=[];
-
-function updateMyId(){const id=localStorage.getItem('lm_visitor_id')||'NOT SET'; document.getElementById('myId').innerText=id; log("My ID: "+id+" - Iski entry bhi dikhegi SELF ke saath");}
-function clearMyId(){const old=localStorage.getItem('lm_visitor_id'); localStorage.removeItem('lm_visitor_id'); updateMyId(); log("Cleared My ID: "+old+" - Ab naya ID banega"); alert("Cleared: "+old+"\nAb refresh kar - naya ID banega!"); location.reload();}
-
-try{
- firebase.initializeApp(OLD_CONFIG,'old');
- oldDb=firebase.app('old').firestore();
- log("Connected OLD: lagneshmitra-astrology-e72fb");
-}catch(e){log("Old DB Error: "+e.message);}
-
-try{
- firebase.initializeApp(NEW_CONFIG,'new');
- newDb=firebase.app('new').firestore();
- log("Connected NEW: lagneshmitra-1bd3c - Table auto-create ready");
- updateMyId();
-}catch(e){log("New DB Error: "+e.message);}
-
-async function autoCreateTable(){
- log("Auto Creating Table visitors in NEW DB lagneshmitra-1bd3c...");
- const url=`https://firestore.googleapis.com/v1/projects/${NEW_PROJECT}/databases/(default)/documents/visitors?key=${NEW_API_KEY}`;
- const body={fields:{
-   visitor_id:{stringValue:'VIS-auto-create-'+Math.random().toString(36).substr(2,5)},
-   country:{stringValue:'India'},
-   city:{stringValue:'AutoCreate'},
-   source:{stringValue:'auto-create-table-first-entry'},
-   device_type:{stringValue:'Desktop'},
-   status:{stringValue:'table-created-auto'},
-   timezone:{stringValue:Intl.DateTimeFormat().resolvedOptions().timeZone},
-   first_visit:{timestampValue:new Date().toISOString()},
-   last_visit:{timestampValue:new Date().toISOString()}
- }};
- try{
-  const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  const data=await res.json();
-  if(res.ok){
-   log("✅ Table Created! Collection visitors auto-created in lagneshmitra-1bd3c");
-   log("Doc ID: "+data.name.split('/').pop()+" - Ab table exist karta hai - Manual banana nahi padega!");
-   document.getElementById('newCount').innerText='1 (Table Created)';
-   alert("Table ban gayi bhao! ✅\nCollection visitors auto-create ho gayi lagneshmitra-1bd3c me!\nAb Fetch Old + Migrate All daba!");
-   checkNew();
-  }else{
-   log("❌ Auto Create Failed: "+JSON.stringify(data));
-   if(JSON.stringify(data).includes('PERMISSION_DENIED')){
-    log("Rules issue - Firestore Rules me allow read, write: if true; karna hoga!");
-    alert("Rules me allow read, write: if true; karna hoga!\nFirebase Console > Firestore > Rules > Publish");
-   }
-  }
- }catch(e){log("Auto Create Error: "+e.message);}
-}
-
-async function fetchOld(){
- log("Fetching OLD 111 entries...");
- const tb=document.getElementById('tb');
- tb.innerHTML="<tr><td colspan='8' style='text-align:center;'>Fetching OLD 111...</td></tr>";
- try{
-  const snap=await oldDb.collection('visitors').get();
-  document.getElementById('oldCount').innerText=snap.size;
-  log("Fetched OLD: "+snap.size+" entries - Should be 111");
-  allOldDocs=[];
-  snap.forEach(doc=>{const d=doc.data(); allOldDocs.push({id:doc.id, data:d});});
-  allOldDocs.sort((a,b)=> (b.data.last_visit?.seconds||0)-(a.data.last_visit?.seconds||0));
-  tb.innerHTML="";
-  allOldDocs.forEach((doc,i)=>{const d=doc.data; tb.innerHTML+=`<tr><td>${i+1}</td><td>${d.last_visit?new Date(d.last_visit.seconds*1000).toLocaleString():''}</td><td>${d.visitor_id||doc.id}</td><td>OLD</td><td>${d.country||''}</td><td>${d.city||''}</td><td>${(d.source||'').substring(0,20)}</td><td>${d.status||''}</td></tr>`;});
-  log("Rendered OLD "+allOldDocs.length+" - Ready to migrate");
- }catch(e){log("Fetch Old Error: "+e.message); document.getElementById('tb').innerHTML=`<tr><td colspan="8" style="color:#ef4444;">Error: ${e.message}</td></tr>`;}
-}
-
-async function checkNew(){
- log("Checking NEW DB lagneshmitra-1bd3c...");
- const url=`https://firestore.googleapis.com/v1/projects/${NEW_PROJECT}/databases/(default)/documents/visitors?pageSize=200&key=${NEW_API_KEY}`;
- try{
-  const res=await fetch(url);
-  const data=await res.json();
-  if(data.error && data.error.code===404){ log("Collection not exist yet - Auto Create Table dabao first!"); document.getElementById('newCount').innerText='0 (Table nahi bani)'; return; }
-  const count=data.documents?data.documents.length:0;
-  document.getElementById('newCount').innerText=count;
-  log("NEW DB Count: "+count+" - Collection visitors exists");
- }catch(e){log("Check New Error: "+e.message);}
-}
-
-async function migrateAll(){
- if(allOldDocs.length===0){ alert("Pehle Fetch Old dabao!"); return; }
- if(!confirm("Migrate ALL "+allOldDocs.length+" to NEW lagneshmitra-1bd3c?")) return;
- log("Migrating "+allOldDocs.length+" entries to NEW DB - Table auto-create already handled...");
- let migrated=0;
- for(let i=0;i<allOldDocs.length;i++){
-  const doc=allOldDocs[i]; const d=doc.data;
-  const url=`https://firestore.googleapis.com/v1/projects/${NEW_PROJECT}/databases/(default)/documents/visitors?key=${NEW_API_KEY}`;
-  const body={fields:{
-    visitor_id:{stringValue:d.visitor_id||doc.id},
-    country:{stringValue:d.country||'empty'},
-    city:{stringValue:d.city||'empty'},
-    source:{stringValue:d.source||''},
-    device_type:{stringValue:d.device_type||''},
-    status:{stringValue:d.status||'migrated-from-old'},
-    timezone:{stringValue:d.timezone||''},
-    first_visit:d.first_visit?{timestampValue:new Date(d.first_visit.seconds*1000).toISOString()}:{timestampValue:new Date().toISOString()},
-    last_visit:d.last_visit?{timestampValue:new Date(d.last_visit.seconds*1000).toISOString()}:{timestampValue:new Date().toISOString()}
-  }};
-  try{
-   const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-   const data=await res.json();
-   if(res.ok){ migrated++; document.getElementById('migCount').innerText=migrated; if(migrated%10===0) log("Migrated "+migrated+"/"+allOldDocs.length); }
-   else{ log("Failed "+(i+1)+": "+JSON.stringify(data).substring(0,100)); }
-  }catch(e){ log("Error "+(i+1)+": "+e.message); }
-  await new Promise(r=>setTimeout(r,150));
- }
- log("✅ MIGRATION DONE - "+migrated+" entries in NEW lagneshmitra-1bd3c - Table auto-created!");
- document.getElementById('newCount').innerText=migrated;
- alert("Ho gaya bhao! "+migrated+" entries migrated - Table auto-create ho gayi!");
- loadAll();
+async function fetchPage(pageToken=''){
+  let url = `${BASE}/visitors?pageSize=300&key=${API_KEY}`;
+  if(pageToken) url += `&pageToken=${encodeURIComponent(pageToken)}`;
+  // order by last_visit desc if index exists, else we sort client side
+  const res = await fetch(url);
+  const data = await res.json();
+  if(data.error){ log('Error: ' + JSON.stringify(data.error)); return {docs:[], next:''}; }
+  return {docs: data.documents || [], next: data.nextPageToken || ''};
 }
 
 async function loadAll(){
- const tb=document.getElementById('tb');
- tb.innerHTML="<tr><td colspan='8' style='text-align:center;'>Fetching NEW DB ALL + Self + Katherine - Descending...</td></tr>";
- try{
-  const snap=await newDb.collection('visitors').get();
-  document.getElementById('newCount').innerText=snap.size;
-  log("Fetched NEW ALL: "+snap.size+" entries - Including SELF - Descending");
-  allNewDocs=[];
-  snap.forEach(doc=>{const d=doc.data(); allNewDocs.push({id:doc.id, vid:d.visitor_id||doc.id, data:d, lastTime:d.last_visit?.seconds||d.first_visit?.seconds||0});});
-  allNewDocs.sort((a,b)=>b.lastTime-a.lastTime);
-  tb.innerHTML="";
-  const myId=localStorage.getItem('lm_visitor_id');
-  let selfC=0, usC=0;
-  allNewDocs.forEach(doc=>{if(myId&&doc.vid===myId)selfC++; if((doc.data.country||'').toLowerCase().includes('united')||doc.data.country==='USA'||(doc.data.city||'').toLowerCase().includes('brooklyn'))usC++;});
-  log("Self: "+selfC+" - US/Katherine: "+usC+" - Total: "+allNewDocs.length);
-  allNewDocs.forEach((doc,i)=>{
-   const d=doc.data; const isSelf=myId&&doc.vid===myId; const isUS=(d.country||'').toLowerCase().includes('united')||d.country==='USA'||(d.city||'').toLowerCase().includes('brooklyn');
-   let badge=isSelf?'<span class="badge badge-self">SELF 🔴</span>':isUS?'<span class="badge badge-katherine">KATHERINE? 🇺🇸</span>':'<span class="badge badge-new">NEW</span>';
-   const style=isSelf?'background:#1f1212;border-left:3px solid #ef4444;':isUS?'background:#1a122a;border-left:3px solid #8b5cf6;':'';
-   tb.innerHTML+=`<tr style="${style}"><td>${i+1}</td><td>${d.last_visit?new Date(d.last_visit.seconds*1000).toLocaleString():''}</td><td>${doc.vid}${isSelf?' (YOU)':''}</td><td>${badge}</td><td>${d.country||''}</td><td>${d.city||''}</td><td title="${d.source||''}">${(d.source||'').substring(0,20)}</td><td>${d.status||''}</td></tr>`;
+  document.getElementById('tbody').innerHTML = '<tr><td colspan=6 style="text-align:center;padding:20px">Fetching all... (auto table create enabled)</td></tr>';
+  allDocs = [];
+  let token = '';
+  let pages = 0;
+  do{
+    pages++;
+    log(`Fetching page ${pages}...`);
+    const {docs, next} = await fetchPage(token);
+    allDocs = allDocs.concat(docs);
+    token = next;
+    document.getElementById('countBadge').textContent = `${allDocs.length} loaded...`;
+  } while(token && pages < 10);
+  
+  // sort descending by last_visit
+  allDocs.sort((a,b)=>{
+    const at = a.fields?.last_visit?.timestampValue || a.fields?.first_visit?.timestampValue || '';
+    const bt = b.fields?.last_visit?.timestampValue || b.fields?.first_visit?.timestampValue || '';
+    return new Date(bt) - new Date(at);
   });
- }catch(e){log("Load All Error: "+e.message); if(e.message.includes('404')||e.message.includes('not found')){log("Table not exist - Auto Create Table dabao first!"); tb.innerHTML=`<tr><td colspan="8" style="text-align:center;color:#f59e0b;">Table nahi bani - Step 1: Auto Create Table dabao - Apne aap ban jayegi!</td></tr>`;} else {tb.innerHTML=`<tr><td colspan="8" style="color:#ef4444;">Error: ${e.message} - Check Rules allow read, write: true</td></tr>`;}}
+  
+  log(`✅ Total ${allDocs.length} docs loaded - Descending sorted - SELF included`);
+  render(allDocs);
+  updateStats(allDocs);
 }
 
-window.autoCreateTable=autoCreateTable; window.fetchOld=fetchOld; window.checkNew=checkNew; window.migrateAll=migrateAll; window.loadAll=loadAll; window.clearMyId=clearMyId; window.clearLog=clearLog; window.updateMyId=updateMyId;
+function parseDoc(d){
+  const f = d.fields || {};
+  return {
+    id: f.visitor_id?.stringValue || d.name?.split('/').pop() || '',
+    type: f.device_type?.stringValue || '',
+    country: f.country?.stringValue || '',
+    city: f.city?.stringValue || '',
+    source: f.source?.stringValue || '',
+    status: f.status?.stringValue || 'active',
+    last: f.last_visit?.timestampValue || f.first_visit?.timestampValue || '',
+    raw: d
+  };
+}
 
-window.addEventListener('load',()=>{updateMyId(); log("FINAL Ready - Step 1: Auto Create Table dabao - Manual table banana nahi padega!");});
+function render(docs){
+  const tbody = document.getElementById('tbody');
+  if(!docs.length){ tbody.innerHTML = '<tr><td colspan=6 style="text-align:center;padding:20px">No visitors yet - Table will auto-create on first website visit - Visit lagneshmitra.com once</td></tr>'; return; }
+  tbody.innerHTML = docs.map(d=>{
+    const p = parseDoc(d);
+    const isSelf = myId && p.id === myId;
+    const isKath = /katherine|brooklyn|us|united states/i.test(p.country + ' ' + p.city + ' ' + p.source);
+    let cls = '';
+    if(isSelf) cls='self';
+    else if(isKath) cls='kath';
+    const dateStr = p.last ? new Date(p.last).toLocaleString('en-IN', {timeZone:'Asia/Kolkata'}) : '';
+    return `<tr class="${cls}"><td>${dateStr}</td><td>${p.id} ${isSelf?'<span style="background:#f59e0b;color:#000;font-size:9px;padding:2px 6px;border-radius:999px;font-weight:800">SELF</span>':''} ${isKath?'<span style="background:#60a5fa;color:#000;font-size:9px;padding:2px 6px;border-radius:999px;font-weight:800">KATH</span>':''}</td><td>${p.type}</td><td>${p.country} ${p.city?'/ '+p.city:''}</td><td title="${p.source}">${(p.source||'').substring(0,40)}</td><td>${p.status}</td></tr>`;
+  }).join('');
+}
+
+function updateStats(docs){
+  const parsed = docs.map(parseDoc);
+  document.getElementById('total').textContent = docs.length;
+  const todayStr = new Date().toISOString().split('T')[0];
+  document.getElementById('today').textContent = parsed.filter(p=>p.last && p.last.includes(todayStr)).length;
+  document.getElementById('selfCount').textContent = parsed.filter(p=>myId && p.id===myId).length;
+  document.getElementById('usCount').textContent = parsed.filter(p=>/katherine|brooklyn|us|united states/i.test(p.country+' '+p.city+' '+p.source)).length;
+  document.getElementById('countBadge').textContent = `Total: ${docs.length} | Descending | No 100 limit | SELF visible`;
+}
+
+function clearMyId(){ localStorage.removeItem('lm_visitor_id'); myId=''; alert('My ID cleared - Refresh page - New VIS- will generate on next website visit'); loadAll(); }
+function filterKath(){ const f = allDocs.filter(d=>{const p=parseDoc(d); return /katherine|brooklyn|us|united states/i.test(p.country+' '+p.city+' '+p.source)}); render(f); }
+function filterSelf(){ const f = allDocs.filter(d=>{const p=parseDoc(d); return myId && p.id===myId}); render(f); }
+function showAll(){ render(allDocs); }
+function doSearch(){ const q=document.getElementById('search').value.toLowerCase(); if(!q){ render(allDocs); return; } const f=allDocs.filter(d=>{const p=parseDoc(d); return JSON.stringify(p).toLowerCase().includes(q)}); render(f); }
+
+// Auto load
+loadAll();
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
